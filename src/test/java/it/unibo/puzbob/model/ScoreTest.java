@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 public class ScoreTest {
 
-    Score score;
+    Score score = new ScoreImpl(0);
     
     @Test 
     void scoreTest() {

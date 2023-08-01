@@ -18,10 +18,16 @@ public class BallFactoryImpl implements BallFactory {
     }
 
     public Ball createStaticBall(String color) {
+        if (this.colorMap.get(color) == null) {
+            throw new IllegalArgumentException("Specified Color doesn't exist");
+        } 
         return new BallImpl(color, this.colorMap.get(color), this.size);
     }
 
     public Ball createFlyingBall(String color, Pair<Double, Double> position) {
+        if (this.colorMap.get(color) == null) {
+            throw new IllegalArgumentException("Specified Color doesn't exist");
+        } 
         return new FlyingBallImpl(color, this.colorMap.get(color), size, position);
     }
     

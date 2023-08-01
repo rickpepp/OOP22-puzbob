@@ -78,6 +78,24 @@ In \Cref{img:Diagramma_UML_Architettura} è esemplificato il diagramma UML archi
 \newpage
 \section{Design dettagliato}
 
+\subsection{Pepe Riccardo}
+
+\subsubsection{Creazione delle palline}
+
+\paragraph{Problema} In fase di sviluppo sono state individuate due tipologie di palline, una statica (posizionata sul muro superiore del tabellone) ed una dinamica (appena sparata). La pallina dinamica possiede le stesse proprietà e metodi di quella statica, con in aggiunta la gestione di un campo posizione. Inoltre ogni pallina possiede un colore, e da questo colore deriva l'attributo score, ovvero quanti punti vale quella pallina con quello specifico colore. A questo punto è necessario valutare una soluzione per evitare duplicazioni e ridondanze nel codice.
+
+
+\paragraph{Soluzione} Appare chiaro che la pallina dinamica sia una specializzazione della pallina statica. Inoltre, dato che il numero di colori è molto inferiore rispetto alle ball che verranno effettivamente utilizzate, si è deciso di incapsulare la logica della creazione delle palline e quindi delle proprietà derivate dal colore in una factory, secondo il \textit{pattern factory method}.
+
+\begin{figure}[H]
+\centering{}
+\includegraphics[width=\textwidth]{img/Diagramma_UML_Ball}
+\caption{Rappresentazione UML del pattern Strategy per la personalità di GLaDOS}
+\label{img:Diagramma_UML_Ball}
+\end{figure}
+
+\subsection{Template}
+
 In questa sezione si possono approfondire alcuni elementi del design con maggior dettaglio.
 %
 Mentre ci attendiamo principalmente (o solo) interfacce negli schemi UML delle sezioni precedenti,

@@ -8,6 +8,6 @@ public interface BallFactory {
 
     public Ball createStaticBall(String color);
 
-    public Ball createFlyingBall(String color);
+    public Ball createFlyingBall(String color, Pair<Double, Double> position);
 
 }

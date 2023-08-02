@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
-public interface JSONPareser {
+public interface JSONParser {
     
     Map<String, Integer> parserColors(JSONObject jsonObject);
 

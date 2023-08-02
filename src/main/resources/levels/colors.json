@@ -1,12 +1,12 @@
 {
     "ColorsList": [
-      "RED",
-      "YELLOW",
-      "BLUE",
-      "GREEN",
-      "BLACK",
-      "PURPLE",
-      "ORANGE",
-      "GREY"
+      ["RED", 10],
+      ["YELLOW", 10],
+      ["BLUE", 10],
+      ["GREEN", 10],
+      ["BLACK", 10],
+      ["PURPLE", 10],
+      ["ORANGE", 10],
+      ["GREY", 10]
     ]
 }

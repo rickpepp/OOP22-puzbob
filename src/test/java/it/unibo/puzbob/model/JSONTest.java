@@ -2,8 +2,9 @@ package it.unibo.puzbob.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.beans.BeanProperty;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ public class JSONTest {
     public static final String FILE_SEPARATOR = System.getProperty("file.separator");
     public static final String COLORS_PATH = "levels" + FILE_SEPARATOR + "colors.json";
     public static final String LEVEL1_PATH = "levels" + FILE_SEPARATOR + "level1.json";
+    public static final String LEVELTEST_PATH = "levels" + FILE_SEPARATOR + "levelTest.json";
 
     // Test if the reader ork as expected
     @Test 
@@ -47,6 +49,34 @@ public class JSONTest {
 
         assertEquals(mapExpected, parser.parserColors(reader.readJSONFromFile(COLORS_PATH)), "Not the map Expected");
         
+    }
+
+    @Test
+    void jsonParserLevelTest() {
+        Map<String, List<Pair<Integer, Integer>>> mapExpected = new HashMap<>();
+
+        List<Pair<Integer, Integer>> listRED = new ArrayList<>();
+        listRED.add(new Pair<Integer,Integer>(0, 0));
+        listRED.add(new Pair<Integer,Integer>(0, 1));
+
+        List<Pair<Integer, Integer>> listYELLOW = new ArrayList<>();
+        listYELLOW.add(new Pair<Integer,Integer>(0, 2));
+
+        List<Pair<Integer, Integer>> listBLUE = new ArrayList<>();
+        listBLUE.add(new Pair<Integer,Integer>(0, 4));
+        listBLUE.add(new Pair<Integer,Integer>(0, 5));
+
+        List<Pair<Integer, Integer>> listGREEN = new ArrayList<>();
+        listGREEN.add(new Pair<Integer,Integer>(0, 6));
+
+        mapExpected.put("RED", listRED);
+        mapExpected.put("YELLOW", listYELLOW);
+        mapExpected.put("BLUE", listBLUE);
+        mapExpected.put("GREEN", listGREEN);
+
+        assertEquals(mapExpected.toString(), 
+            parser.parserStarterBalls(reader.readJSONFromFile(LEVELTEST_PATH)).toString(), 
+            "Map of starting ball non as expected");
     }
     
 }

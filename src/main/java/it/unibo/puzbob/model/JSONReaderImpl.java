@@ -15,10 +15,8 @@ public class JSONReaderImpl implements JSONReader {
     public JSONObject readJSONFromFile(String path) {
 
         try {
+            // getClassLoader take resources from the directory "resources"
             InputStream inputStream = JSONReaderImpl.class.getClassLoader().getResourceAsStream(path);
-
-            /* This try catch resources return a JSONObject, and then
-            close the file */
 
             try (Scanner scanner = new Scanner(inputStream).useDelimiter("\\A")) {
                 if (scanner.hasNext()) {
@@ -29,6 +27,7 @@ public class JSONReaderImpl implements JSONReader {
                 }
             }
 
+        // Exceptions
         } catch (NullPointerException | JSONException e) {
             return null;
         }

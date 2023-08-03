@@ -7,9 +7,9 @@ public class BoardImpl implements Board{
     private Pair<Integer, Integer> dimension;
     private Ball[][] matrix;
 
-    public BoardImpl(Integer height, Integer width){
+    public BoardImpl(Integer height, Integer width, Ball[][] matrixBall){
         this.dimension = new Pair<Integer, Integer>(height, width);
-        this.matrix = new Ball[300][100];
+        this.matrix = matrixBall;
     }
 
     /**This method takes input the position where the ball is to be added and the ball to add */
@@ -39,7 +39,30 @@ public class BoardImpl implements Board{
     /** This method return a list of colors that are inside the board */
     public ArrayList<String> getColors(){
         ArrayList<String> colors = new ArrayList<String>();
+        for(int i = 0; i  < this.matrix.length; i++){
+            for(int k = 0; k < this.matrix.length; k++){
+                if(this.matrix[i][k] != null){
+                    if(checkColor(colors, this.matrix[i][k].getColor()) == false){
+                        colors.add(this.matrix[i][k].getColor());
+                    }else{
+                        continue;
+                    }
+                }else{
+                    continue;
+                }
+            }
+        }
         return colors;
+    }
+
+    /* This method is for not having twins color in the color list */
+    private boolean checkColor(ArrayList<String> colors, String color){
+        for (String currentColor : colors) {
+            if(currentColor == color){
+                return false;
+            }
+        }
+        return true;
     }
 
     public String toString(){

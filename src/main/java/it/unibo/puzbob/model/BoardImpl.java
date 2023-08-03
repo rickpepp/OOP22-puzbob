@@ -41,4 +41,8 @@ public class BoardImpl implements Board{
         ArrayList<String> colors = new ArrayList<String>();
         return colors;
     }
+
+    public String toString(){
+        return "Board dimensions are height:" + dimension.getX() + " width: " + dimension.getY();
+    }
 }

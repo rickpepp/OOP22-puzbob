@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 public class BoardImpl implements Board{
     
+    private final int ROW_MATRIX = 10;
+    private final int COLUMN_MATRIX = 10;
+
     private Pair<Double, Double> dimension;
     private Ball[][] matrix;
 
@@ -37,8 +40,8 @@ public class BoardImpl implements Board{
     /** This method return a list of colors that are inside the board */
     public ArrayList<String> getColors(){
         ArrayList<String> colors = new ArrayList<String>();
-        for(int i = 0; i  < this.matrix.length; i++){
-            for(int k = 0; k < this.matrix.length; k++){
+        for(int i = 0; i  < ROW_MATRIX; i++){
+            for(int k = 0; k < COLUMN_MATRIX; k++){
                 if(this.matrix[i][k] != null){
                     if(checkColor(colors, this.matrix[i][k].getColor()) == false){
                         colors.add(this.matrix[i][k].getColor());
@@ -55,12 +58,16 @@ public class BoardImpl implements Board{
 
     /* This method is for not having twins color in the color list */
     private boolean checkColor(ArrayList<String> colors, String color){
-        for (String currentColor : colors) {
-            if(currentColor == color){
-                return false;
+        if(colors.size() > 0){
+            for (String currentColor : colors) {
+                if(currentColor == color){
+                    return true;
+                }
             }
+            return false;
+        }else{
+            return false;
         }
-        return true;
     }
 
 

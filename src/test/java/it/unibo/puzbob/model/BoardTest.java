@@ -2,6 +2,7 @@ package it.unibo.puzbob.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -61,7 +62,21 @@ public class BoardTest {
         assertEquals(convertMatrixToString(matrixTest), convertMatrixToString(board.getStatusBoard()), "Matrices are not equal ");
     }
 
+    @Test
+    void getBoardSizeTest(){
+        Pair<Double, Double> boardDimension = new Pair<Double,Double>(300.0, 200.0);
+        assertEquals(boardDimension.toString(), board.getBoardSize().toString(), "The dimension of the board are wrong");
+    }
 
+    @Test 
+    void getColorsTest(){
+        ArrayList<String> colorsTest = new ArrayList<>();
+        colorsTest.add("RED");
+        colorsTest.add("YELLOW");
+        colorsTest.add("BLUE");
+        colorsTest.add("GREEN");
+        assertEquals(colorsTest.toString(), board.getColors().toString(), "Color list do not match");
+    }
 /*
     @Test
     void addBallTest(){

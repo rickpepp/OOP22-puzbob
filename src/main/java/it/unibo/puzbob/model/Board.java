@@ -13,4 +13,6 @@ public interface Board {
     Pair<Double, Double> getBoardSize();
 
     ArrayList<String> getColors();
+
+    void removeBallAd(int r, int c, String color);
 }

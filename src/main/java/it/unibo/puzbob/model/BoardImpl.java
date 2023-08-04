@@ -70,6 +70,80 @@ public class BoardImpl implements Board{
         }
     }
 
+    private void sxControl(int r, int c, String color){
+        //Controllo la colonna a sinistra
+        if(matrix[r][c-1] != null){
+            if(matrix[r][c-1].getColor() == color){
+                removeBallAd(r, c-1, color);
+            }else{
+                if(matrix[r+1][c-1] != null){
+                    if(matrix[r+1][c-1].getColor() == color){
+                        removeBallAd(r+1, c-1, color);
+                    }
+                }
+            }
+        }
+    }
+
+    private void dxControl(int r, int c, String color){
+        //Controllo la colonna a destra
+        if(matrix[r][c+1] != null){
+            if(matrix[r][c+1].getColor() == color){
+                removeBallAd(r, c+1, color);
+            }else{
+                if(matrix[r+1][c+1] != null){
+                    if(matrix[r+1][c+1].getColor() == color){
+                        removeBallAd(r+1, c+1, color);
+                    }
+                }
+            }
+        }
+    }
+
+    private void columnControl(int r, int c, String color){
+        //Controllo sulla stessa colonna
+        if(matrix[r-1][c] != null){
+            if(matrix[r-1][c].getColor() == color){
+                removeBallAd(r-1, c, color);
+            }
+        }
+    }
+
+    public void removeBallAd(int r, int c, String color){
+        if(r > 0){
+            if(c > 0 && c < COLUMN_MATRIX){
+                dxControl(r, c, color);
+                sxControl(r, c, color);
+                columnControl(r, c, color);
+            }else{
+                if(c > 0){
+                    dxControl(r, c, color);
+                    columnControl(r, c, color);
+                }else{
+                    sxControl(r, c, color);  
+                    columnControl(r, c, color);
+                }
+            }
+        }else{
+            if(c > 0 && c < COLUMN_MATRIX){
+                sxControl(r, c, color);
+                dxControl(r, c, color);
+            }else{
+                if(c > 0){
+                    sxControl(r, c, color);
+                }else{
+                    dxControl(r, c, color);
+                }
+            }
+        }
+        if(matrix[r][c] != null){
+            if(matrix[r][c].getColor() == color){
+                removeBall(r, c);
+            }else{
+                System.out.println("errore pallina in entrata");
+            }
+        }
+    }
 
     public String toString(){
         return "Board dimensions are height:" + dimension.getX() + " width: " + dimension.getY();

@@ -14,6 +14,8 @@ public class BoardTest {
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");
     private static final String COLOR_FILE = "levels" + FILE_SEPARATOR + "colors.json";
     private static final String LEVEL_FILE = "levels" + FILE_SEPARATOR + "level1.json";
+    private static final String REMOVE_FILE = "removeTest.json";
+    private static final String REMOVE2_FILE = "removeTest2.json";
 
     private static final int SIZE_BALL = 15;
     private final Pair<Integer, Integer> DIMENSION = new Pair<Integer,Integer>(10, 10);
@@ -41,7 +43,13 @@ public class BoardTest {
     Board board = new BoardImpl(300.0, 200.0, matrixBall);
 
     /* Variable for compare results */
+    Ball newBall = ballFactory.createStaticBall("RED");
     Ball[][] matrixTest = matrixBall;
+    
+
+    /* Variable for test removeBall method */
+    private Map<String, List<Pair<Integer, Integer>>> removeTestMap = parser.parserStarterBalls(reader.readJSONFromFile(REMOVE_FILE));
+    private Map<String, List<Pair<Integer, Integer>>> removeTestMap2 = parser.parserStarterBalls(reader.readJSONFromFile(REMOVE2_FILE));
 
     /* This method is used to print matrices with the same format so that the values can be better controlled */
     private String convertMatrixToString(Ball[][] matrix){
@@ -55,6 +63,15 @@ public class BoardTest {
         return matrixToString;
     }
 
+    /* This method  */
+    private Ball[][] cleanMatrix(Ball[][] matrix){
+        for(int i = 0; i < ROW_MATRIX; i++){
+            for(int k = 0; k < COLUMN_MATRIX; k++){
+                matrix[i][k] = null;
+            }
+        }
+        return matrix;
+    }
 
     @Test
     void getStatusBoardTest(){
@@ -77,23 +94,42 @@ public class BoardTest {
         colorsTest.add("GREEN");
         assertEquals(colorsTest.toString(), board.getColors().toString(), "Color list do not match");
     }
-/*
+
     @Test
     void addBallTest(){
-        Ball newBall = ballFactory.createStaticBall("RED", position);
-        
-        
-
-        /* Test to add the ball in the available place 
         matrixTest[1][1] =  newBall;
         board.addBall(1, 1, newBall);
-        assertEquals(matrixTest.toString(), matrixBall.toString(), "Errore nell'aggiunta dell'ultima pallina");
-        
-        /* Test to add the ball in the rong place 
-        matrixTest[4][0] =  newBall;
-        board.addBall(2, 1, newBall);
-        assertEquals(matrixTest.toString(), matrixBall.toString(), "Errore pallina esistente");
-        
+        assertEquals(convertMatrixToString(matrixTest), convertMatrixToString(board.getStatusBoard()), "Error in adding the ball");
     }
-    */
+
+    /* Basic test */
+    @Test
+    void removeBallAdTest1(){
+        int row = 4;
+        int column = 5;
+
+        matrixTest = cleanMatrix(matrixTest);
+
+        matrixTest = level.getStartBalls(removeTestMap);
+        board.addBall(row, column, newBall);
+        board.removeBallAd(row, column, newBall.getColor());  
+        assertEquals(convertMatrixToString(matrixTest), convertMatrixToString(board.getStatusBoard()), "Matrices are not equals");
+    }
+
+    /* Test with additional balls */
+    @Test
+    void removeBallAdTest2(){
+        Ball blueBall = ballFactory.createStaticBall("BLUE");
+        int row = 4;
+        int column = 5;
+
+        matrixTest = cleanMatrix(matrixTest);
+
+        matrixTest = level.getStartBalls(removeTestMap2);
+        board.addBall(row, column, blueBall);
+        board.addBall(row, row, newBall);
+        board.removeBallAd(row, row, newBall.getColor());
+        assertEquals(convertMatrixToString(matrixTest), convertMatrixToString(board.getStatusBoard()), "Matrices are not equals");
+    }
+    
 }

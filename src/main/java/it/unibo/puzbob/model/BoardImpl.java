@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class BoardImpl implements Board{
     
-    private Pair<Integer, Integer> dimension;
+    private Pair<Double, Double> dimension;
     private Ball[][] matrix;
 
-    public BoardImpl(Integer height, Integer width, Ball[][] matrixBall){
-        this.dimension = new Pair<Integer, Integer>(height, width);
+    public BoardImpl(Double height, Double width, Ball[][] matrixBall){
+        this.dimension = new Pair<Double, Double>(height, width);
         this.matrix = matrixBall;
     }
 
@@ -16,8 +16,6 @@ public class BoardImpl implements Board{
     public void addBall(int x, int y, Ball ball){
         if(matrix[x][y] == null){
             matrix[x][y] = ball; 
-        }else{
-            matrix[x+1][y+1] = ball;
         }
     }
 
@@ -32,7 +30,7 @@ public class BoardImpl implements Board{
     }
 
     /** This method return the dimension of board width and height */
-    public Pair<Integer, Integer> getBoardSize(){
+    public Pair<Double, Double> getBoardSize(){
         return this.dimension;
     }
 
@@ -64,6 +62,7 @@ public class BoardImpl implements Board{
         }
         return true;
     }
+
 
     public String toString(){
         return "Board dimensions are height:" + dimension.getX() + " width: " + dimension.getY();

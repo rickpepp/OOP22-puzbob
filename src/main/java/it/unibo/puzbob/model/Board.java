@@ -10,7 +10,7 @@ public interface Board {
 
     Ball[][] getStatusBoard(); 
     
-    Pair<Integer, Integer> getBoardSize();
+    Pair<Double, Double> getBoardSize();
 
     ArrayList<String> getColors();
 }

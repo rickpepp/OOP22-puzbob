@@ -8,21 +8,24 @@ public class PhysicsImpl implements Physics {
 
     private Pair<Double, Double> boardDimension;
     private double velocity;
+    private Pair<Double, Double> cannonPosition;
 
-    public PhysicsImpl(Pair<Double, Double> boardDimension, double velocity) {
+    public PhysicsImpl(Pair<Double, Double> boardDimension, double velocity, Pair<Double, Double> cannonPosition) {
         this.boardDimension = boardDimension;
         this.velocity = velocity;
+        this.cannonPosition = cannonPosition;
     }
 
     // This method return the ball position after some time elapsed
     public Pair<Double, Double> getBallPosition(FlyingBallImpl flyingBall, int cannonAngle,
             double time) {
 
-        return this.calcPosition(flyingBall.getPosition(), cannonAngle, time, true, flyingBall.getBallSize() / 2);
+        return this.calcPosition(cannonPosition, cannonAngle, time, true, flyingBall.getBallSize() / 2);
     }
 
     private Pair<Double, Double> calcPosition(Pair<Double, Double> startingPosition, int cannonAngle,
             double time, boolean positive, double halfBallDimension) {
+
 
         // This resolve some calc problem that accour when the ball is too close to the wall
         if (time < 0) {
@@ -85,5 +88,52 @@ public class PhysicsImpl implements Physics {
         return time - timeToSubtract;
 
     }
+
+    public Pair<Integer, Integer> isAttached(double wallHeight, Ball[][] matrixBall, FlyingBallImpl ball) {
+        
+        Pair<Double, Double> ballPosition = ball.getPosition();
+
+        double ballDimension = ball.getBallSize();
+
+        boolean result = false;
+
+        // Calc the relative row index
+        int rowIndex = (int) Math.floor((this.boardDimension.getY() - wallHeight - ballPosition.getY()) / ballDimension);
+        int columnIndex = (int) Math.floor( ballPosition.getX() / ballDimension);
+
+        // If it touch the upper wall and is empty add it
+        if (rowIndex == 0 && matrixBall[rowIndex][columnIndex] == null) {
+            return new Pair<Integer,Integer>(columnIndex, rowIndex);
+        }
+
+        result = result | isPresent(new Pair<Integer,Integer>(columnIndex - 1, rowIndex), matrixBall);
+        result = result | isPresent(new Pair<Integer,Integer>(columnIndex + 1, rowIndex), matrixBall);
+        result = result | isPresent(new Pair<Integer,Integer>(columnIndex, rowIndex + 1), matrixBall);
+        result = result | isPresent(new Pair<Integer,Integer>(columnIndex, rowIndex - 1), matrixBall);
+
+        if (rowIndex % 2 == 0) {
+            result = result | isPresent(new Pair<Integer,Integer>(columnIndex - 1, rowIndex - 1), matrixBall);
+            result = result | isPresent(new Pair<Integer,Integer>(columnIndex - 1, rowIndex + 1), matrixBall);
+        } else {
+            result = result | isPresent(new Pair<Integer,Integer>(columnIndex + 1, rowIndex - 1), matrixBall);
+            result = result | isPresent(new Pair<Integer,Integer>(columnIndex + 1, rowIndex + 1), matrixBall);
+        }
+        
+        if (result)
+            return new Pair<Integer,Integer>(columnIndex, rowIndex);
+        
+        return null;
+
+    }
     
+    private boolean isPresent(Pair<Integer, Integer> indexes, Ball[][] matrixBall) {
+        try {
+            if (matrixBall[indexes.getY()][indexes.getX()] != null)
+                return true;
+            return false;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return false;
+        }
+        
+    }
 }

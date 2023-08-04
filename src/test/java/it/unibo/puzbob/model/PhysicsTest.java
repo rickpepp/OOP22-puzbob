@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PhysicsTest {
 
-    Physics fisica = new PhysicsImpl(new Pair<Double,Double>(15.0, 10.0), 5);
+    Physics fisica = new PhysicsImpl(new Pair<Double,Double>(15.0, 10.0), 5, new Pair<Double,Double>(7.5,0.0));
 
     FlyingBallImpl ball2 = new FlyingBallImpl("WHITE", 3, 0.5, new Pair<Double,Double>(7.5, 0.0));
 

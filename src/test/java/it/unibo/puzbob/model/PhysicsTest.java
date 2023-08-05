@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PhysicsTest {
 
+    // JSON parser and reader to load levels
     JSONReader reader = new JSONReaderImpl();
-
     JSONParser parser = new JSONParserImpl();
 
     // File separator and the path with colors.json and level1.json
@@ -14,16 +14,28 @@ public class PhysicsTest {
     public static final String COLORS_PATH = "levels" + FILE_SEPARATOR + "colors.json";
     public static final String LEVEL1_PATH = "levels" + FILE_SEPARATOR + "level1.json";
 
+    public static final Double BALL_SIZE = 1.875;
+    public static final int MATRIX_DIMENSION = 10;
+    public static final double X_STARTING_POSITION = 7.5;
+    public static final double Y_STARTING_POSITION = 0.0;
+    public static final double DELTA_TIME = 0.05;
+
+    // Ball factory to create balls
     BallFactory ballFactory = new BallFactoryImpl(
-        this.parser.parserColors(this.reader.readJSONFromFile(COLORS_PATH)), 1.875);
+        this.parser.parserColors(this.reader.readJSONFromFile(COLORS_PATH)), BALL_SIZE);
 
-    Level testLevel = new LevelImpl(this.ballFactory, new Pair<Integer,Integer>(10, 10));
+    // Level will load del selected level
+    Level testLevel = new LevelImpl(this.ballFactory, new Pair<Integer,Integer>(MATRIX_DIMENSION, MATRIX_DIMENSION));
 
-    Physics fisica = new PhysicsImpl(new Pair<Double,Double>(15.0, 10.0), 5, new Pair<Double,Double>(7.5,0.0), ballFactory.getBallDimension());
+    // Physics will calc the ball positioning
+    Physics fisica = new PhysicsImpl(new Pair<Double,Double>(15.0, 10.0), 5, 
+        new Pair<Double,Double>(X_STARTING_POSITION,Y_STARTING_POSITION), ballFactory.getBallDimension());
 
+    // Load Level 1
     Ball[][] matrixBalls = testLevel.getStartBalls(this.parser.parserStarterBalls(this.reader.readJSONFromFile(LEVEL1_PATH)));
 
-    FlyingBallImpl ball = (FlyingBallImpl) ballFactory.createFlyingBall("RED", new Pair<Double,Double>(7.5,0.0));
+    FlyingBallImpl ball = (FlyingBallImpl) ballFactory.createFlyingBall("RED", 
+        new Pair<Double,Double>(X_STARTING_POSITION,Y_STARTING_POSITION));
 
     // Testing if the positionc calc work as expected
     @Test
@@ -93,7 +105,8 @@ public class PhysicsTest {
         basicMatrixBall[0][4] = ballFactory.createStaticBall("RED");
 
         // Create a FlyingBall
-        FlyingBallImpl flyinfBall = (FlyingBallImpl) ballFactory.createFlyingBall("RED", new Pair<Double,Double>(1.0, 9.1));
+        FlyingBallImpl flyinfBall = (FlyingBallImpl) ballFactory.createFlyingBall("RED", 
+            new Pair<Double,Double>(1.0, 9.1));
 
         // Positioning at the top-left
         Pair<Integer, Integer> indexes = fisica.isAttached(0, basicMatrixBall, flyinfBall);
@@ -123,25 +136,75 @@ public class PhysicsTest {
         assertEquals(3, indexes.getX(), "X need to be 4");
     }
 
-    // Test a combination of these two
+    // Test a shot simulation
+    // Shot of 173° in level1
     @Test
     void physicsTest1() {
         // Create a FlyingBall
-        FlyingBallImpl flyinfBall = (FlyingBallImpl) ballFactory.createFlyingBall("RED", new Pair<Double,Double>(7.5, 0.0));
+        FlyingBallImpl flyinfBall = (FlyingBallImpl) ballFactory.createFlyingBall("RED", 
+            new Pair<Double,Double>(X_STARTING_POSITION, Y_STARTING_POSITION));
 
         Pair<Integer, Integer> result = null;
         double time = 0;
 
+        // This simulate a shot, check the position every 0.05 time unit
         while (result == null) {
             Pair<Double, Double> position = fisica.getBallPosition(flyinfBall, 173, time);
             flyinfBall.setPosition(position);
             System.out.println(position);
             result = fisica.isAttached(0, matrixBalls, flyinfBall);
-            time += 0.05;
+            time += DELTA_TIME;
         }
 
         assertEquals(4, result.getX(), "X need to be 0");
         assertEquals(4, result.getY(), "Y need to be 0");
+    }
+
+    @Test
+    // Shot of 15° in level1
+    void physicsTest2() {
+        // Create a FlyingBall
+        FlyingBallImpl flyinfBall = (FlyingBallImpl) ballFactory.createFlyingBall("RED", 
+            new Pair<Double,Double>(X_STARTING_POSITION, Y_STARTING_POSITION));
+
+        Pair<Integer, Integer> result = null;
+        double time = 0;
+
+        while (result == null) {
+            Pair<Double, Double> position = fisica.getBallPosition(flyinfBall, 15, time);
+            flyinfBall.setPosition(position);
+            System.out.println(position);
+            result = fisica.isAttached(0, matrixBalls, flyinfBall);
+            time += DELTA_TIME;
+        }
+
+        assertEquals(0, result.getX(), "X need to be 0");
+        assertEquals(4, result.getY(), "Y need to be 0");
+    }
+
+    @Test
+    // Shot of 25° in level1 whitout 2 the first two balls of the 4rd row
+    void physicsTest3() {
+        // Create a FlyingBall
+        FlyingBallImpl flyinfBall = (FlyingBallImpl) ballFactory.createFlyingBall("RED", 
+            new Pair<Double,Double>(X_STARTING_POSITION, Y_STARTING_POSITION));
+
+        matrixBalls[3][0] = null;
+        matrixBalls[3][1] = null;
+
+        Pair<Integer, Integer> result = null;
+        double time = 0;
+
+        while (result == null) {
+            Pair<Double, Double> position = fisica.getBallPosition(flyinfBall, 25, time);
+            flyinfBall.setPosition(position);
+            System.out.println(position);
+            result = fisica.isAttached(0, matrixBalls, flyinfBall);
+            time += DELTA_TIME;
+        }
+
+        assertEquals(0, result.getX(), "X need to be 0");
+        assertEquals(3, result.getY(), "Y need to be 0");
     }
     
 }

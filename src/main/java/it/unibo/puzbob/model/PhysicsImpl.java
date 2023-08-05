@@ -1,5 +1,8 @@
 package it.unibo.puzbob.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class calculate the physics about the shoted ball. The calc position method return the position of the ball
  * after the time specified and the angle of the cannon. The isAttached method return the index of the matrix where 
@@ -7,6 +10,8 @@ package it.unibo.puzbob.model;
  */
 
 public class PhysicsImpl implements Physics {
+
+    private static final double COMPLEMENTARY_ANGLE = 90;
 
     private Pair<Double, Double> boardDimension;
     private double velocity;
@@ -30,14 +35,13 @@ public class PhysicsImpl implements Physics {
     private Pair<Double, Double> calcPosition(Pair<Double, Double> startingPosition, int cannonAngle,
             double time, boolean positive, double halfBallDimension) {
 
-
         // This resolve some calc problem that accour when the ball is too close to the wall
         if (time < 0) {
             return startingPosition;
         }
         
         // The angle need to be in radians
-        double angle = Math.toRadians(cannonAngle - 90);
+        double angle = Math.toRadians(cannonAngle - COMPLEMENTARY_ANGLE);
         double x = startingPosition.getX();
         double y;
 
@@ -125,40 +129,39 @@ public class PhysicsImpl implements Physics {
         int maxColumnIndex = (int) Math.floor(this.boardDimension.getX() / this.ballDimension) - 1;
 
         // This near cells are in common between odd and even row
+        List<Pair<Integer,Integer>> neighbourList = new ArrayList<>();
+
         // Left Ball
-        Pair<Integer,Integer> nearIndexes = new Pair<Integer,Integer>(columnIndex - 1, rowIndex);
-        result = result | (isPresent(nearIndexes, matrixBall) & isNear(nearIndexes, ballPosition, wallHeight));
+        neighbourList.add(new Pair<Integer,Integer>(columnIndex - 1, rowIndex));
 
         // Right Ball
-        nearIndexes = new Pair<Integer,Integer>(columnIndex + 1, rowIndex);
-        result = result | (isPresent(nearIndexes, matrixBall) & isNear(nearIndexes, ballPosition, wallHeight));
+        neighbourList.add(new Pair<Integer,Integer>(columnIndex + 1, rowIndex));
 
         // Upper Ball
-        nearIndexes = new Pair<Integer,Integer>(columnIndex, rowIndex + 1);
-        result = result | (isPresent(nearIndexes, matrixBall) & isNear(nearIndexes, ballPosition, wallHeight));
+        neighbourList.add(new Pair<Integer,Integer>(columnIndex, rowIndex + 1));
 
         // Bottom Ball
-        nearIndexes = new Pair<Integer,Integer>(columnIndex, rowIndex - 1);
-        result = result | (isPresent(nearIndexes, matrixBall) & isNear(nearIndexes, ballPosition, wallHeight));
+        neighbourList.add(new Pair<Integer,Integer>(columnIndex, rowIndex - 1));
 
         if (rowIndex % 2 == 0) {
             // Even Row
             // Bottom left Ball
-            nearIndexes = new Pair<Integer,Integer>(columnIndex - 1, rowIndex - 1);
-            result = result | (isPresent(nearIndexes, matrixBall) & isNear(nearIndexes, ballPosition, wallHeight));
+            neighbourList.add(new Pair<Integer,Integer>(columnIndex - 1, rowIndex - 1));
 
             // Upper left Ball
-            nearIndexes = new Pair<Integer,Integer>(columnIndex - 1, rowIndex + 1);
-            result = result | (isPresent(nearIndexes, matrixBall) & isNear(nearIndexes, ballPosition, wallHeight));
+            neighbourList.add(new Pair<Integer,Integer>(columnIndex - 1, rowIndex + 1));
         } else {
             // Odd Row
             // Bottom Right Ball
-            nearIndexes = new Pair<Integer,Integer>(columnIndex + 1, rowIndex - 1);
-            result = result | (isPresent(nearIndexes, matrixBall) & isNear(nearIndexes, ballPosition, wallHeight));
+            neighbourList.add(new Pair<Integer,Integer>(columnIndex + 1, rowIndex - 1));
 
             // Upper Right Ball
-            nearIndexes = new Pair<Integer,Integer>(columnIndex + 1, rowIndex + 1);
-            result = result | (isPresent(nearIndexes, matrixBall) & isNear(nearIndexes, ballPosition, wallHeight));
+            neighbourList.add(new Pair<Integer,Integer>(columnIndex + 1, rowIndex + 1));
+        }
+
+        // Check if there are any ball near to attach
+        for (Pair<Integer, Integer> neighbour: neighbourList) {
+            result = result | (isPresent(neighbour, matrixBall) & isNear(neighbour, ballPosition, wallHeight));
         }
 
         // If there are some adiacent balls return the index
@@ -181,6 +184,7 @@ public class PhysicsImpl implements Physics {
         }
     }
 
+    // Check if the index are out of the board
     private boolean isValid(Pair<Integer, Integer> actualBallIndexes,
         int maxColumnIndex) {
 
@@ -191,21 +195,23 @@ public class PhysicsImpl implements Physics {
         }
     }
 
+    // Check if two balls are tounching
     private boolean isNear(Pair<Integer, Integer> nearBallIndexes, Pair<Double, Double> actualPosition, double wallHeight) {
 
+        // Calc near ball position
         Double yNear = this.boardDimension.getY() - wallHeight - (this.ballDimension * nearBallIndexes.getY()) - (this.ballDimension / 2);
         Double xNear;
 
+        // x coordinate depends if the row is odd or even
         if (nearBallIndexes.getY() % 2 == 0) 
             xNear = (this.ballDimension * nearBallIndexes.getX()) + (this.ballDimension / 2);
         else
             xNear = (this.ballDimension * nearBallIndexes.getX()) + this.ballDimension;
 
+        // Calc the distance between the two balls
         double distance = Math.sqrt(Math.pow(actualPosition.getX() - xNear, 2) + Math.pow(actualPosition.getY() - yNear, 2));
-        System.out.println("\nRow: " + nearBallIndexes.getY() + " Column: " + nearBallIndexes.getX());
-        System.out.println("x: " + xNear + " y: " + yNear);
-        System.out.println("Distance: " + distance + " value: " + (distance <= this.ballDimension));
         
+        // If this is equal or minor of ballDimension, they are tounching
         if (distance <= this.ballDimension)
             return true;
         

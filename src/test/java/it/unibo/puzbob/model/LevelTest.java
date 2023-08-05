@@ -54,6 +54,7 @@ public class LevelTest {
         expectedBalls[0][0] = this.ballFactory.createStaticBall("RED");
         expectedBalls[0][1] = this.ballFactory.createStaticBall("RED");
         expectedBalls[1][0] = this.ballFactory.createStaticBall("RED");
+        expectedBalls[1][1] = this.ballFactory.createStaticBall("RED");
         expectedBalls[2][4] = this.ballFactory.createStaticBall("RED");
         expectedBalls[2][5] = this.ballFactory.createStaticBall("RED");
         expectedBalls[3][3] = this.ballFactory.createStaticBall("RED");

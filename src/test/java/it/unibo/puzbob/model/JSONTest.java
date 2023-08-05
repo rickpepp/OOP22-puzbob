@@ -28,7 +28,7 @@ public class JSONTest {
         "{\"ColorsList\":[[\"RED\",10],[\"YELLOW\",10],[\"BLUE\",10],[\"GREEN\",10],[\"BLACK\",10],[\"PURPLE\",10],[\"ORANGE\",10],[\"GREY\",10]]}";
 
         String level1 = 
-        "{\"level\":{\"RED\":[[0,0],[0,1],[1,0],[2,4],[2,5],[3,3],[3,4]],\"BLUE\":[[0,4],[0,5],[1,4],[1,5],[2,0],[2,1],[3,0]],\"YELLOW\":[[0,2],[0,3],[1,2],[1,3],[2,6],[2,7],[3,5],[3,6]],\"GREEN\":[[0,6],[0,7],[1,6],[2,2],[2,3],[3,1],[3,2]]}}";
+        "{\"level\":{\"RED\":[[0,0],[0,1],[1,0],[1,1],[2,4],[2,5],[3,3],[3,4]],\"BLUE\":[[0,4],[0,5],[1,4],[1,5],[2,0],[2,1],[3,0]],\"YELLOW\":[[0,2],[0,3],[1,2],[1,3],[2,6],[2,7],[3,5],[3,6]],\"GREEN\":[[0,6],[0,7],[1,6],[2,2],[2,3],[3,1],[3,2]]}}";
 
         assertEquals(colors, reader.readJSONFromFile(COLORS_PATH).toString(), "Not the expected string");
         assertEquals(level1, reader.readJSONFromFile(LEVEL1_PATH).toString(), "Not the expected string");

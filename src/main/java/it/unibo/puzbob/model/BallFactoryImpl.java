@@ -30,5 +30,9 @@ public class BallFactoryImpl implements BallFactory {
         } 
         return new FlyingBallImpl(color, this.colorMap.get(color), size, position);
     }
+
+    public Double getBallDimension() {
+        return this.size;
+    }
     
 }

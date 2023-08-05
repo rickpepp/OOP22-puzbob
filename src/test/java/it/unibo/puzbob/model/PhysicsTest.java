@@ -5,67 +5,143 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PhysicsTest {
 
-    Physics fisica = new PhysicsImpl(new Pair<Double,Double>(15.0, 10.0), 5, new Pair<Double,Double>(7.5,0.0));
+    JSONReader reader = new JSONReaderImpl();
 
-    FlyingBallImpl ball2 = new FlyingBallImpl("WHITE", 3, 0.5, new Pair<Double,Double>(7.5, 0.0));
+    JSONParser parser = new JSONParserImpl();
 
+    // File separator and the path with colors.json and level1.json
+    public static final String FILE_SEPARATOR = System.getProperty("file.separator");
+    public static final String COLORS_PATH = "levels" + FILE_SEPARATOR + "colors.json";
+    public static final String LEVEL1_PATH = "levels" + FILE_SEPARATOR + "level1.json";
+
+    BallFactory ballFactory = new BallFactoryImpl(
+        this.parser.parserColors(this.reader.readJSONFromFile(COLORS_PATH)), 1.875);
+
+    Level testLevel = new LevelImpl(this.ballFactory, new Pair<Integer,Integer>(10, 10));
+
+    Physics fisica = new PhysicsImpl(new Pair<Double,Double>(15.0, 10.0), 5, new Pair<Double,Double>(7.5,0.0), ballFactory.getBallDimension());
+
+    Ball[][] matrixBalls = testLevel.getStartBalls(this.parser.parserStarterBalls(this.reader.readJSONFromFile(LEVEL1_PATH)));
+
+    FlyingBallImpl ball = (FlyingBallImpl) ballFactory.createFlyingBall("RED", new Pair<Double,Double>(7.5,0.0));
+
+    // Testing if the positionc calc work as expected
     @Test
     void positioningTest() {
         // Shot without bounce 25°
         assertEquals(2.968, 
-            fisica.getBallPosition(ball2, 25, 1).getX(), 
+            fisica.getBallPosition(ball, 25, 1).getX(), 
             0.2, 
             "Not the result expected");
 
         assertEquals(2.113, 
-            fisica.getBallPosition(ball2, 25, 1).getY(), 
+            fisica.getBallPosition(ball, 25, 1).getY(), 
             0.2, 
             "Not the result expected");
         
         // Shot without bounce 165°
         assertEquals(12.330, 
-            fisica.getBallPosition(ball2, 165, 1).getX(), 
+            fisica.getBallPosition(ball, 165, 1).getX(), 
             0.2, 
             "Not the result expected");
 
         assertEquals(1.294, 
-            fisica.getBallPosition(ball2, 165, 1).getY(), 
+            fisica.getBallPosition(ball, 165, 1).getY(), 
             0.2, 
             "Not the result expected");
 
         // Shot with 1 bounce 25°
-        assertEquals(2.017, 
-            fisica.getBallPosition(ball2, 25, 2).getX(), 
+        assertEquals(3.543, 
+            fisica.getBallPosition(ball, 25, 2).getX(), 
             0.2, 
             "Not the result expected");
 
         assertEquals(3.961, 
-            fisica.getBallPosition(ball2, 25, 2).getY(), 
+            fisica.getBallPosition(ball, 25, 2).getY(), 
             0.3, 
             "Not the result expected");
 
         // Shot with 1 bounce 150°
-        assertEquals(13.109, 
-            fisica.getBallPosition(ball2, 150, 2).getX(), 
+        assertEquals(11.756, 
+            fisica.getBallPosition(ball, 150, 2).getX(), 
             0.3, 
             "Not the result expected");
 
         assertEquals(4.446, 
-            fisica.getBallPosition(ball2, 150, 2).getY(), 
+            fisica.getBallPosition(ball, 150, 2).getY(), 
             0.3, 
             "Not the result expected");
         
         // Shot with 2 bounces 25°
-        assertEquals(12.374, 
-            fisica.getBallPosition(ball2, 45, 6).getX(), 
+        assertEquals(9.899, 
+            fisica.getBallPosition(ball, 45, 6).getX(), 
             0.3, 
             "Not the result expected");
 
-        assertEquals(17.060, 
-            fisica.getBallPosition(ball2, 45, 6).getY(), 
+        assertEquals(18.084, 
+            fisica.getBallPosition(ball, 45, 6).getY(), 
             1, 
             "Not the result expected");
+    }
 
+    // Test if the isAttached method work as expected in physics
+    @Test
+    void basicIndexesTest() {
+
+        // Create a simple ball matrix with one ball
+        Ball[][] basicMatrixBall = new Ball[10][10];
+        basicMatrixBall[0][4] = ballFactory.createStaticBall("RED");
+
+        // Create a FlyingBall
+        FlyingBallImpl flyinfBall = (FlyingBallImpl) ballFactory.createFlyingBall("RED", new Pair<Double,Double>(1.0, 9.1));
+
+        // Positioning at the top-left
+        Pair<Integer, Integer> indexes = fisica.isAttached(0, basicMatrixBall, flyinfBall);
+
+        assertEquals(0, indexes.getY(), "Y need to be 0");
+        assertEquals(0, indexes.getX(), "X need to be 0");
+
+        // Positioning at the bottom of the existing ball
+        flyinfBall.setPosition(new Pair<Double,Double>(7.5, 8.0));
+        indexes = fisica.isAttached(0, basicMatrixBall, flyinfBall);
+
+        assertEquals(1, indexes.getY(), "Y need to be 1");
+        assertEquals(3, indexes.getX(), "X need to be 3");
+
+        // There is no position because is still in the air
+        flyinfBall.setPosition(new Pair<Double,Double>(6.5, 5.0));
+        indexes = fisica.isAttached(0, basicMatrixBall, flyinfBall);
+
+        assertEquals(null, indexes, "Y need to be null");
+        assertEquals(null, indexes, "X need to be null");
+
+        // Position at the top with the wall down
+        flyinfBall.setPosition(new Pair<Double,Double>(7.4, 5.0));
+        indexes = fisica.isAttached(4.0, basicMatrixBall, flyinfBall);
+
+        assertEquals(0, indexes.getY(), "Y need to be 0");
+        assertEquals(3, indexes.getX(), "X need to be 4");
+    }
+
+    // Test a combination of these two
+    @Test
+    void physicsTest1() {
+        // Create a FlyingBall
+        FlyingBallImpl flyinfBall = (FlyingBallImpl) ballFactory.createFlyingBall("RED", new Pair<Double,Double>(7.5, 0.0));
+
+        Pair<Integer, Integer> result = null;
+        double time = 0;
+
+        while (result == null) {
+            Pair<Double, Double> position = fisica.getBallPosition(flyinfBall, 173, time);
+            flyinfBall.setPosition(position);
+            System.out.println(position);
+            result = fisica.isAttached(0, matrixBalls, flyinfBall);
+            time += 0.05;
+        }
+
+        assertEquals(4, result.getX(), "X need to be 0");
+        assertEquals(4, result.getY(), "Y need to be 0");
     }
     
 }

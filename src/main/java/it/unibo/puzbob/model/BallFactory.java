@@ -10,4 +10,6 @@ public interface BallFactory {
 
     public Ball createFlyingBall(String color, Pair<Double, Double> position);
 
+    public Double getBallDimension();
+
 }

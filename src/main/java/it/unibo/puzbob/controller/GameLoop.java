@@ -3,11 +3,12 @@ package it.unibo.puzbob.controller;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import it.unibo.puzbob.controller.Commands.Command;
+import it.unibo.puzbob.controller.commands.Command;
+import it.unibo.puzbob.controller.commands.Controller;
 import it.unibo.puzbob.model.GameStatus;
 import it.unibo.puzbob.model.Model;
 
-public class GameLoop {
+public class GameLoop implements Controller {
 
     private long period;
     private Model world;

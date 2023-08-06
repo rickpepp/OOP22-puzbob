@@ -9,6 +9,12 @@ import it.unibo.puzbob.model.GameStatus;
 import it.unibo.puzbob.model.Model;
 import it.unibo.puzbob.view.Output;
 
+/**
+ * This class coordinate the elements of the game. Link the model with the view.
+ * Can be specified a period, higher is the period, more fluid is the game but 
+ * require more resource.
+ */
+
 public class GameLoop implements Controller {
 
     private long period;
@@ -25,6 +31,7 @@ public class GameLoop implements Controller {
         this.view = view;
     }
 
+    // This is the loop that run until the win or gameover.
     public void mainLoop() {
 
         while(world.getGameStatus() != GameStatus.LOST && world.getGameStatus() != GameStatus.WIN) {
@@ -36,6 +43,7 @@ public class GameLoop implements Controller {
         }
     }
 
+    // Wait until the period pass.
     private void waitForNextFrame(long startingTime) {
         long dt = System.currentTimeMillis() - startingTime;
 
@@ -46,6 +54,7 @@ public class GameLoop implements Controller {
         }
     }
 
+    // Process the input in the queue.
     private void processInput() {
         Command cmd = this.inputQueue.poll();
 
@@ -54,10 +63,12 @@ public class GameLoop implements Controller {
         }
     }
 
+    // Pass at the view the status of the game at the moment
     private void render() {
         this.view.displayGame(this.formatter.getJSONWorld());
     }
 
+    // This is part of the controller interface and add a input at the queue
     public void notifyInput(Command cmd) {
         this.inputQueue.add(cmd);
     }

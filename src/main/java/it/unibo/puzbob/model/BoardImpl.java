@@ -140,7 +140,7 @@ public class BoardImpl implements Board{
             if(matrix[r][c].getColor() == color){
                 removeBall(r, c);
             }else{
-                System.out.println("errore pallina in entrata");
+                System.out.println("Error ball value is null");
             }
         }
     }

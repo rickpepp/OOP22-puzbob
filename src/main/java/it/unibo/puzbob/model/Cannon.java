@@ -10,7 +10,9 @@ public interface Cannon {
 
     int getAngle();
 
-    Ball getCurrentBall(ArrayList<String> colors);
+    Ball getCurrentBall();
+
+    void createBall(Pair<Double,Double> positionBall, ArrayList<String> colors);
 
     void shot();
 }

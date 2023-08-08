@@ -6,7 +6,7 @@ public interface Board {
     
     void addBall(int x, int y, Ball ball);
 
-    void removeBall(int x, int y);
+    void removeBall(int x, int y, Ball ball);
 
     Ball[][] getStatusBoard(); 
     
@@ -14,5 +14,4 @@ public interface Board {
 
     ArrayList<String> getColors();
 
-    void removeBallAd(int r, int c, String color);
 }

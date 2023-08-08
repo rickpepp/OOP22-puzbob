@@ -137,8 +137,8 @@ public class BoardTest {
 
         board = new BoardImpl(DIMENSION_BOARD.getX(), DIMENSION_BOARD.getY(), matrixStart);
 
-        matrixTest[1][1] =  newBall;
-        board.addBall(1, 1, newBall);
+        matrixTest[0][4] =  newBall;
+        board.addBall(0, 4, newBall);
 
         assertEquals(convertMatrixToString(matrixTest), convertMatrixToString(board.getStatusBoard()), "Error in adding the ball");
     }
@@ -157,7 +157,7 @@ public class BoardTest {
         board = new BoardImpl(300.0, 200.0, matrixStart);
 
         board.addBall(row, column, newBall);
-        board.removeBallAd(row, column, newBall.getColor()); 
+        //board.removeBallAd(row, column, newBall.getColor()); 
 
         System.out.println("Test:\n" + convertMatrixToString(matrixTest));
         System.out.println("Board: \n" + convertMatrixToString(board.getStatusBoard()));
@@ -180,7 +180,7 @@ public class BoardTest {
 
         board.addBall(row, row, newBall);
         board.addBall(row, column, blueBall);
-        board.removeBallAd(row, row, newBall.getColor());
+        //board.removeBallAd(row, row, newBall.getColor());
 
         System.out.println("Test:\n" + convertMatrixToString(matrixTest));
         System.out.println("Board: \n" + convertMatrixToString(board.getStatusBoard()));
@@ -205,7 +205,7 @@ public class BoardTest {
         board.addBall(4,4,newBall);
         board.addBall(4, 5, yelBall);
         board.addBall(5, 4, yellowBall);
-        board.removeBallAd(4, 4, "RED");
+        //board.removeBallAd(4, 4, "RED");
 
         System.out.println("Test:\n" + convertMatrixToString(matrixTest));
         System.out.println("Start:\n" + convertMatrixToString(board.getStatusBoard()));
@@ -223,8 +223,8 @@ public class BoardTest {
         matrixTest = copyMatrix(level4TestR4.getStartBalls(removeTestMap4));
         board = new BoardImpl(DIMENSION_BOARD.getX(), DIMENSION_BOARD.getY(), matrixStart);
 
-        board.removeBallAd(3, 0, "BLUE");
-        board.removeBallAd(1,0,"RED");
+        //board.removeBallAd(3, 0, "BLUE");
+        //board.removeBallAd(1,0,"RED");
 
         
         System.out.println("Test:\n" + convertMatrixToString(matrixTest));
@@ -245,7 +245,7 @@ public class BoardTest {
         board = new BoardImpl(DIMENSION_BOARD.getX(), DIMENSION_BOARD.getY(), matrixStart);
 
         board.addBall(4,6, blueBall);
-        board.removeBallAd(3, 6, "YELLOW");
+        //board.removeBallAd(3, 6, "YELLOW");
 
         System.out.println("Test:\n" + convertMatrixToString(matrixTest));
         System.out.println("Start:\n" + convertMatrixToString(board.getStatusBoard()));

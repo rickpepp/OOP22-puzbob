@@ -20,7 +20,7 @@ public class BoardImpl implements Board{
         this.matrix = matrixBall;
     }
 
-    /**This method takes input the position where the ball is to be added and the ball to add */
+    /** This method takes input the position where the ball is to be added and the ball to add */
     public void addBall(int x, int y, Ball ball){
         if(matrix[x][y] == null){
             matrix[x][y] = ball; 
@@ -36,13 +36,11 @@ public class BoardImpl implements Board{
             remove(ball4Remove);
         }
 
-
         for(int i = 1; i < ROW_MATRIX; i++){
             for(int k = 0; k < COLUMN_MATRIX; k++){
                 if(this.matrix[i][k] != null){
                     if(checkContain(new Pair<Integer,Integer>(i, k), ballChecked) == false){
                         if(checkFreeBall(i , k) == true){
-                            //System.out.println("ho trovato una pallina libera");
                             remove(ballFree4Remove);
                             this.ballFree4Remove.clear();
                             this.ballChecked.clear();
@@ -50,13 +48,10 @@ public class BoardImpl implements Board{
                     }
                 }
             }
-        }
-
-        //System.out.println(this.ballFree4Remove);
-        //System.out.println(this.ballChecked);
-        
+        }        
     }
 
+    /* This method takes as input the position of a ball and the ball itself and searches for adjacent balls */
     private Map<Pair<Integer,Integer>,Ball> searchNeighbour(int row, int column){
         ArrayList<Pair<Integer,Integer>> positionToCheck = new ArrayList<>();
         Map<Pair<Integer,Integer>,Ball> neighbour = new HashMap<>();
@@ -86,16 +81,18 @@ public class BoardImpl implements Board{
         return neighbour;
     }
 
+    /* This method takes as input a ball and maps the balls adjacent to it*/
     private Map<Pair<Integer,Integer>,Ball> sameColorFinder(Map<Pair<Integer,Integer>,Ball> neighbour, Ball ball){
         Map<Pair<Integer,Integer>,Ball> sameColor = new HashMap<>();
         for (Pair<Integer, Integer> positionCurrentBall : neighbour.keySet()) {
-            if(neighbour.get(positionCurrentBall).getColor() == ball.getColor()){
+            if(neighbour.get(positionCurrentBall).getColor().compareTo(ball.getColor()) == 0){
                 sameColor.put(positionCurrentBall, neighbour.get(positionCurrentBall));
             }
         }
         return sameColor;
     }
-    
+   
+    /* This method checks whether the position passed as input is contained in the map*/
     private boolean checkContain(Pair<Integer, Integer> positionBall, Map<Pair<Integer,Integer>,Ball> map){
         for (Pair<Integer,Integer> position : map.keySet()) {
                 if(positionBall.getX() == position.getX() && positionBall.getY() == position.getY()){
@@ -105,6 +102,7 @@ public class BoardImpl implements Board{
         return false;
     }
 
+    /* This method checks which balls are to be removed recursively*/
     private void checkRemoveBall(Pair<Integer, Integer> positionBall, Ball ball){
         Map<Pair<Integer,Integer>,Ball> neighbour = new HashMap<>();
         Map<Pair<Integer,Integer>,Ball> neighbourSameColor = new HashMap<>();
@@ -119,14 +117,14 @@ public class BoardImpl implements Board{
         }
     }
 
+    /* This method removes the balls passed in input */
     private void remove(Map<Pair<Integer,Integer>,Ball> mapBall){
         for (Pair<Integer, Integer> position : mapBall.keySet()) {
-            //System.out.println("forse sono il null: " + this.matrix[position.getX()][position.getY()]);
             this.matrix[position.getX()][position.getY()] = null;
-            
         }
     }
 
+    /* This method looks for the balls that are not connected to the others */
     private boolean checkFreeBall(int row, int column){
         Pair<Integer, Integer> position = new Pair<>(row, column);
         Map<Pair<Integer,Integer>,Ball> neighbour = new HashMap<>();
@@ -195,58 +193,6 @@ public class BoardImpl implements Board{
         return "Board dimensions are height:" + dimension.getX() + " width: " + dimension.getY();
     }
 
-/*
-    public static void main (String[] args){
-        
-        Ball[][] matrixBall = new Ball[10][10];
-        
-        matrixBall[0][0] = new BallImpl("RED", 10, 40);
-        matrixBall[0][1] = new BallImpl("RED", 10, 40);
-        matrixBall[0][2] = new BallImpl("YELLOW", 10, 40);
-        matrixBall[0][3] = new BallImpl("YELLOW", 10, 40);
-        matrixBall[0][4] = new BallImpl("BLUE", 10, 40);
-        matrixBall[0][5] = new BallImpl("BLUE", 10, 40);
-        matrixBall[0][6] = new BallImpl("GREEN", 10, 40);
-        matrixBall[0][7] = new BallImpl("GREEN", 10, 40);
-        matrixBall[1][0] = new BallImpl("RED", 10, 40);
-        matrixBall[1][1] = new BallImpl("RED", 10, 40);
-        matrixBall[1][2] = new BallImpl("YELLOW", 10, 40);
-        matrixBall[1][3] = new BallImpl("YELLOW", 10, 40);
-        matrixBall[1][4] = new BallImpl("BLUE", 10, 40);
-        matrixBall[1][5] = new BallImpl("BLUE", 10, 40);
-        matrixBall[1][6] = new BallImpl("GREEN", 10, 40);
-        matrixBall[2][0] = new BallImpl("BLUE", 10, 40);
-        matrixBall[2][1] = new BallImpl("BLUE", 10, 40);
-        matrixBall[2][2] = new BallImpl("GREEN", 10, 40);
-        matrixBall[2][3] = new BallImpl("GREEN", 10, 40);
-        matrixBall[2][4] = new BallImpl("RED", 10, 40);
-        matrixBall[2][5] = new BallImpl("RED", 10, 40);
-        matrixBall[2][6] = new BallImpl("YELLOW", 10, 40);
-        matrixBall[2][7] = new BallImpl("YELLOW", 10, 40);
-        matrixBall[3][0] = new BallImpl("BLUE", 10, 40);
-        matrixBall[3][1] = new BallImpl("GREEN", 10, 40);
-        matrixBall[3][2] = new BallImpl("GREEN", 10, 40);
-        matrixBall[3][3] = new BallImpl("RED", 10, 40);
-        matrixBall[3][4] = new BallImpl("RED", 10, 40);
-        matrixBall[3][5] = new BallImpl("YELLOW", 10, 40);
-        matrixBall[3][6] = new BallImpl("YELLOW", 10, 40);
-        
-        Board board = new BoardImpl(300.0, 200.0, matrixBall);
-        Ball greenBall = new BallImpl("GREEN", 15, 40);
-        String matrixToString = new String();
-
-        board.addBall(4, 0, greenBall);
-
-        board.removeBall(3, 0, matrixBall[3][0]);
-
-        for(int i = 0;  i < 10; i++){
-            for(int k = 0; k < 10; k++)
-                matrixToString = matrixToString + "|" + matrixBall[i][k];
-            
-            matrixToString = matrixToString + "\n\n";
-        }
-        System.out.println(matrixToString);
-    }*/
 }
 
 

@@ -17,6 +17,7 @@ public interface Model {
     public FlyingBallImpl getFlyingBall();
     public int getCannonAngle();
     public double getWallHeigth();
+    public Ball getCannonBall();
 
     // This return an enum GameStatus (RUNNING, WIN, LOST) with the status of the game
     public GameStatus getGameStatus();

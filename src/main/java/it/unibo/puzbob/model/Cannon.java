@@ -12,7 +12,9 @@ public interface Cannon {
 
     Ball getCurrentBall();
 
-    void createBall(Pair<Double,Double> positionBall, ArrayList<String> colors);
+    Pair<Double,Double> getCannonPosition();
+
+    void createBall(ArrayList<String> colors);
 
     void shot();
 }

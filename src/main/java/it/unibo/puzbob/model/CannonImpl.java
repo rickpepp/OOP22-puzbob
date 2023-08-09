@@ -12,8 +12,9 @@ public class CannonImpl implements Cannon{
     private int angle;
     private BallFactory ballFactory;
     private Ball ball;
+    private Pair<Double,Double> cannonPosition;
 
-    public CannonImpl(BallFactory ballFactory){
+    public CannonImpl(BallFactory ballFactory, Pair<Double,Double> cannonPosition){
         this.angle = CENTER_ANGLE;
         this.ballFactory = ballFactory;
     }
@@ -38,11 +39,16 @@ public class CannonImpl implements Cannon{
        return this.ball;
     }
 
+    /** This method return the position of the cannon */
+    public Pair<Double,Double> getCannonPosition(){
+        return this.cannonPosition;
+    }
+
     /** This method return which is the ball that will shot the cannon*/
-    public void createBall(Pair<Double,Double> positionBall, ArrayList<String> colors){
+    public void createBall(ArrayList<String> colors){
         int indexColor =  (int)Math.floor(Math.random() * colors.size());
         String color = colors.get(indexColor);
-        this.ball = ballFactory.createFlyingBall(color, positionBall);
+        this.ball = ballFactory.createFlyingBall(color, this.cannonPosition);
     }
 
     /** This method "shoots" the ball out of the cannon */

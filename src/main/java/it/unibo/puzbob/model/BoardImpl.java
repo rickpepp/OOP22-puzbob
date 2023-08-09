@@ -14,7 +14,7 @@ public class BoardImpl implements Board{
     private Map<Pair<Integer,Integer>,Ball> ball4Remove = new HashMap<>();
     private Map<Pair<Integer,Integer>,Ball> ballFree4Remove = new HashMap<>();
     private Map<Pair<Integer,Integer>,Ball> ballChecked = new HashMap<>();
-    private Score score = new ScoreImpl(0);
+    private int score;
 
     public BoardImpl(Double height, Double width, Ball[][] matrixBall){
         this.dimension = new Pair<Double, Double>(height, width);
@@ -31,6 +31,8 @@ public class BoardImpl implements Board{
     /** This method takes input the position of the ball to be removed */
     public int removeBall(int x, int y, Ball ball){
         Pair<Integer, Integer> positionBall = new Pair<>(x,y);
+        this.score = 0;
+        
         checkRemoveBall(positionBall, ball);
     
         if(this.ball4Remove.size() >= 3){
@@ -51,7 +53,7 @@ public class BoardImpl implements Board{
                 }
             }
         } 
-        return this.score.getScore();       
+        return this.score;       
     }
 
     /* This method takes as input the position of a ball and the ball itself and searches for adjacent balls */
@@ -123,7 +125,7 @@ public class BoardImpl implements Board{
     /* This method removes the balls passed in input */
     private void remove(Map<Pair<Integer,Integer>,Ball> mapBall){
         for (Pair<Integer, Integer> position : mapBall.keySet()) {
-            this.score.incScore(this.matrix[position.getX()][position.getY()].getScore());
+            this.score = this.score + this.matrix[position.getX()][position.getY()].getScore();
             this.matrix[position.getX()][position.getY()] = null;
         }
     }

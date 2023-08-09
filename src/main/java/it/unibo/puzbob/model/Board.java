@@ -6,7 +6,7 @@ public interface Board {
     
     void addBall(int x, int y, Ball ball);
 
-    void removeBall(int x, int y, Ball ball);
+    int removeBall(int x, int y, Ball ball);
 
     Ball[][] getStatusBoard(); 
     

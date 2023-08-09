@@ -43,7 +43,8 @@ public class BoardTest {
 
     /* Variables for compare results */
     Ball[][] matrixTest = new Ball[DIMENSION.getX()][DIMENSION.getY()];
-    Ball newBall = ballFactory.createStaticBall("RED");    
+    Ball newBall = ballFactory.createStaticBall("RED"); 
+    int score = 0;   
 
     /* This method is used to print matrices with the same format so that the values can be better controlled */
     private String convertMatrixToString(Ball[][] matrix){
@@ -134,9 +135,10 @@ public class BoardTest {
         board = new BoardImpl(300.0, 200.0, matrixBall);
 
         board.addBall(row, column, newBall);
-        board.removeBall(row, column, newBall); 
+        score = board.removeBall(row, column, newBall); 
 
         assertEquals(convertMatrixToString(matrixTest), convertMatrixToString(board.getStatusBoard()), "Matrices are not equals");
+        assertEquals(50, score, "Score is not equal");
     }
 
     /* Test with additional balls */
@@ -155,9 +157,10 @@ public class BoardTest {
 
         board.addBall(row, row, newBall);
         board.addBall(row, column, blueBall);
-        board.removeBall(row, row, newBall);
+        score = board.removeBall(row, row, newBall);
 
         assertEquals(convertMatrixToString(matrixTest), convertMatrixToString(board.getStatusBoard()), "Matrices are not equals");
+        assertEquals(50, score, "Score is not equal");
     }
 
     /* Test with center balls */
@@ -195,10 +198,14 @@ public class BoardTest {
         matrixTest = level4TestR4.getStartBalls(removeTestMap4);
         board = new BoardImpl(DIMENSION_BOARD.getX(), DIMENSION_BOARD.getY(), matrixBall);
 
+        System.out.println("Test:" + convertMatrixToString(matrixTest));
+        System.out.println("Ball:" + convertMatrixToString(matrixBall));
+
         board.removeBall(3,0,blueBall);
-        board.removeBall(1, 0, newBall);
+        score = board.removeBall(0, 0, newBall);
 
         assertEquals(convertMatrixToString(matrixTest), convertMatrixToString(board.getStatusBoard()), "Matrices are not equal");
+        assertEquals(70, score, "Score is not equal");
     }
 
     /* Test with outer balls */
@@ -215,8 +222,10 @@ public class BoardTest {
         board = new BoardImpl(DIMENSION_BOARD.getX(), DIMENSION_BOARD.getY(), matrixBall);
 
         board.addBall(4,6, blueBall);
-        board.removeBall(3, 6, yellowBall);
+        score = board.removeBall(3, 6, yellowBall);
 
         assertEquals(convertMatrixToString(matrixTest), convertMatrixToString(board.getStatusBoard()), "Matrices are not equal");
+        assertEquals(50, score, "Score is not equal");
     }
+
 }

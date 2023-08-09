@@ -10,10 +10,11 @@ public class BoardImpl implements Board{
     private final int COLUMN_MATRIX = 10;
 
     private Pair<Double, Double> dimension;
-    public Ball[][] matrix;
+    private Ball[][] matrix;
     private Map<Pair<Integer,Integer>,Ball> ball4Remove = new HashMap<>();
     private Map<Pair<Integer,Integer>,Ball> ballFree4Remove = new HashMap<>();
     private Map<Pair<Integer,Integer>,Ball> ballChecked = new HashMap<>();
+    private Score score = new ScoreImpl(0);
 
     public BoardImpl(Double height, Double width, Ball[][] matrixBall){
         this.dimension = new Pair<Double, Double>(height, width);
@@ -28,27 +29,29 @@ public class BoardImpl implements Board{
     }
 
     /** This method takes input the position of the ball to be removed */
-    public void removeBall(int x, int y, Ball ball){
+    public int removeBall(int x, int y, Ball ball){
         Pair<Integer, Integer> positionBall = new Pair<>(x,y);
         checkRemoveBall(positionBall, ball);
     
-        if(ball4Remove.size() >= 3){
-            remove(ball4Remove);
+        if(this.ball4Remove.size() >= 3){
+            remove(this.ball4Remove);
+            this.ball4Remove.clear();
         }
 
         for(int i = 1; i < ROW_MATRIX; i++){
             for(int k = 0; k < COLUMN_MATRIX; k++){
                 if(this.matrix[i][k] != null){
-                    if(checkContain(new Pair<Integer,Integer>(i, k), ballChecked) == false){
+                    if(checkContain(new Pair<Integer,Integer>(i, k), this.ballChecked) == false){
                         if(checkFreeBall(i , k) == true){
-                            remove(ballFree4Remove);
+                            remove(this.ballFree4Remove);
                             this.ballFree4Remove.clear();
                             this.ballChecked.clear();
                         }
                     }
                 }
             }
-        }        
+        } 
+        return this.score.getScore();       
     }
 
     /* This method takes as input the position of a ball and the ball itself and searches for adjacent balls */
@@ -107,11 +110,11 @@ public class BoardImpl implements Board{
         Map<Pair<Integer,Integer>,Ball> neighbour = new HashMap<>();
         Map<Pair<Integer,Integer>,Ball> neighbourSameColor = new HashMap<>();
 
-        ball4Remove.put(positionBall, ball);
+        this.ball4Remove.put(positionBall, ball);
         neighbour = searchNeighbour(positionBall.getX(), positionBall.getY());
         neighbourSameColor = sameColorFinder(neighbour, ball);
         for (Pair<Integer, Integer> positionCurrentBall : neighbourSameColor.keySet()) {
-            if(checkContain(positionCurrentBall, ball4Remove) == false){
+            if(checkContain(positionCurrentBall, this.ball4Remove) == false){
                 checkRemoveBall(positionCurrentBall, neighbourSameColor.get(positionCurrentBall));
             }
         }
@@ -120,6 +123,7 @@ public class BoardImpl implements Board{
     /* This method removes the balls passed in input */
     private void remove(Map<Pair<Integer,Integer>,Ball> mapBall){
         for (Pair<Integer, Integer> position : mapBall.keySet()) {
+            this.score.incScore(this.matrix[position.getX()][position.getY()].getScore());
             this.matrix[position.getX()][position.getY()] = null;
         }
     }
@@ -129,10 +133,10 @@ public class BoardImpl implements Board{
         Pair<Integer, Integer> position = new Pair<>(row, column);
         Map<Pair<Integer,Integer>,Ball> neighbour = new HashMap<>();
 
-        if(checkContain(position, ballChecked)){
+        if(checkContain(position, this.ballChecked)){
             return false;
         }else{
-            ballChecked.put(position, this.matrix[position.getX()][position.getY()]);
+            this.ballChecked.put(position, this.matrix[position.getX()][position.getY()]);
             neighbour = searchNeighbour(row, column);
             for(Pair<Integer,Integer> currentPosition: neighbour.keySet()){
                 if(currentPosition.getX() == 0){
@@ -142,7 +146,7 @@ public class BoardImpl implements Board{
                 }
             }
         }
-        ballFree4Remove.put(position, this.matrix[position.getX()][position.getY()]);
+        this.ballFree4Remove.put(position, this.matrix[position.getX()][position.getY()]);
         return true;
     }
 

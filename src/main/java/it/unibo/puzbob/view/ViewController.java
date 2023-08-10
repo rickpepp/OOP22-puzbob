@@ -212,4 +212,15 @@ public class ViewController implements Output {
     - getSizeBall che ritornerà ballRadius * 2
     */
 
+    public Pair<Double,Double> getBoardDimension(){
+        return new Pair<Double,Double>(this.inRectHeight, this.inRectWidth);
+    }
+
+    public double getSizeBall(){
+        return this.ballRadius * 2;
+    }
+
+    public Pair<Double,Double> getCannonPosition(){
+        return new Pair<Double,Double>(this.inRectWidth / 2, 0.0);
+    }
 }

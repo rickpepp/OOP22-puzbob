@@ -2,6 +2,8 @@ package it.unibo.puzbob.view;
 
 import org.json.JSONObject;
 
+import it.unibo.puzbob.model.Pair;
+
 /**
  * This is a basic interface for an output source. It take in input a JSONObject that contain the information
  * about the state of the actual world. It is done in json to have a separated view and model.
@@ -10,5 +12,11 @@ import org.json.JSONObject;
 public interface Output {
     
     public void displayGame(JSONObject world);
+
+    Pair<Double,Double> getBoardDimension();
+
+    double getSizeBall();
+
+    Pair<Double,Double> getCannonPosition();
 
 }

@@ -19,4 +19,6 @@ public interface JSONParser {
 
     Map<String, List<Pair<Integer, Integer>>> parserStarterBalls(JSONObject jsonObject);
 
+    Map<String, String> parserColorsView(JSONObject jsonObject);
+
 }

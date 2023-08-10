@@ -55,5 +55,20 @@ public class JSONParserImpl implements JSONParser {
 
         return mapToReturn;
     }
+
+    @Override
+    public Map<String, String> parserColorsView(JSONObject jsonObject) {
+        // Create a map to return and extract the array from ColorList
+        JSONArray colorsArray = jsonObject.getJSONArray("ColorsList");
+        Map<String, String> mapToReturn = new HashMap<>();
+        
+        // Get every pair of color and score and put in the map to return
+        for (int i = 0; i < colorsArray.length(); i++) {
+            JSONArray singolColor = colorsArray.getJSONArray(i);
+            mapToReturn.put(singolColor.getString(0), singolColor.getString(1));
+        }
+
+        return mapToReturn;
+    }
     
 }

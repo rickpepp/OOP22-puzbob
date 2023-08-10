@@ -48,7 +48,9 @@ public class CannonImpl implements Cannon{
     public void createBall(ArrayList<String> colors){
         int indexColor =  (int)Math.floor(Math.random() * colors.size());
         String color = colors.get(indexColor);
-        this.ball = ballFactory.createFlyingBall(color, this.cannonPosition);
+        if(this.ball == null){
+            this.ball = ballFactory.createFlyingBall(color, this.cannonPosition);
+        }
     }
 
     /** This method "shoots" the ball out of the cannon */

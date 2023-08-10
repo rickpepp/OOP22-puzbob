@@ -40,13 +40,13 @@ public class CannonTest {
         colorMap.put("WHITE", 35);
 
         ballFactory = new BallFactoryImpl(colorMap, SIZE_BALL);
-        cannon = new CannonImpl(ballFactory);
+        cannon = new CannonImpl(ballFactory, POSITION);
 
         colors.add("RED");
         colors.add("GREEN");
         colors.add("PURPLE");
 
-        cannon.createBall(POSITION, colors);
+        cannon.createBall(colors);
 
         assertEquals(true, colors.contains(cannon.getCurrentBall().getColor()), "Color is not listed");
     }
@@ -62,9 +62,9 @@ public class CannonTest {
         colors.add("GREEN");
 
         ballFactory = new BallFactoryImpl(colorMap, SIZE_BALL);
-        cannon = new CannonImpl(ballFactory);
+        cannon = new CannonImpl(ballFactory, POSITION);
 
-        cannon.createBall(POSITION, colors);
+        cannon.createBall(colors);
         cannon.shot();
 
         assertNull(cannon.getCurrentBall(), "Is not null");

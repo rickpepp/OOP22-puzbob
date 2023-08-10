@@ -2,6 +2,7 @@ package it.unibo.puzbob.model;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
 
 public class ModelImpl implements Model{
 
@@ -24,8 +25,10 @@ public class ModelImpl implements Model{
     private Wall wall;
     private Score score;
     private Physics physics;
+    private FlyingBallImpl flyingBall;
     private long time;
     private int nShot;
+    private Lock lock;
     
 
     public ModelImpl(double heightBoard, double widthBoard, double sizeBall, int nLevel, Pair<Double,Double> cannonPosition){
@@ -46,67 +49,120 @@ public class ModelImpl implements Model{
         this.sizeBall = sizeBall;
     }
 
-    
+    /** Taken as input an integer, changes the cannon's angle of gun sight */
     public void changeCannonAngle(int angle){
         this.cannon.changeAngle(angle);
     }
 
-    public void shot(){
-        Pair<Integer, Integer> positionFlyingBall;
-        FlyingBallImpl ball = new FlyingBallImpl(this.cannon.getCurrentBall().getColor(), this.cannon.getCurrentBall().getScore(), this.cannon.getCurrentBall().getBallSize(), this.cannon.getCannonPosition());
+    /* Method used to enclode the shot of a ball in a  separate thread so as not toblock the Model class */
+    private void shotThread(){
+        Pair<Integer, Integer> positionFlyingBall =  null;
         Pair<Double, Double> coordinatesFlyingBall;
-        long timeStart = this.time;
+        long timeStart;
 
-        nShot++;
-        positionFlyingBall =  null;
-        this.cannon.shot();
+        this.lock.lock();
+        try{
+            timeStart = this.time;
+
+            this.flyingBall = new FlyingBallImpl(this.cannon.getCurrentBall().getColor(), this.cannon.getCurrentBall().getScore(), this.cannon.getCurrentBall().getBallSize(), this.cannon.getCannonPosition());
+
+            this.cannon.shot();
+        }finally{
+            this.lock.unlock();
+        }
+
+        this.nShot++;
         
         while(positionFlyingBall == null){
-            coordinatesFlyingBall = this.physics.getBallPosition(ball, this.cannon.getAngle(), this.time);
-            positionFlyingBall = this.physics.isAttached(this.wall.getPosition(), board.getStatusBoard(), ball);
+            this.lock.lock();
+            try{
+                coordinatesFlyingBall = this.physics.getBallPosition(this.flyingBall, this.cannon.getAngle(), (this.time - timeStart));
+                this.flyingBall.setPosition(coordinatesFlyingBall);
+                positionFlyingBall = this.physics.isAttached(this.wall.getPosition(), board.getStatusBoard(), this.flyingBall);
+            }finally{
+                this.lock.unlock();
+            }
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException event) {
+                event.printStackTrace();
+            }
         }
+
         
         if(nShot == MAX_SHOT){
             this.wall.goDown(this.sizeBall);
             nShot = 0;
         }
 
-        this.board.addBall(positionFlyingBall.getY(), positionFlyingBall.getX(), ball);
-        this.score.incScore(this.board.removeBall(positionFlyingBall.getY(), positionFlyingBall.getX(), ball));
-        this.cannon.createBall(this.board.getColors());
-
+        this.lock.lock();
+        try{
+            this.board.addBall(positionFlyingBall.getY(), positionFlyingBall.getX(), this.flyingBall);
+            this.score.incScore(this.board.removeBall(positionFlyingBall.getY(), positionFlyingBall.getX(), this.flyingBall));
+            this.cannon.createBall(this.board.getColors());
+        }finally{
+            this.lock.unlock();
+        }
     }
 
+    /** Method that instantiates a new thread and does all the work of adding or removing the ball, in case it lowers the wall and updates the score */
+    public void shot(){
+        new Thread(() -> {
+            shotThread();
+        }); 
+    }
 
-    // Update time (needed for Physics class)
+    /** Method that updates the time */
     public void updateTime(long currentTime){
-        this.time = currentTime;
+        this.lock.lock();
+        try{
+            this.time = currentTime;
+        }finally{
+            this.lock.unlock();
+        }
     }
 
+    /** Method that returns the score*/
     public int getScore(){
         return this.score.getScore();
     }
 
+    /** Method that returns the situation of static balls */
     public Ball[][] getMatrixBall(){
         return this.board.getStatusBoard();
     }
 
+    /** Method taht returns the flying ball */
     public FlyingBallImpl getFlyingBall(){
-        return new FlyingBallImpl(this.cannon.getCurrentBall().getColor(), this.cannon.getCurrentBall().getScore(), this.cannon.getCurrentBall().getBallSize(), this.cannon.getCannonPosition()); 
+        this.lock.lock();
+        try{
+            return this.flyingBall; 
+        }finally{
+            this.lock.unlock();
+        }
     }
 
+    /** Method that returns what angle the cannon has */
     public int getCannonAngle(){
         return this.cannon.getAngle();
     }
 
+    /** Method that returns what ball is in the cannon */
     public Ball getCannonBall(){
-        return this.cannon.getCurrentBall();
+        this.lock.lock();
+        try{
+            return this.cannon.getCurrentBall();
+        }finally{
+            this.lock.unlock();
+        }
     }
 
+    /** Method that returns what height the wall is at */
     public double getWallHeigth(){
         return this.wall.getPosition();
     }
 
+    /* Method that calculates whether there are still balls in the board */
     private int getSizeMatrix(){
         int size = 0;
         Ball[][] matrix = this.board.getStatusBoard();
@@ -120,6 +176,7 @@ public class ModelImpl implements Model{
         return size;
     }
 
+    /* Method that takes as input the number of a row and calculates there are balls */
     private boolean checkLineBlank(int line){
         int count = 0;
         Ball[][] matrix = this.board.getStatusBoard();
@@ -137,6 +194,7 @@ public class ModelImpl implements Model{
         }
     }
 
+    /** Method that returns the state of the game */
     public GameStatus getGameStatus(){
         int lineGameOver = DIMENSION.getX() - (int)this.wall.getPosition();
         if(getSizeMatrix() == 0){

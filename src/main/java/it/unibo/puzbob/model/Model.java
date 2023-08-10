@@ -18,6 +18,7 @@ public interface Model {
     public int getCannonAngle();
     public double getWallHeigth();
     public Ball getCannonBall();
+    public Pair<Double,Double> getCannonPosition();
 
     // This return an enum GameStatus (RUNNING, WIN, LOST) with the status of the game
     public GameStatus getGameStatus();

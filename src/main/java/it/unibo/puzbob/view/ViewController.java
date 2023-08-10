@@ -206,21 +206,13 @@ public class ViewController implements Output {
 
     // Aggiungere metodo sia qui che in FXMLController per Wall e score
 
-    /* Aggiungere getter per inizializzare il model, ovvero:
-    - getHeightBoard che ritornerà inRectHeight
-    - getWidthBoard che ritornerà inRectWidth
-    - getSizeBall che ritornerà ballRadius * 2
-    */
-
+    /** Method that return the dimension of the Board */
     public Pair<Double,Double> getBoardDimension(){
         return new Pair<Double,Double>(this.inRectHeight, this.inRectWidth);
     }
 
+    /** Method that return the size of the Ball */
     public double getSizeBall(){
         return this.ballRadius * 2;
-    }
-
-    public Pair<Double,Double> getCannonPosition(){
-        return new Pair<Double,Double>(this.inRectWidth / 2, 0.0);
     }
 }

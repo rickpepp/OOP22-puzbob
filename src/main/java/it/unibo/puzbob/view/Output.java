@@ -17,6 +17,4 @@ public interface Output {
 
     double getSizeBall();
 
-    Pair<Double,Double> getCannonPosition();
-
 }

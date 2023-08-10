@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
 
+import org.json.JSONObject;
+
 public class ModelImpl implements Model{
 
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");
@@ -31,19 +33,22 @@ public class ModelImpl implements Model{
     private Lock lock;
     
 
-    public ModelImpl(double heightBoard, double widthBoard, double sizeBall, int nLevel, Pair<Double,Double> cannonPosition){
+    public ModelImpl(double heightBoard, double widthBoard, double sizeBall, int nLevel, Score score){
+        Pair<Double,Double> cannonPosition = new Pair<Double,Double>(widthBoard / 2, 0.0);
         this.reader = new JSONReaderImpl();
         this.parser = new JSONParserImpl();
-        this.COLOR_MAP = parser.parserColors(reader.readJSONFromFile(COLOR_FILE));
+        JSONObject json = reader.readJSONFromFile(COLOR_FILE);
+        this.COLOR_MAP = parser.parserColors(json);
         this.ballFactory = new BallFactoryImpl(COLOR_MAP, sizeBall);
         this.level = new LevelImpl(ballFactory, DIMENSION);
         this.startBallString = "levels" + FILE_SEPARATOR + "level" + nLevel + ".json";
-        this.levelMap = parser.parserStarterBalls(reader.readJSONFromFile(this.startBallString));
+        json = reader.readJSONFromFile(this.startBallString);
+        this.levelMap = parser.parserStarterBalls(json);
         this.board = new BoardImpl(heightBoard, widthBoard, level.getStartBalls(this.levelMap));
         this.cannon = new CannonImpl(ballFactory, cannonPosition);
         this.cannon.createBall(board.getColors());
         this.wall = new WallImpl();
-        this.score = new ScoreImpl(0);
+        this.score = score;
         this.physics = new PhysicsImpl(this.board.getBoardSize(), VELOCITY, cannonPosition, sizeBall);
         this.nShot = 0;
         this.sizeBall = sizeBall;
@@ -206,5 +211,10 @@ public class ModelImpl implements Model{
                 return GameStatus.RUNNING;
             }
         }
+    }
+
+    /** Method that return the position of the Cannon */
+    public Pair<Double,Double> getCannonPosition(){
+        return this.cannon.getCannonPosition();
     }
 }

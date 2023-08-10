@@ -32,7 +32,7 @@ public class GameLoop implements Controller {
     }
 
     // This is the loop that run until the win or gameover.
-    public void mainLoop() {
+    public GameStatus mainLoop() {
 
         while(world.getGameStatus() != GameStatus.LOST && world.getGameStatus() != GameStatus.WIN) {
             long actualTime = System.currentTimeMillis();
@@ -41,6 +41,7 @@ public class GameLoop implements Controller {
             this.render();
             this.waitForNextFrame(actualTime);
         }
+        return world.getGameStatus();
     }
 
     // Wait until the period pass.

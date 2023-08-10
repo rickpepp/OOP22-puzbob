@@ -35,6 +35,8 @@ public class ViewController implements Output {
 
     private final String COLORS_VIEW_PATH = "view" + View.FILE_SEPARATOR + "colorsView.json";
 
+    private static final double BALL_ANGLE = 30;
+
     private FXMLController fxmlcontroller;
     private double widthStage;
     private double heightStage;
@@ -47,6 +49,7 @@ public class ViewController implements Output {
     private double lengthCannon;
 
     private double ballRadius;
+    private double rowDistance;
 
     private double wallHeight = 0;
 
@@ -122,6 +125,8 @@ public class ViewController implements Output {
 
         // Tell to fxmlcontroller to scale
         this.fxmlcontroller.scale(outRectDimension, inRectDimension);
+
+        
     }
 
     // Set the initial position of the objects in the view
@@ -146,6 +151,7 @@ public class ViewController implements Output {
 
         this.controllerCannon(STARTING_CANNON_ANGLE);
         this.ballRadius = this.inRectWidth / (N_BALL_FIRST_ROW * 2);
+        this.rowDistance = this.ballRadius * Math.cos(Math.toRadians(BALL_ANGLE));
     }
 
     // Draw cannon from the angle in input (degree)
@@ -163,7 +169,7 @@ public class ViewController implements Output {
 
         double x;
         // Calc the y position
-        double y = ((this.heightStage - this.inRectHeight) / 2) + this.ballRadius + (this.ballRadius * 2 * row) + this.wallHeight;
+        double y = ((this.heightStage - this.inRectHeight) / 2) + this.ballRadius + (this.rowDistance * 2 * row) + this.wallHeight;
 
         // Calc the x position if the row is odd or even
         if (row % 2 == 0) {

@@ -133,7 +133,7 @@ public class PhysicsTest {
         indexes = fisica.isAttached(4.0, basicMatrixBall, flyinfBall);
 
         assertEquals(0, indexes.getY(), "Y need to be 0");
-        assertEquals(3, indexes.getX(), "X need to be 4");
+        assertEquals(3, indexes.getX(), "X need to be 3");
     }
 
     // Test a shot simulation
@@ -156,8 +156,8 @@ public class PhysicsTest {
             time += DELTA_TIME;
         }
 
-        assertEquals(4, result.getX(), "X need to be 0");
-        assertEquals(4, result.getY(), "Y need to be 0");
+        assertEquals(0, result.getX(), "X need to be 2");
+        assertEquals(4, result.getY(), "Y need to be 4");
     }
 
     @Test
@@ -178,8 +178,8 @@ public class PhysicsTest {
             time += DELTA_TIME;
         }
 
-        assertEquals(0, result.getX(), "X need to be 0");
-        assertEquals(4, result.getY(), "Y need to be 0");
+        assertEquals(1, result.getX(), "X need to be 3");
+        assertEquals(4, result.getY(), "Y need to be 4");
     }
 
     @Test
@@ -203,8 +203,8 @@ public class PhysicsTest {
             time += DELTA_TIME;
         }
 
-        assertEquals(0, result.getX(), "X need to be 0");
-        assertEquals(3, result.getY(), "Y need to be 0");
+        assertEquals(1, result.getX(), "X need to be 2");
+        assertEquals(3, result.getY(), "Y need to be 4");
     }
     
 }

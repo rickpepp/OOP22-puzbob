@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import it.unibo.puzbob.model.Ball;
+import it.unibo.puzbob.model.FlyingBallImpl;
 import it.unibo.puzbob.model.Model;
 
 /**
@@ -47,9 +48,15 @@ public class WorldFormatter {
         
         // Only if a Flying ball is present
         if (this.world.getFlyingBall() != null) {
-            this.jsonWorld.put("xIndexFlyingBall",this.world.getFlyingBall().getPosition().getX());
-            this.jsonWorld.put("yIndexFlyingBall",this.world.getFlyingBall().getPosition().getY());
-            this.jsonWorld.put("colorFlyingBall",this.world.getFlyingBall().getColor());
+
+            FlyingBallImpl ball = (FlyingBallImpl) this.world.getFlyingBall();
+            this.putFlyingBall(ball);
+
+        } else if (this.world.getCannonBall() != null) {
+
+            FlyingBallImpl ball = (FlyingBallImpl) this.world.getCannonBall();
+            this.putFlyingBall(ball);
+            
         }
 
         return this.jsonWorld;
@@ -66,11 +73,17 @@ public class WorldFormatter {
                     this.colorArray.put(matrixBall[i][j].getColor());
                     this.xArray.put(i);
                     this.yArray.put(j);
-                    
                 } catch (Exception e) {}
                 
             }
         }
+    }
+
+    // Put Flying ball information
+    private void putFlyingBall(FlyingBallImpl ball) {
+        this.jsonWorld.put("xIndexFlyingBall", ball.getPosition().getX());
+        this.jsonWorld.put("yIndexFlyingBall", ball.getPosition().getY());
+        this.jsonWorld.put("colorFlyingBall", ball.getColor());
     }
     
 }

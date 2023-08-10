@@ -31,7 +31,7 @@ public class LevelImpl implements Level {
 
                 // If the position is free create the ball of the color specified
                 if (this.starterBalls[ball.getX()][ball.getY()] != null) {
-
+                    
                     try {
                         throw new Exception("The next ball position is already occupated");
                     } catch (Exception e) {

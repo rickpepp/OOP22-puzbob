@@ -9,6 +9,11 @@ import org.json.JSONObject;
 
 public interface JSONReader {
     
+    /**
+     * This method return a JSONObject from a file on the file system with the URL specified in the args
+     * @param path a string that show the URL of the resource
+     * @return a generic JSONObject
+     */
     public JSONObject readJSONFromFile(String path);
 
 }

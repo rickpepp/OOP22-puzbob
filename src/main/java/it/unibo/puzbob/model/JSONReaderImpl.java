@@ -12,6 +12,14 @@ import java.util.Scanner;
 
 public class JSONReaderImpl implements JSONReader {
 
+    /**
+     * This is a default constructor
+     */
+    public JSONReaderImpl() {}
+
+    /**
+     * This method return a JSONObject from a file on the file system with the URL specified in the args
+     */
     public JSONObject readJSONFromFile(String path) {
 
         try {

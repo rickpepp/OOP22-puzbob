@@ -15,10 +15,25 @@ import org.json.JSONObject;
 
 public interface JSONParser {
     
+    /**
+     * This is a parser of a JSONObject. This is for Key: Name of the color, Value: score of the color
+     * @param jsonObject the JSONObject read from the file system
+     * @return a map with Key: name of the color, Value: score of the color
+     */
     Map<String, Integer> parserColors(JSONObject jsonObject);
 
+    /**
+     * This is a parser of a JSONObject. This is for Key: Name of the color, Value: List of pair that indicates the relative coordinate in the matrix of the ball. 
+     * @param jsonObject the JSONObject read from the file system
+     * @return this is a map of type Key: Name of the color, Value: List of pair that indicates the relative coordinate in the matrix of the ball. 
+     */
     Map<String, List<Pair<Integer, Integer>>> parserStarterBalls(JSONObject jsonObject);
 
+    /**
+     * This is a parser of a JSONObject. This is for Key: name of the color, Value: hexadecimal of the color you want
+     * @param jsonObject the JSONObject read from the file system
+     * @return This is for Key: name of the color, Value: hexadecimal of the color you want
+     */
     Map<String, String> parserColorsView(JSONObject jsonObject);
 
 }

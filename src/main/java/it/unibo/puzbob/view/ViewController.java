@@ -65,7 +65,12 @@ public class ViewController implements Output {
     private List<String> newCycleList;
 
 
-    // Constructor
+    /**
+     * This is the constructor of the view controllr
+     * @param fxmlcontroller the actual fxmlcontroller
+     * @param width width of the screen resolution
+     * @param height height of the screen resolution
+     */
     public ViewController(FXMLController fxmlcontroller, double width, double height) {
         this.fxmlcontroller = fxmlcontroller;
 
@@ -83,7 +88,9 @@ public class ViewController implements Output {
         this.colorsCodes = this.parser.parserColorsView(jsonObject);
     }
 
-    // This is the method that display the actual state of the world
+    /**
+     * This is the method that display the actual state of the world
+     */
     @Override
     public void displayGame(JSONObject world) {
         // Invertire le due liste
@@ -104,7 +111,9 @@ public class ViewController implements Output {
         // "yIndexFlyingBall", "colorFlyingBall")
     }
 
-    // Scale objects in the view in base at the
+    /**
+     * Scale objects in base at the screen resolution
+     */
     public void controllerScale() {
 
         // Scale rectangles dimension
@@ -129,7 +138,9 @@ public class ViewController implements Output {
         
     }
 
-    // Set the initial position of the objects in the view
+    /**
+     * Set the initial position of the objects in the view
+     */
     public void controllerStartPositioning() {
 
         // Outer edge of the board

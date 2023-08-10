@@ -9,9 +9,23 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * This is the main Class. This work in JavaFX
+ */
 public class View extends Application {
 
+    /**
+     * Default constructor
+     */
+    public View() {}
+
+    /**
+     * Proportion between the screen risolution and the window
+     */
     public static final double WINDOW_PROPORTION = 1.5;
+    /**
+     * File separator to improve multi-system programming
+     */
     public static final String FILE_SEPARATOR = System.getProperty("file.separator");
     private final String FXML_FOLDER = "view" + FILE_SEPARATOR + "board.fxml";
     private static final String APP_NAME = "Puzbob";
@@ -22,6 +36,9 @@ public class View extends Application {
 
     private static Output output;
 
+    /**
+     * Start of the JavaFX application
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -57,6 +74,10 @@ public class View extends Application {
         launch(args);
     }
 
+    /**
+     * Public static getter for the Output
+     * @return an Output class
+     */
     public static Output getController() {
         return output;
     }
@@ -71,9 +92,8 @@ public class View extends Application {
 
         /**
          * Program's entry point.
-         * @param args
+         * @param args args for the starting app
          */
-
         public static void main(final String... args) {
             View.run(args);
         }

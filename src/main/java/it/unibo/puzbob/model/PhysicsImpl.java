@@ -21,6 +21,13 @@ public class PhysicsImpl implements Physics {
 
     private double rowDistance;
 
+    /**
+     * This is the constructor of physics
+     * @param boardDimension the absolute dimension of the world
+     * @param velocity the velocity of the ball
+     * @param cannonPosition the actual cannon position
+     * @param ballDimension the diametre of the ball
+     */
     public PhysicsImpl(Pair<Double, Double> boardDimension, double velocity, Pair<Double, Double> cannonPosition, double ballDimension) {
         this.boardDimension = boardDimension;
         this.velocity = velocity;
@@ -29,7 +36,9 @@ public class PhysicsImpl implements Physics {
         this.rowDistance = this.ballDimension * Math.cos(Math.toRadians(BALL_ANGLE));
     }
 
-    // This method return the ball position after some time elapsed
+    /**
+     * This method return the ball position after some time elapsed
+     */
     public Pair<Double, Double> getBallPosition(FlyingBallImpl flyingBall, int cannonAngle,
             double time) {
 
@@ -101,7 +110,9 @@ public class PhysicsImpl implements Physics {
 
     }
 
-    // Check if the flying ball need to be attached at the matrix balls
+    /**
+     * Check if the flying ball need to be attached at the matrix balls
+     */
     public Pair<Integer, Integer> isAttached(double wallHeight, Ball[][] matrixBall, FlyingBallImpl ball) {
         
         Pair<Double, Double> ballPosition = ball.getPosition();

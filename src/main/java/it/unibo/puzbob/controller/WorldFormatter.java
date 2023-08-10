@@ -22,6 +22,10 @@ public class WorldFormatter {
     private JSONArray yArray;
     private JSONArray colorArray;
 
+    /**
+     * This is the constructor. This constructor initialize the JSONObjects and JSONArrays, to optimize the code.
+     * @param world this is the model to transform in JSONObject
+     */
     public WorldFormatter(Model world) {
         this.world = world;
         this.jsonWorld = new JSONObject();
@@ -30,6 +34,10 @@ public class WorldFormatter {
         this.colorArray = new JSONArray();
     }
 
+    /**
+     * This is the method that transform the actual state of the world and return it in form of JSONObject
+     * @return a JSONObject with the actual state of the world
+     */
     public JSONObject getJSONWorld() {
         // Clear the json object
         this.xArray.clear();

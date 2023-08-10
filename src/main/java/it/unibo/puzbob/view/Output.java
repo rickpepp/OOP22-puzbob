@@ -9,6 +9,10 @@ import org.json.JSONObject;
 
 public interface Output {
     
+    /**
+     * This render in the output the JSONObject in input
+     * @param world a JSONObject that describe the actuale state of the world
+     */
     public void displayGame(JSONObject world);
 
 }

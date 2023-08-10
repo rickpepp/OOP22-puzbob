@@ -12,15 +12,21 @@ public class LevelImpl implements Level {
 
     // FILE_SEPARATOR make more portable this application
     private BallFactory ballFactory;
-    public static final String FILE_SEPARATOR = System.getProperty("file.separator");
     private Ball[][] starterBalls;
 
-    // Initialize the matrix
+    /**
+     * Initialize the matrix
+     * @param ballFactory a ball factory to create balls
+     * @param dimension diameter of the ball
+     */
     public LevelImpl(BallFactory ballFactory, Pair<Integer, Integer> dimension) {
         this.ballFactory = ballFactory;
         this.starterBalls = new Ball[dimension.getX()][dimension.getY()];
     }
 
+    /**
+     * This method return a matrix of ball from a map of "Color": List of pair with coordinates (color and relative coordinates)
+     */
     public Ball[][] getStartBalls(Map<String, List<Pair<Integer, Integer>>> ballsPosition) {
         
         // Check every color in the map

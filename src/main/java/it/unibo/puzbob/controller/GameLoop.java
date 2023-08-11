@@ -8,6 +8,7 @@ import it.unibo.puzbob.controller.commands.Controller;
 import it.unibo.puzbob.model.GameStatus;
 import it.unibo.puzbob.model.Model;
 import it.unibo.puzbob.view.Output;
+import javafx.application.Platform;
 
 /**
  * This class coordinate the elements of the game. Link the model with the view.
@@ -75,7 +76,9 @@ public class GameLoop implements Controller {
 
     // Pass at the view the status of the game at the moment
     private void render() {
-        this.view.displayGame(this.formatter.getJSONWorld());
+        Platform.runLater( () ->
+            this.view.displayGame(this.formatter.getJSONWorld())
+        );
     }
 
     /**

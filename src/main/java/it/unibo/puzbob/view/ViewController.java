@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import it.unibo.puzbob.model.JSONParserImpl;
@@ -96,22 +97,36 @@ public class ViewController implements Output {
      */
     @Override
     public void displayGame(JSONObject world) {
-        // Invertire le due liste
+        this.lastCycleList.clear();
+        for (String string : this.newCycleList) {
+            this.lastCycleList.add(string);
+        }
+        this.newCycleList.clear();
 
-        // Aggiornare score (campo json "score") (da fare)
+        this.fxmlcontroller.changeScore(world.getInt("score"));
 
-        // I campi "xIndexesStaticBalls", "yIndexesStaticBalls", "colorsStaticBalls" sono un elenco
-        // delle palline statiche, quindi per ognuna di queste richiamare drawStaticBall
+        JSONArray xIndexesStaticBalls = new JSONArray(world.getJSONArray("xIndexesStaticBalls"));
+        JSONArray yIndexesStaticBalls = new JSONArray(world.getJSONArray("yIndexesStaticBalls"));
+        JSONArray colorsStaticBalls = new JSONArray(world.getJSONArray("colorsStaticBalls"));
+        for(int i = 0; i < xIndexesStaticBalls.length(); i++){
+            drawStaticBall(xIndexesStaticBalls.getInt(i), yIndexesStaticBalls.getInt(i), colorsStaticBalls.getString(i));
+        }
 
-        // Finite di aggiungere eseguire un foreach di lastCycleList ed eliminare tutte le palline elencate con l'id
-        // (l'id è 'row + "-" + column')
+        for (String id : lastCycleList) {
+            removeBall(id);
+        }
 
-        // Posizionare il muro (campo json "wallPosition") (da fare)
+        this.wallHeight = world.getDouble("wallPosition");
+        modifyWall();
 
-        // Posizionare il cannone e richiamare controllerCannon (campo json "cannonAngle")
+        controllerCannon(world.getInt("cannonAngle"));
 
-        // Disegnare con drawFlyingBall(), solo se presente, la pallina volante (campi json "xIndexFlyingBall", 
-        // "yIndexFlyingBall", "colorFlyingBall")
+        Double xIndexFlyingBall = world.getDouble("xIndexFlyingBall");
+        Double yIndexFlyingBall = world.getDouble("yIndexFlyingBall");   
+        String colorFlyingBall = world.getString("colorFlyingBall");
+        if(xIndexFlyingBall != null && yIndexFlyingBall != null && colorFlyingBall != null){
+            drawFlyingBall(new Pair<Double,Double>(xIndexFlyingBall, yIndexFlyingBall), colorFlyingBall);
+        }     
     }
 
     /**
@@ -169,9 +184,7 @@ public class ViewController implements Output {
         this.positionWall = new Pair<Double,Double>(inRectPosition.getX(), inRectPosition.getY());
         
         // Tell to move those in the view
-        this.fxmlcontroller.startPosition(outRectPosition, inRectPosition, textPosition, this.cannonOffset,gameOverLayout);
-
-        
+        this.fxmlcontroller.startPosition(outRectPosition, inRectPosition, textPosition, this.cannonOffset,gameOverLayout);  
     }
 
     // Draw cannon from the angle in input (degree)

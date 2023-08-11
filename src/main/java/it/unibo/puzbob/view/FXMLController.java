@@ -169,7 +169,7 @@ public class FXMLController {
         return this.output;
     }
 
-    //Create wall
+    /** Draws the wall */
     public void createWall(double heightWall, String color, Pair<Double, Double> startingCoordinates){
         Rectangle wall = new Rectangle(startingCoordinates.getX(), startingCoordinates.getY(),inRect.getWidth(), heightWall);
         wall.setId("wall");
@@ -177,13 +177,17 @@ public class FXMLController {
         pane.getChildren().add(wall);
     }
 
-    //Destroy Wall
+    /** Destroy Wall */
     public void removeWall(){
         Node wall = pane.lookup("wall");
         pane.getChildren().removeAll(wall);
     }
 
-    // Add input methods
-    
+    /** Change the value of the score 
+     * @param score is a number to represent the score
+    */
+    public void changeScore(int score){
+        this.valueScore.setText("" + score);
+    }    
 } 
 

@@ -198,9 +198,6 @@ public class BoardTest {
         matrixTest = level4TestR4.getStartBalls(removeTestMap4);
         board = new BoardImpl(DIMENSION_BOARD.getX(), DIMENSION_BOARD.getY(), matrixBall);
 
-        System.out.println("Test:" + convertMatrixToString(matrixTest));
-        System.out.println("Ball:" + convertMatrixToString(matrixBall));
-
         board.removeBall(3,0,blueBall);
         score = board.removeBall(0, 0, newBall);
 

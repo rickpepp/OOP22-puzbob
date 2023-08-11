@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/** This is the class that implements the board interface */
 public class BoardImpl implements Board{
     
     private final int ROW_MATRIX = 10;
@@ -16,6 +17,11 @@ public class BoardImpl implements Board{
     private Map<Pair<Integer,Integer>,Ball> ballChecked = new HashMap<>();
     private int score;
 
+    /** Constructor of the class
+     * @param height is the height of the board
+     * @param width is the width of the board
+     * @param matrixBall is the initial matrix of balls
+    */
     public BoardImpl(Double height, Double width, Ball[][] matrixBall){
         this.dimension = new Pair<Double, Double>(height, width);
         this.matrix = matrixBall;
@@ -28,7 +34,12 @@ public class BoardImpl implements Board{
         }
     }
 
-    /** This method takes input the position of the ball to be removed */
+    /** This method takes input the position of the ball to be removed 
+     * @param x is the number of the row
+     * @param y is the number of the column
+     * @param ball is the ball to  be removed
+     * @return is the sum of the scores of the balls removed 
+    */
     public int removeBall(int x, int y, Ball ball){
         Pair<Integer, Integer> positionBall = new Pair<>(x,y);
         this.score = 0;
@@ -195,8 +206,20 @@ public class BoardImpl implements Board{
         }
     }
 
+    /* This method is used to print matrices with the same format so that the values can be better controlled */
+    private String convertMatrixToString(Ball[][] matrix){
+        String matrixToString = new String();
+        for(int i = 0;  i < ROW_MATRIX; i++){
+            for(int k = 0; k < COLUMN_MATRIX; k++)
+                matrixToString = matrixToString + "|" + matrix[i][k];
+            
+            matrixToString = matrixToString + "\n";
+        }
+        return matrixToString;
+    }
+
     public String toString(){
-        return "Board dimensions are height:" + dimension.getX() + " width: " + dimension.getY();
+        return "Board dimensions are height:" + dimension.getX() + " width: " + dimension.getY() + "\n Ball matrix:\n" + convertMatrixToString(this.matrix);
     }
 
 }

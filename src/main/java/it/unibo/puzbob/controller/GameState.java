@@ -7,6 +7,9 @@ import it.unibo.puzbob.model.Score;
 import it.unibo.puzbob.model.ScoreImpl;
 import it.unibo.puzbob.view.Output;
 
+/**
+ * This class is used as an intermediary between the model and the view and determines which level of the game to start
+ */
 public class GameState {
     private final long PERIOD = 15;
     private final int MAX_LEVEL = 10;
@@ -19,6 +22,10 @@ public class GameState {
 
     private int nLevel;
 
+    /** 
+     * This is the constructor that initializes the level number, score, model and gameloop
+     * @param output is the object of type Output and is used to configure the size the other objects
+     */
     public GameState(Output output){
         this.nLevel = 1;
         this.output = output;

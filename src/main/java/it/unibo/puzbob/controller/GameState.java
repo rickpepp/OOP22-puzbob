@@ -50,7 +50,9 @@ public class GameState {
         }
     }
 
-    /** Method that returns the Gameloop */
+    /** Method that returns the Gameloop
+     * @return the game loop of the game
+     */
     public GameLoop getGameLoop(){
         return this.gameloop;
     }

@@ -14,12 +14,19 @@ public class CannonImpl implements Cannon{
     private Ball ball;
     private Pair<Double,Double> cannonPosition;
 
+    /** Constructor of the class always sets the cannon angle to the center
+     * @param ballFactory is for generating the new balls
+     * @param cannonPosition is the cannon position: x, y
+     */
     public CannonImpl(BallFactory ballFactory, Pair<Double,Double> cannonPosition){
         this.angle = CENTER_ANGLE;
         this.ballFactory = ballFactory;
+        this.cannonPosition = cannonPosition;
     }
 
-    /** This method takes as input how many want to move the angle of the cannon */
+    /** This method takes as input how many want to move the angle of the cannon 
+     * @param angle is the number of how many degrees to move the cannon
+    */
     public void changeAngle(int angle){
         this.angle = this.angle + angle;
         if(this.angle < MIN_ANGLE){
@@ -44,7 +51,9 @@ public class CannonImpl implements Cannon{
         return this.cannonPosition;
     }
 
-    /** This method return which is the ball that will shot the cannon*/
+    /** This method return which is the ball that will shot the cannon 
+     * @param colors is the list of colors from which to choose the one for the next ball
+    */
     public void createBall(ArrayList<String> colors){
         int indexColor =  (int)Math.floor(Math.random() * colors.size());
         String color = colors.get(indexColor);
@@ -59,6 +68,6 @@ public class CannonImpl implements Cannon{
     }
 
     public String toString(){
-        return "Cannon has angle: " + this.angle;
+        return "Cannon has angle: " + this.angle + ", his position X:" + this.cannonPosition.getX() + ", Y:" + this.cannonPosition.getY() + ". He has the ball: " + this.ball.toString();
     }
 }

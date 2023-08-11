@@ -80,7 +80,7 @@ public class ModelImpl implements Model{
         try{
             timeStart = this.time;
 
-            this.flyingBall = new FlyingBallImpl(this.cannon.getCurrentBall().getColor(), this.cannon.getCurrentBall().getScore(), this.cannon.getCurrentBall().getBallSize(), this.cannon.getCannonPosition());
+            this.flyingBall = (FlyingBallImpl) this.getCannonBall();
 
             this.cannon.shot();
         }finally{
@@ -115,6 +115,7 @@ public class ModelImpl implements Model{
         try{
             this.board.addBall(positionFlyingBall.getY(), positionFlyingBall.getX(), this.flyingBall);
             this.score.incScore(this.board.removeBall(positionFlyingBall.getY(), positionFlyingBall.getX(), this.flyingBall));
+            this.flyingBall = null;
             this.cannon.createBall(this.board.getColors());
         }finally{
             this.lock.unlock();
@@ -215,7 +216,7 @@ public class ModelImpl implements Model{
 
     /** Method that returns the state of the game */
     public GameStatus getGameStatus(){
-        int lineGameOver = DIMENSION.getX() - (int)this.wall.getPosition();
+        int lineGameOver = DIMENSION.getX() - (int)Math.floor(this.wall.getPosition() / this.ballFactory.getBallDimension());
         if(getSizeMatrix() == 0){
             return GameStatus.WIN;
         }else{

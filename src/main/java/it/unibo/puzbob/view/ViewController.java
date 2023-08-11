@@ -3,6 +3,7 @@ package it.unibo.puzbob.view;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -83,8 +84,8 @@ public class ViewController implements Output {
         this.heightStage = height/ View.WINDOW_PROPORTION;
 
         // Initialize lists
-        this.lastCycleList = new LinkedList<String>();
-        this.newCycleList = new LinkedList<String>();
+        this.lastCycleList = new CopyOnWriteArrayList<String>();
+        this.newCycleList = new CopyOnWriteArrayList<String>();
 
         this.reader = new JSONReaderImpl();
         this.parser = new JSONParserImpl();
@@ -96,7 +97,7 @@ public class ViewController implements Output {
      * This is the method that display the actual state of the world
      */
     @Override
-    public void displayGame(JSONObject world) {
+    public synchronized void displayGame(JSONObject world) {
         this.lastCycleList.clear();
         for (String string : this.newCycleList) {
             this.lastCycleList.add(string);
@@ -253,7 +254,7 @@ public class ViewController implements Output {
 
     /** Method that return the dimension of the Board */
     public Pair<Double,Double> getBoardDimension(){
-        return new Pair<Double,Double>(this.inRectHeight, this.inRectWidth);
+        return new Pair<Double,Double>(this.inRectWidth, this.inRectHeight);
     }
 
     /** Method that return the size of the Ball */

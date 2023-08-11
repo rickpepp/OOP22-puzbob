@@ -23,7 +23,7 @@ public class BoardImpl implements Board{
      * @param matrixBall is the initial matrix of balls
     */
     public BoardImpl(Double height, Double width, Ball[][] matrixBall){
-        this.dimension = new Pair<Double, Double>(height, width);
+        this.dimension = new Pair<Double, Double>(width, height);
         this.matrix = matrixBall;
     }
 

@@ -6,6 +6,7 @@ import java.util.concurrent.locks.Lock;
 
 import org.json.JSONObject;
 
+/** This is the implementation of the Model interface */
 public class ModelImpl implements Model{
 
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");
@@ -32,29 +33,37 @@ public class ModelImpl implements Model{
     private int nShot;
     private Lock lock;
     
-
+    /** Constructor of the class
+     * @param heightBoard is the height of the board
+     * @param widthBoard is the width of the Board
+     * @param sizeBall iss the diameter of the ball
+     * @param nLevel is the number of the level to be played
+     * @param score is the starting score
+     */
     public ModelImpl(double heightBoard, double widthBoard, double sizeBall, int nLevel, Score score){
         Pair<Double,Double> cannonPosition = new Pair<Double,Double>(widthBoard / 2, 0.0);
         this.reader = new JSONReaderImpl();
         this.parser = new JSONParserImpl();
         JSONObject json = reader.readJSONFromFile(COLOR_FILE);
         this.COLOR_MAP = parser.parserColors(json);
+        this.sizeBall = sizeBall;
         this.ballFactory = new BallFactoryImpl(COLOR_MAP, sizeBall);
         this.level = new LevelImpl(ballFactory, DIMENSION);
         this.startBallString = "levels" + FILE_SEPARATOR + "level" + nLevel + ".json";
         json = reader.readJSONFromFile(this.startBallString);
         this.levelMap = parser.parserStarterBalls(json);
         this.board = new BoardImpl(heightBoard, widthBoard, level.getStartBalls(this.levelMap));
+        this.score = score;
         this.cannon = new CannonImpl(ballFactory, cannonPosition);
         this.cannon.createBall(board.getColors());
-        this.wall = new WallImpl();
-        this.score = score;
-        this.physics = new PhysicsImpl(this.board.getBoardSize(), VELOCITY, cannonPosition, sizeBall);
         this.nShot = 0;
-        this.sizeBall = sizeBall;
+        this.physics = new PhysicsImpl(this.board.getBoardSize(), VELOCITY, cannonPosition, sizeBall);
+        this.wall = new WallImpl();
     }
 
-    /** Taken as input an integer, changes the cannon's angle of gun sight */
+    /** Taken as input an integer, changes the cannon's angle of gun sight
+     * @param angle is the number of degrees by how much the cannon must move
+     */
     public void changeCannonAngle(int angle){
         this.cannon.changeAngle(angle);
     }
@@ -117,7 +126,9 @@ public class ModelImpl implements Model{
         }); 
     }
 
-    /** Method that updates the time */
+    /** Method that updates the time 
+     * @param currentTime is the time now
+    */
     public void updateTime(long currentTime){
         this.lock.lock();
         try{

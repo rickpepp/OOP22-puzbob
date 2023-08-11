@@ -70,6 +70,10 @@ public class View extends Application {
         primaryStage.show();
     }
 
+    /**
+     * This run the javaFX application
+     * @param args the args to pass at the game
+     */
     public static void run(final String[] args) {
         launch(args);
     }

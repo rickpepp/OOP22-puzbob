@@ -85,4 +85,11 @@ public class GameLoop implements Controller {
         this.inputQueue.add(cmd);
     }
 
+    /**
+     * To string of gameloop
+     */
+    public String toString() {
+        return "Gameloop period: " + this.period + " GameStatus: " + this.world.getGameStatus();
+    }
+
 }

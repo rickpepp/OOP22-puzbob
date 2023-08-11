@@ -7,8 +7,8 @@ import java.util.Map;
 /** This is the class that implements the board interface */
 public class BoardImpl implements Board{
     
-    private final int ROW_MATRIX = 10;
-    private final int COLUMN_MATRIX = 10;
+    private final int ROW_MATRIX = 8;
+    private final int COLUMN_MATRIX = 8;
 
     private Pair<Double, Double> dimension;
     private Ball[][] matrix;

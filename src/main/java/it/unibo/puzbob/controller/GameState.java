@@ -32,7 +32,6 @@ public class GameState {
         this.score = new ScoreImpl(0);
         this.model = new ModelImpl(this.output.getBoardDimension().getX(), this.output.getBoardDimension().getY(), this.output.getSizeBall(), nLevel, this.score);
         this.gameloop = new GameLoop(PERIOD, this.model, this.output);
-        startNewLevel();
     }
 
     /** Method that istantiates the GameLoop class and updates the level */

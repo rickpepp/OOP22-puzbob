@@ -3,6 +3,7 @@ package it.unibo.puzbob.model;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.json.JSONObject;
 
@@ -59,6 +60,7 @@ public class ModelImpl implements Model{
         this.nShot = 0;
         this.physics = new PhysicsImpl(this.board.getBoardSize(), VELOCITY, cannonPosition, sizeBall);
         this.wall = new WallImpl();
+        this.lock = new ReentrantLock();
     }
 
     /** Taken as input an integer, changes the cannon's angle of gun sight
@@ -121,9 +123,10 @@ public class ModelImpl implements Model{
 
     /** Method that instantiates a new thread and does all the work of adding or removing the ball, in case it lowers the wall and updates the score */
     public void shot(){
-        new Thread(() -> {
+        Thread thread = new Thread(() -> {
             shotThread();
         }); 
+        thread.start();
     }
 
     /** Method that updates the time 
@@ -216,7 +219,7 @@ public class ModelImpl implements Model{
         if(getSizeMatrix() == 0){
             return GameStatus.WIN;
         }else{
-            if(checkLineBlank(lineGameOver) == false){
+            if(checkLineBlank(lineGameOver - 1) == false){
                 return GameStatus.LOST;
             }else{
                 return GameStatus.RUNNING;

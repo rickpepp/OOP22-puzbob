@@ -2,6 +2,7 @@ package it.unibo.puzbob.view;
 
 import java.awt.Dimension;
 
+import it.unibo.puzbob.controller.GameState;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -63,6 +64,13 @@ public class View extends Application {
         Image icon32 = new Image(ClassLoader.getSystemResource(ICON32).toString());
         Image icon64 = new Image(ClassLoader.getSystemResource(ICON64).toString());
         primaryStage.getIcons().addAll(icon16, icon32, icon64);
+
+        GameState gs = new GameState(getController());
+
+        Thread thread = new Thread(() -> {
+            gs.startNewLevel();
+        });
+        thread.start();
         
         // Property of stage
         primaryStage.setTitle(APP_NAME);

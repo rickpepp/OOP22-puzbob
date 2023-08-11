@@ -3,11 +3,15 @@ package it.unibo.puzbob.view;
 import java.awt.Dimension;
 
 import it.unibo.puzbob.controller.GameState;
+import it.unibo.puzbob.controller.commands.MoveLeft;
+import it.unibo.puzbob.controller.commands.MoveRight;
+import it.unibo.puzbob.controller.commands.Shot;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -72,6 +76,23 @@ public class View extends Application {
         });
         thread.start();
         
+        scene.setOnKeyPressed(event ->{
+            KeyCode key = event.getCode();
+            switch(key){
+                case LEFT: 
+                    gs.getGameLoop().notifyInput(new MoveLeft());
+                    break;
+                case  RIGHT:
+                    gs.getGameLoop().notifyInput(new MoveRight());
+                    break;
+                case  SPACE:
+                    gs.getGameLoop().notifyInput(new Shot());
+                    break;
+                default:
+                    break;
+            }
+        });
+
         // Property of stage
         primaryStage.setTitle(APP_NAME);
         primaryStage.setScene(scene);

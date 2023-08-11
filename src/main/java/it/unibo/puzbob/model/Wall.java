@@ -5,9 +5,13 @@ package it.unibo.puzbob.model;
  */
 public interface Wall {
     
-    /** This method brings down the wall */
+    /** Method brings down the wall
+     * @param size is the value of how much tolower the wall
+     */
     void goDown(double size);
 
-    //* This method return the position of the wall*/
+    /** Getter method return the position of the wall
+     * @return the value of how low  the wall is
+    */
     double getPosition();
 }

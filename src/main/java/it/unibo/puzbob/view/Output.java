@@ -17,8 +17,13 @@ public interface Output {
      */
     public void displayGame(JSONObject world);
 
+    /** Getter method to get the size of  the board
+     * @return a pair of double whose values are: height, width
+     */
     Pair<Double,Double> getBoardDimension();
 
+    /** Getter method for the size of the ball
+     * @return the diameter of the ball
+     */
     double getSizeBall();
-
 }

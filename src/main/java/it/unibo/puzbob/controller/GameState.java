@@ -16,7 +16,6 @@ public class GameState {
     private Output output;
     private GameStatus gameStatus;
     private Score score;
-    //private Input input;
 
     private int nLevel;
 

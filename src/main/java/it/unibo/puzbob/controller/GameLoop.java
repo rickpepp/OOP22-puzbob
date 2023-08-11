@@ -23,6 +23,12 @@ public class GameLoop implements Controller {
     private Queue<Command> inputQueue;
     private Output view;
     
+    /**
+     * This is the constructor for gameloop. The constructor will not start the mainloop
+     * @param period a time to wait to redo the loop 
+     * @param world  the model to use
+     * @param view the view use
+     */
     public GameLoop(long period, Model world, Output view) {
         this.period = period;
         this.world = world;
@@ -31,7 +37,9 @@ public class GameLoop implements Controller {
         this.view = view;
     }
 
-    // This is the loop that run until the win or gameover.
+    /**
+     * This is the loop that run until the win or gameover.
+     */
     public GameStatus mainLoop() {
 
         while(world.getGameStatus() != GameStatus.LOST && world.getGameStatus() != GameStatus.WIN) {
@@ -69,7 +77,9 @@ public class GameLoop implements Controller {
         this.view.displayGame(this.formatter.getJSONWorld());
     }
 
-    // This is part of the controller interface and add a input at the queue
+    /**
+     * This is the method of the interface Controller. Here the view can notify the input
+     */
     public void notifyInput(Command cmd) {
         this.inputQueue.add(cmd);
     }

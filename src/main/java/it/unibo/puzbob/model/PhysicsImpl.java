@@ -12,20 +12,33 @@ import java.util.List;
 public class PhysicsImpl implements Physics {
 
     private static final double COMPLEMENTARY_ANGLE = 90;
+    private static final double BALL_ANGLE = 30;
 
     private Pair<Double, Double> boardDimension;
     private double velocity;
     private double ballDimension;
     private Pair<Double, Double> cannonPosition;
 
+    private double rowDistance;
+
+    /**
+     * This is the constructor of physics
+     * @param boardDimension the absolute dimension of the world
+     * @param velocity the velocity of the ball
+     * @param cannonPosition the actual cannon position
+     * @param ballDimension the diametre of the ball
+     */
     public PhysicsImpl(Pair<Double, Double> boardDimension, double velocity, Pair<Double, Double> cannonPosition, double ballDimension) {
         this.boardDimension = boardDimension;
         this.velocity = velocity;
         this.cannonPosition = cannonPosition;
         this.ballDimension = ballDimension;
+        this.rowDistance = this.ballDimension * Math.cos(Math.toRadians(BALL_ANGLE));
     }
 
-    // This method return the ball position after some time elapsed
+    /**
+     * This method return the ball position after some time elapsed
+     */
     public Pair<Double, Double> getBallPosition(FlyingBallImpl flyingBall, int cannonAngle,
             double time) {
 
@@ -97,7 +110,9 @@ public class PhysicsImpl implements Physics {
 
     }
 
-    // Check if the flying ball need to be attached at the matrix balls
+    /**
+     * Check if the flying ball need to be attached at the matrix balls
+     */
     public Pair<Integer, Integer> isAttached(double wallHeight, Ball[][] matrixBall, FlyingBallImpl ball) {
         
         Pair<Double, Double> ballPosition = ball.getPosition();
@@ -105,7 +120,9 @@ public class PhysicsImpl implements Physics {
         boolean result = false;
 
         // Calc the relative row index
-        int rowIndex = (int) Math.floor((this.boardDimension.getY() - wallHeight - ballPosition.getY()) / this.ballDimension);
+        //int rowIndex = (int) Math.floor((this.boardDimension.getY() - wallHeight - ballPosition.getY()) / this.ballDimension);
+        int rowIndex = (int) Math.floor(((this.boardDimension.getY() - wallHeight - ballPosition.getY() - 
+            ((this.ballDimension - this.rowDistance) / 2)) / this.rowDistance));
         int columnIndex;
 
         if (rowIndex % 2 == 0) {
@@ -199,7 +216,7 @@ public class PhysicsImpl implements Physics {
     private boolean isNear(Pair<Integer, Integer> nearBallIndexes, Pair<Double, Double> actualPosition, double wallHeight) {
 
         // Calc near ball position
-        Double yNear = this.boardDimension.getY() - wallHeight - (this.ballDimension * nearBallIndexes.getY()) - (this.ballDimension / 2);
+        Double yNear = this.boardDimension.getY() - wallHeight - (this.rowDistance * nearBallIndexes.getY()) - (this.ballDimension / 2);
         Double xNear;
 
         // x coordinate depends if the row is odd or even

@@ -35,6 +35,8 @@ public class ViewController implements Output {
 
     private final String COLORS_VIEW_PATH = "view" + View.FILE_SEPARATOR + "colorsView.json";
 
+    private static final double BALL_ANGLE = 30;
+
     private FXMLController fxmlcontroller;
     private double widthStage;
     private double heightStage;
@@ -47,6 +49,7 @@ public class ViewController implements Output {
     private double lengthCannon;
 
     private double ballRadius;
+    private double rowDistance;
 
     private double wallHeight = 0;
 
@@ -62,7 +65,12 @@ public class ViewController implements Output {
     private List<String> newCycleList;
 
 
-    // Constructor
+    /**
+     * This is the constructor of the view controllr
+     * @param fxmlcontroller the actual fxmlcontroller
+     * @param width width of the screen resolution
+     * @param height height of the screen resolution
+     */
     public ViewController(FXMLController fxmlcontroller, double width, double height) {
         this.fxmlcontroller = fxmlcontroller;
 
@@ -80,7 +88,9 @@ public class ViewController implements Output {
         this.colorsCodes = this.parser.parserColorsView(jsonObject);
     }
 
-    // This is the method that display the actual state of the world
+    /**
+     * This is the method that display the actual state of the world
+     */
     @Override
     public void displayGame(JSONObject world) {
         // Invertire le due liste
@@ -101,7 +111,9 @@ public class ViewController implements Output {
         // "yIndexFlyingBall", "colorFlyingBall")
     }
 
-    // Scale objects in the view in base at the
+    /**
+     * Scale objects in base at the screen resolution
+     */
     public void controllerScale() {
 
         // Scale rectangles dimension
@@ -122,9 +134,13 @@ public class ViewController implements Output {
 
         // Tell to fxmlcontroller to scale
         this.fxmlcontroller.scale(outRectDimension, inRectDimension);
+
+        
     }
 
-    // Set the initial position of the objects in the view
+    /**
+     * Set the initial position of the objects in the view
+     */
     public void controllerStartPositioning() {
 
         // Outer edge of the board
@@ -146,6 +162,7 @@ public class ViewController implements Output {
 
         this.controllerCannon(STARTING_CANNON_ANGLE);
         this.ballRadius = this.inRectWidth / (N_BALL_FIRST_ROW * 2);
+        this.rowDistance = this.ballRadius * Math.cos(Math.toRadians(BALL_ANGLE));
     }
 
     // Draw cannon from the angle in input (degree)
@@ -163,7 +180,7 @@ public class ViewController implements Output {
 
         double x;
         // Calc the y position
-        double y = ((this.heightStage - this.inRectHeight) / 2) + this.ballRadius + (this.ballRadius * 2 * row) + this.wallHeight;
+        double y = ((this.heightStage - this.inRectHeight) / 2) + this.ballRadius + (this.rowDistance * 2 * row) + this.wallHeight;
 
         // Calc the x position if the row is odd or even
         if (row % 2 == 0) {

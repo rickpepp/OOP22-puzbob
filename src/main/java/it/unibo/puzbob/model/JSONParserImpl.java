@@ -14,6 +14,14 @@ import org.json.JSONObject;
 
 public class JSONParserImpl implements JSONParser {
 
+    /**
+     * This is a default constructor
+     */
+    public JSONParserImpl() {}
+
+    /**
+     * This is a parser of a JSONObject. This is for Key: Name of the color, Value: score of the color
+     */
     public Map<String, Integer> parserColors(JSONObject jsonObject) {
         
         // Create a map to return and extract the array from ColorList
@@ -30,6 +38,9 @@ public class JSONParserImpl implements JSONParser {
 
     }
 
+    /**
+     * This is a parser of a JSONObject. This is for Key: Name of the color, Value: List of pair that indicates the relative coordinate in the matrix of the ball. 
+     */
     public Map<String, List<Pair<Integer, Integer>>> parserStarterBalls(JSONObject jsonObject) {
         
         // Create a map to return and extract the array from level
@@ -56,7 +67,9 @@ public class JSONParserImpl implements JSONParser {
         return mapToReturn;
     }
 
-    @Override
+    /**
+     * This is a parser of a JSONObject. This is for Key: name of the color, Value: hexadecimal of the color you want
+     */
     public Map<String, String> parserColorsView(JSONObject jsonObject) {
         // Create a map to return and extract the array from ColorList
         JSONArray colorsArray = jsonObject.getJSONArray("ColorsList");

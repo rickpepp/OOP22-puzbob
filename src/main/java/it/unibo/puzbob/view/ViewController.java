@@ -36,6 +36,7 @@ public class ViewController implements Output {
     private final String COLORS_VIEW_PATH = "view" + View.FILE_SEPARATOR + "colorsView.json";
 
     private static final double BALL_ANGLE = 30;
+    private final int MAX_ROW_BALLS = 8;
 
     private FXMLController fxmlcontroller;
     private double widthStage;
@@ -59,6 +60,8 @@ public class ViewController implements Output {
     private JSONReaderImpl reader;
 
     private Map<String, String> colorsCodes;
+
+    private Pair<Double,Double> positionWall;
 
     // Those list are for check if some ball need to be removed
     private List<String> lastCycleList;
@@ -134,8 +137,6 @@ public class ViewController implements Output {
 
         // Tell to fxmlcontroller to scale
         this.fxmlcontroller.scale(outRectDimension, inRectDimension);
-
-        
     }
 
     /**
@@ -155,14 +156,22 @@ public class ViewController implements Output {
 
         // Text Position
         Pair<Double,Double> textPosition = new Pair<Double,Double>(STARTING_POSITION_TEXT , 
-            STARTING_POSITION_TEXT);
-        
-        // Tell to move those in the view
-        this.fxmlcontroller.startPosition(outRectPosition, inRectPosition, textPosition, this.cannonOffset);
+            STARTING_POSITION_TEXT);   
 
         this.controllerCannon(STARTING_CANNON_ANGLE);
         this.ballRadius = this.inRectWidth / (N_BALL_FIRST_ROW * 2);
         this.rowDistance = this.ballRadius * Math.cos(Math.toRadians(BALL_ANGLE));
+
+        // GameOver line
+        Pair<Double,Double> gameOverLayout = new Pair<Double,Double>(inRectPosition.getX(), ((this.heightStage - this.inRectHeight) / 2) + this.ballRadius + (this.rowDistance * 2 * MAX_ROW_BALLS) + this.wallHeight); 
+
+        // Wall Rectangle
+        this.positionWall = new Pair<Double,Double>(inRectPosition.getX(), inRectPosition.getY());
+        
+        // Tell to move those in the view
+        this.fxmlcontroller.startPosition(outRectPosition, inRectPosition, textPosition, this.cannonOffset,gameOverLayout);
+
+        
     }
 
     // Draw cannon from the angle in input (degree)
@@ -222,6 +231,12 @@ public class ViewController implements Output {
     }
 
     // Aggiungere metodo sia qui che in FXMLController per Wall e score
+    private void modifyWall(){
+        if(this.wallHeight != 0){
+            this.fxmlcontroller.removeWall();
+            this.fxmlcontroller.createWall(this.wallHeight, "#555555", positionWall);
+        }
+    }
 
     /** Method that return the dimension of the Board */
     public Pair<Double,Double> getBoardDimension(){

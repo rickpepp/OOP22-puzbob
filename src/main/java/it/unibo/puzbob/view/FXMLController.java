@@ -1,6 +1,7 @@
 package it.unibo.puzbob.view;
 
 import java.awt.Dimension;
+import java.awt.Paint;
 
 import it.unibo.puzbob.model.Pair;
 import javafx.scene.shape.Rectangle;
@@ -50,6 +51,10 @@ public class FXMLController {
     @FXML
     private Line cannon;
 
+    // The line that show the boundary to  declare game-over
+    @FXML 
+    private Line gameOver;
+
     /**
      * Default constructor
      */
@@ -79,6 +84,7 @@ public class FXMLController {
         outRect.setHeight(outRectDimension.getY());
         inRect.setWidth(inRectDimension.getX());
         inRect.setHeight(inRectDimension.getY());
+        gameOver.setEndX(inRectDimension.getX());
     }
 
     /**
@@ -89,7 +95,7 @@ public class FXMLController {
      * @param linePosition starting position of the cannon (center)
      */
     @FXML
-    public void startPosition(Pair<Double, Double> outRectPosition, Pair<Double, Double> inRectPosition, Pair<Double, Double> textPosition, Pair<Double, Double> linePosition) {
+    public void startPosition(Pair<Double, Double> outRectPosition, Pair<Double, Double> inRectPosition, Pair<Double, Double> textPosition, Pair<Double, Double> linePosition, Pair<Double,Double> gameOverLayout) {
         outRect.setLayoutX(outRectPosition.getX());
         outRect.setLayoutY(outRectPosition.getY());
         inRect.setLayoutX(inRectPosition.getX());
@@ -100,6 +106,8 @@ public class FXMLController {
         valueScore.setLayoutY(textPosition.getY() + OFFSET_SCORE_FROM_LABEL);
         cannon.setLayoutX(linePosition.getX());
         cannon.setLayoutY(linePosition.getY());
+        gameOver.setLayoutX(gameOverLayout.getX());
+        gameOver.setLayoutY(gameOverLayout.getY());
     }
 
     /**
@@ -159,6 +167,20 @@ public class FXMLController {
      */
     public Output getOutput() {
         return this.output;
+    }
+
+    //Create wall
+    public void createWall(double heightWall, String color, Pair<Double, Double> startingCoordinates){
+        Rectangle wall = new Rectangle(startingCoordinates.getX(), startingCoordinates.getY(),inRect.getWidth(), heightWall);
+        wall.setId("wall");
+        wall.setFill(Color.web(color));
+        pane.getChildren().add(wall);
+    }
+
+    //Destroy Wall
+    public void removeWall(){
+        Node wall = pane.lookup("wall");
+        pane.getChildren().removeAll(wall);
     }
 
     // Add input methods

@@ -39,6 +39,7 @@ public class GameLoop implements Controller {
 
     /**
      * This is the loop that run until the win or gameover.
+     * @return GameStatus (WIN, LOST)
      */
     public GameStatus mainLoop() {
 

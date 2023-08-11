@@ -70,7 +70,11 @@ public class View extends Application {
         primaryStage.show();
     }
 
-    private static void run(final String[] args) {
+    /**
+     * This run the javaFX application
+     * @param args the args to pass at the game
+     */
+    public static void run(final String[] args) {
         launch(args);
     }
 
@@ -80,23 +84,6 @@ public class View extends Application {
      */
     public static Output getController() {
         return output;
-    }
-
-    /**
-     * Entry point class.
-     */
-    public static final class Main {
-        private Main() {
-            // the constructor will never be called directly.
-        }
-
-        /**
-         * Program's entry point.
-         * @param args args for the starting app
-         */
-        public static void main(final String... args) {
-            View.run(args);
-        }
     }
     
 }

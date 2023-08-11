@@ -30,5 +30,12 @@ public class ScoreImpl implements Score {
             this.actualScore += increment;
         }
     }
+
+    /**
+     * To string for score impl
+     */
+    public String toString() {
+        return "Actual Score: " + this.actualScore;
+    }
     
 }

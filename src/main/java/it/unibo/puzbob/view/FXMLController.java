@@ -1,7 +1,6 @@
 package it.unibo.puzbob.view;
 
 import java.awt.Dimension;
-import java.awt.Paint;
 
 import it.unibo.puzbob.model.Pair;
 import javafx.scene.shape.Rectangle;

@@ -7,7 +7,7 @@ import it.unibo.puzbob.model.Model;
  */
 public class MoveRight implements Command {
 
-    private final static int DEFAULT_ANGLE = 5;
+    private final static int DEFAULT_ANGLE = 3;
 
     /**
      * This is a default constructor for MoveRight

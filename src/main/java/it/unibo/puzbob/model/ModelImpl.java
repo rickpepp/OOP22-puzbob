@@ -13,7 +13,7 @@ public class ModelImpl implements Model{
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");
     private static final String COLOR_FILE = "levels" + FILE_SEPARATOR + "colors.json";
     private final Pair<Integer, Integer> DIMENSION = new Pair<Integer,Integer>(8, 8);
-    private final double VELOCITY = 2.0;
+    private final double VELOCITY = 1.5;
     private final int MAX_SHOT = 5;
     private final double sizeBall;
 
@@ -99,7 +99,7 @@ public class ModelImpl implements Model{
                 this.lock.unlock();
             }
             try {
-                Thread.sleep(20);
+                Thread.sleep(10);
             } catch (InterruptedException event) {
                 event.printStackTrace();
             }
@@ -116,7 +116,10 @@ public class ModelImpl implements Model{
             this.board.addBall(positionFlyingBall.getY(), positionFlyingBall.getX(), this.flyingBall);
             this.score.incScore(this.board.removeBall(positionFlyingBall.getY(), positionFlyingBall.getX(), this.flyingBall));
             this.flyingBall = null;
-            this.cannon.createBall(this.board.getColors());
+            if (this.board.getColors().size() > 0) {
+                this.cannon.createBall(this.board.getColors());
+            }
+            
         }finally{
             this.lock.unlock();
         }

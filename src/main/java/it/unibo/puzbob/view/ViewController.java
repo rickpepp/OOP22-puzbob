@@ -1,6 +1,5 @@
 package it.unibo.puzbob.view;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -38,7 +37,7 @@ public class ViewController implements Output {
     private final String COLORS_VIEW_PATH = "view" + View.FILE_SEPARATOR + "colorsView.json";
 
     private static final double BALL_ANGLE = 30;
-    private final int MAX_ROW_BALLS = 8;
+    private final int MAX_ROW_BALLS = 7;
 
     private FXMLController fxmlcontroller;
     private double widthStage;
@@ -249,6 +248,8 @@ public class ViewController implements Output {
         if(this.wallHeight != 0){
             this.fxmlcontroller.removeWall();
             this.fxmlcontroller.createWall(this.wallHeight, "#555555", positionWall);
+        } else {
+            this.fxmlcontroller.removeWall();
         }
     }
 

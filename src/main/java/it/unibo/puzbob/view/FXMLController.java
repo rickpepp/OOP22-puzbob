@@ -136,6 +136,7 @@ public class FXMLController {
         if (ball instanceof Circle) {
             ball.setLayoutX(coordinates.getX());
             ball.setLayoutY(coordinates.getY());
+            ((Circle)ball).setFill(Color.web(color));
         } else {
             Circle newBall = new Circle(measureBall, Color.web(color));
             newBall.setLayoutX(coordinates.getX());
@@ -178,7 +179,7 @@ public class FXMLController {
 
     /** Destroy Wall */
     public void removeWall(){
-        Node wall = pane.lookup("wall");
+        Node wall = pane.lookup("#wall");
         pane.getChildren().removeAll(wall);
     }
 

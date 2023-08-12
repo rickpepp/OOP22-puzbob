@@ -48,8 +48,8 @@ public class BoardImpl implements Board{
     
         if(this.ball4Remove.size() >= 3){
             remove(this.ball4Remove);
-            this.ball4Remove.clear();
         }
+        this.ball4Remove.clear();
 
         for(int i = 1; i < ROW_MATRIX; i++){
             for(int k = 0; k < COLUMN_MATRIX; k++){

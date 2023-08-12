@@ -120,9 +120,14 @@ public class PhysicsImpl implements Physics {
         boolean result = false;
 
         // Calc the relative row index
-        //int rowIndex = (int) Math.floor((this.boardDimension.getY() - wallHeight - ballPosition.getY()) / this.ballDimension);
-        int rowIndex = (int) Math.floor(((this.boardDimension.getY() - wallHeight - ballPosition.getY() - 
-            ((this.ballDimension - this.rowDistance) / 2)) / this.rowDistance));
+        int rowIndex;
+        if (ballPosition.getY() > this.boardDimension.getY() - wallHeight) {
+            rowIndex = 0;
+        } else {
+            rowIndex = (int) Math.floor(((this.boardDimension.getY() - wallHeight - ballPosition.getY() - 
+                ((this.ballDimension - this.rowDistance) / 2)) / this.rowDistance));
+        }
+        
         int columnIndex;
 
         if (rowIndex % 2 == 0) {

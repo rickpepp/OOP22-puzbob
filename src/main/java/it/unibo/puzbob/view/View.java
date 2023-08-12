@@ -56,6 +56,21 @@ public class View extends Application {
         // Get screen Dimension
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 
+        FXMLLoader loaderStart = new FXMLLoader(ClassLoader.getSystemResource("view" + FILE_SEPARATOR + "StartingMenu.fxml"));
+        AnchorPane rootPaneStart = loaderStart.load();
+        final Scene sceneStart = new Scene(rootPaneStart, screenSize.getWidth() / WINDOW_PROPORTION, 
+            screenSize.getHeight() / WINDOW_PROPORTION);
+
+        FXMLControllerStart fxmlControllerStart = loaderStart.getController();
+
+        fxmlControllerStart.scale();
+        fxmlControllerStart.startPosition();
+
+        // Property of stage
+        primaryStage.setTitle(APP_NAME);
+        primaryStage.setScene(sceneStart);
+        primaryStage.show();
+
         // Load the fxml file
         FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemResource(FXML_FOLDER));
         AnchorPane rootPane = loader.load();
@@ -94,10 +109,7 @@ public class View extends Application {
             }
         });
 
-        // Property of stage
-        primaryStage.setTitle(APP_NAME);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        
     }
 
     /**

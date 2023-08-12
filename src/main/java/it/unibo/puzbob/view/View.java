@@ -47,6 +47,12 @@ public class View extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+        // Icons of the application
+        Image icon16 = new Image(ClassLoader.getSystemResource(ICON16).toString());
+        Image icon32 = new Image(ClassLoader.getSystemResource(ICON32).toString());
+        Image icon64 = new Image(ClassLoader.getSystemResource(ICON64).toString());
+        primaryStage.getIcons().addAll(icon16, icon32, icon64);
+
         // Get screen Dimension
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -62,12 +68,6 @@ public class View extends Application {
 
         // The window is not resizable
         primaryStage.setResizable(false);
-
-        // Icons of the application
-        Image icon16 = new Image(ClassLoader.getSystemResource(ICON16).toString());
-        Image icon32 = new Image(ClassLoader.getSystemResource(ICON32).toString());
-        Image icon64 = new Image(ClassLoader.getSystemResource(ICON64).toString());
-        primaryStage.getIcons().addAll(icon16, icon32, icon64);
 
         GameState gs = new GameState(getController());
 

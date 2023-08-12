@@ -24,6 +24,7 @@ public class CannonTest {
     @Test
     void changeAngleTest(){
         ballFactory = new BallFactoryImpl(colorMap, SIZE_BALL);
+        cannon = new CannonImpl(ballFactory, POSITION);
         assertEquals(90, cannon.getAngle(), "Angle need to be 90");
         cannon.changeAngle(90);
         assertEquals(160, cannon.getAngle(), "Angle need to be 160");
@@ -42,7 +43,7 @@ public class CannonTest {
         ballFactory = new BallFactoryImpl(colorMap, SIZE_BALL);
         cannon = new CannonImpl(ballFactory, POSITION);
 
-        colors.add("RED");
+        colors.add("WHITE");
         colors.add("GREEN");
         colors.add("PURPLE");
 

@@ -92,6 +92,7 @@ public class FXMLController {
      * @param inRectPosition position of the inner edge of the board
      * @param textPosition position of the text score
      * @param linePosition starting position of the cannon (center)
+     * @param gameOverLayout is the position of the final line for game-over
      */
     @FXML
     public void startPosition(Pair<Double, Double> outRectPosition, Pair<Double, Double> inRectPosition, Pair<Double, Double> textPosition, Pair<Double, Double> linePosition, Pair<Double,Double> gameOverLayout) {
@@ -169,7 +170,11 @@ public class FXMLController {
         return this.output;
     }
 
-    /** Draws the wall */
+    /** Draws the wall 
+     * @param heightWall is the position of the height of the wall
+     * @param color is the color of the wall in hexadecimal
+     * @param startingCoordinates are the coordinates a which the wall is to be draw
+    */
     public void createWall(double heightWall, String color, Pair<Double, Double> startingCoordinates){
         Rectangle wall = new Rectangle(startingCoordinates.getX(), startingCoordinates.getY(),inRect.getWidth(), heightWall);
         wall.setId("wall");

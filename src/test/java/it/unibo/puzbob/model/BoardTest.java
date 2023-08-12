@@ -72,7 +72,7 @@ public class BoardTest {
         Pair<Double, Double> boardDimension = new Pair<Double,Double>(DIMENSION_BOARD.getX(), DIMENSION_BOARD.getY());
         
         matrixBall = level.getStartBalls(levelMap);
-        board = new BoardImpl(DIMENSION_BOARD.getX(), DIMENSION_BOARD.getY(), matrixBall);
+        board = new BoardImpl(DIMENSION_BOARD.getY(), DIMENSION_BOARD.getX(), matrixBall);
 
         assertEquals(boardDimension.toString(), board.getBoardSize().toString(), "The dimension of the board are wrong");
     }
@@ -198,8 +198,8 @@ public class BoardTest {
         matrixTest = level4TestR4.getStartBalls(removeTestMap4);
         board = new BoardImpl(DIMENSION_BOARD.getX(), DIMENSION_BOARD.getY(), matrixBall);
 
-        board.removeBall(3,0,blueBall);
-        score = board.removeBall(0, 0, newBall);
+        score = board.removeBall(3,0,blueBall);
+        score = score + board.removeBall(0, 0, newBall);
 
         assertEquals(convertMatrixToString(matrixTest), convertMatrixToString(board.getStatusBoard()), "Matrices are not equal");
         assertEquals(70, score, "Score is not equal");

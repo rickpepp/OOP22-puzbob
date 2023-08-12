@@ -51,19 +51,20 @@ public class BoardImpl implements Board{
         }
         this.ball4Remove.clear();
 
-        for(int i = 1; i < ROW_MATRIX; i++){
+        for(int i = ROW_MATRIX - 1; i > 0; i--){
             for(int k = 0; k < COLUMN_MATRIX; k++){
                 if(this.matrix[i][k] != null){
                     if(checkContain(new Pair<Integer,Integer>(i, k), this.ballChecked) == false){
-                        if(checkFreeBall(i , k) == true){
-                            remove(this.ballFree4Remove);
-                            this.ballFree4Remove.clear();
-                            this.ballChecked.clear();
-                        }
+                        checkFreeBall(i , k);
                     }
                 }
             }
         } 
+
+        remove(this.ballFree4Remove);
+        this.ballFree4Remove.clear();
+        this.ballChecked.clear();
+        
         return this.score;       
     }
 

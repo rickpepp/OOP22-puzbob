@@ -121,12 +121,15 @@ public class ViewController implements Output {
 
         controllerCannon(world.getInt("cannonAngle"));
 
-        Double xIndexFlyingBall = world.getDouble("xIndexFlyingBall");
-        Double yIndexFlyingBall = world.getDouble("yIndexFlyingBall");   
-        String colorFlyingBall = world.getString("colorFlyingBall");
-        if(xIndexFlyingBall != null && yIndexFlyingBall != null && colorFlyingBall != null){
-            drawFlyingBall(new Pair<Double,Double>(xIndexFlyingBall, yIndexFlyingBall), colorFlyingBall);
-        }     
+        try {
+            Double xIndexFlyingBall = world.getDouble("xIndexFlyingBall");
+            Double yIndexFlyingBall = world.getDouble("yIndexFlyingBall");   
+            String colorFlyingBall = world.getString("colorFlyingBall");
+            if(xIndexFlyingBall != null && yIndexFlyingBall != null && colorFlyingBall != null){
+                drawFlyingBall(new Pair<Double,Double>(xIndexFlyingBall, yIndexFlyingBall), colorFlyingBall);
+            }   
+        } catch (Exception e) {}
+       
     }
 
     /**

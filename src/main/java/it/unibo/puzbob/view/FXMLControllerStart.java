@@ -2,12 +2,10 @@ package it.unibo.puzbob.view;
 
 import java.awt.Dimension;
 
-import it.unibo.puzbob.model.Pair;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 
 public class FXMLControllerStart {
 
@@ -62,6 +60,11 @@ public class FXMLControllerStart {
 
         keysDescription.setLayoutX((screenWidth - keysDescription.getBoundsInLocal().getWidth()) / 2);
         keysDescription.setLayoutY((screenHeight * 0.5) + description.getBoundsInLocal().getHeight());
+    }
+
+    @FXML
+    public Button getNewButton() {
+        return newGameButton;
     }
 
 }

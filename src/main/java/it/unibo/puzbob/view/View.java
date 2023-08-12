@@ -66,6 +66,8 @@ public class View extends Application {
         fxmlControllerStart.scale();
         fxmlControllerStart.startPosition();
 
+        
+
         // Property of stage
         primaryStage.setTitle(APP_NAME);
         primaryStage.setScene(sceneStart);
@@ -86,11 +88,17 @@ public class View extends Application {
 
         GameState gs = new GameState(getController());
 
-        Thread thread = new Thread(() -> {
-            gs.startNewLevel();
+        fxmlControllerStart.getNewButton().setOnAction(event -> {
+            Thread thread = new Thread(() -> {
+                gs.startNewLevel();
+            });
+            thread.setDaemon(true);
+            thread.start();
+            primaryStage.setScene(scene);
+            primaryStage.show();
         });
-        thread.setDaemon(true);
-        thread.start();
+
+        
         
         scene.setOnKeyPressed(event ->{
             KeyCode key = event.getCode();

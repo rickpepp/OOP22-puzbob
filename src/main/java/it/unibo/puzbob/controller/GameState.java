@@ -22,16 +22,20 @@ public class GameState {
 
     private int nLevel;
 
+    public GameState(Output output, int score, int level){
+        this.nLevel = level;
+        this.output = output;
+        this.score = new ScoreImpl(score);
+        this.model = new ModelImpl(this.output.getBoardDimension().getY(), this.output.getBoardDimension().getX(), this.output.getSizeBall(), nLevel, this.score);
+        this.gameloop = new GameLoop(PERIOD, this.model, this.output);
+    }
+
     /** 
      * This is the constructor that initializes the level number, score, model and gameloop
      * @param output is the object of type Output and is used to configure the size the other objects
      */
     public GameState(Output output){
-        this.nLevel = 1;
-        this.output = output;
-        this.score = new ScoreImpl(0);
-        this.model = new ModelImpl(this.output.getBoardDimension().getY(), this.output.getBoardDimension().getX(), this.output.getSizeBall(), nLevel, this.score);
-        this.gameloop = new GameLoop(PERIOD, this.model, this.output);
+        this(output, 0, 1);
     }
 
     /** Method that istantiates the GameLoop class and updates the level */

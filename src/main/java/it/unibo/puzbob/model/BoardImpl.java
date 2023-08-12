@@ -51,24 +51,35 @@ public class BoardImpl implements Board{
         }
         this.ball4Remove.clear();
 
-        for(int k = 0; k < COLUMN_MATRIX; k++){
-            checkFreeBall(0 , k);
-        } 
-
-        for(int i = ROW_MATRIX - 1; i > 0; i--){
+        if(checkFirstLineEmpty() == false){
             for(int k = 0; k < COLUMN_MATRIX; k++){
-                if(this.matrix[i][k] != null){
-                    if(!checkContain(new Pair<Integer,Integer>(i, k), this.ballChecked)){
-                        this.ballFree4Remove.put(new Pair<Integer,Integer>(i, k), this.matrix[i][k] );
+                checkFreeBall(0 , k);
+            } 
+
+            for(int i = ROW_MATRIX - 1; i > 0; i--){
+                for(int k = 0; k < COLUMN_MATRIX; k++){
+                    if(this.matrix[i][k] != null){
+                        if(!checkContain(new Pair<Integer,Integer>(i, k), this.ballChecked)){
+                            this.ballFree4Remove.put(new Pair<Integer,Integer>(i, k), this.matrix[i][k] );
+                        }
+                    }
+                }
+            } 
+
+            remove(this.ballFree4Remove);
+            this.ballFree4Remove.clear();
+            this.ballChecked.clear();
+        }else{
+            Map<Pair<Integer,Integer>,Ball> ballFreeRemove = new HashMap<>();
+            for(int i = 0; i < ROW_MATRIX; i++){
+                for(int k = 0; k < COLUMN_MATRIX; k++){
+                    if(matrix[i][k] != null){
+                        ballFreeRemove.put(new Pair<Integer, Integer>(i,k),this.matrix[i][k]);
                     }
                 }
             }
-        } 
-
-        remove(this.ballFree4Remove);
-        this.ballFree4Remove.clear();
-        this.ballChecked.clear();
-
+            remove(ballFreeRemove);
+        }
         return this.score;       
     }
 
@@ -153,6 +164,16 @@ public class BoardImpl implements Board{
             if (!checkContain(currentPosition, ballChecked)) {
                 this.ballChecked.put(currentPosition, this.matrix[currentPosition.getX()][currentPosition.getY()]);
                 this.checkFreeBall(currentPosition.getX(), currentPosition.getY());
+            }
+        }
+        return true;
+    }
+
+    /* This method return true orfalse based on whether the first row of the matrix is empty */
+    private boolean checkFirstLineEmpty(){
+        for(int i = 0; i < COLUMN_MATRIX; i++){
+            if(this.matrix[0][i] != null){
+                return false;
             }
         }
         return true;

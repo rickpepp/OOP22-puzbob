@@ -74,6 +74,7 @@ public class View extends Application {
         Thread thread = new Thread(() -> {
             gs.startNewLevel();
         });
+        thread.setDaemon(true);
         thread.start();
         
         scene.setOnKeyPressed(event ->{

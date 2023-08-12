@@ -1,10 +1,10 @@
 # OOP22-Puzbob
 
-Il seguente applicativo è ispirato al famoso gioco arcade a livelli "Puzzle Bobble".
+The following application is inspired by the famous level arcade game "Puzzle Bobble."
 
 ## Descrizione
 
-Il gioco consiste nel liberare, tramite un cannone al cui interno è posizionata una pallina dal colore casuale, un tabellone che presenta un pattern delle suddette sfere. Dopo un determinato numero di colpi la difficoltà del giocatore nel liberare l’intero tabellone verrà incrementata attraverso un muro che inizierà a scendere e ad avvicinarsi al cannone. Per superare il livello bisognerà liberare questo tabellone dalle palline colorate prima che le sfere superino un punto limite e quindi venga dichiarato il game over.
+The game consists of clearing, by means of a cannon inside which a randomly colored ball is placed, a board that has a pattern of the said balls. After a given number of shots, the player's difficulty in clearing the entire board will be increased through a wall that will begin to descend and approach the cannon. To pass the level, it will be necessary to clear this board of colored balls before the balls pass a limit point and thus game over is declared.
 
 ## Licenza
 

@@ -51,11 +51,15 @@ public class BoardImpl implements Board{
         }
         this.ball4Remove.clear();
 
+        for(int k = 0; k < COLUMN_MATRIX; k++){
+            checkFreeBall(0 , k);
+        } 
+
         for(int i = ROW_MATRIX - 1; i > 0; i--){
             for(int k = 0; k < COLUMN_MATRIX; k++){
                 if(this.matrix[i][k] != null){
-                    if(checkContain(new Pair<Integer,Integer>(i, k), this.ballChecked) == false){
-                        checkFreeBall(i , k);
+                    if(!checkContain(new Pair<Integer,Integer>(i, k), this.ballChecked)){
+                        this.ballFree4Remove.put(new Pair<Integer,Integer>(i, k), this.matrix[i][k] );
                     }
                 }
             }
@@ -64,7 +68,7 @@ public class BoardImpl implements Board{
         remove(this.ballFree4Remove);
         this.ballFree4Remove.clear();
         this.ballChecked.clear();
-        
+
         return this.score;       
     }
 
@@ -142,25 +146,15 @@ public class BoardImpl implements Board{
         }
     }
 
-    /* This method looks for the balls that are not connected to the others */
+    /* This method looks for the Neighbour balls until they ends */
     private boolean checkFreeBall(int row, int column){
-        Pair<Integer, Integer> position = new Pair<>(row, column);
-        Map<Pair<Integer,Integer>,Ball> neighbour = new HashMap<>();
-
-        if(checkContain(position, this.ballChecked)){
-            return false;
-        }else{
-            this.ballChecked.put(position, this.matrix[position.getX()][position.getY()]);
-            neighbour = searchNeighbour(row, column);
-            for(Pair<Integer,Integer> currentPosition: neighbour.keySet()){
-                if(currentPosition.getX() == 0){
-                    return false;
-                }else{
-                    return checkFreeBall(currentPosition.getX(), currentPosition.getY());
-                }
+        Map<Pair<Integer,Integer>,Ball> neighbour = searchNeighbour(row, column);
+        for(Pair<Integer,Integer> currentPosition: neighbour.keySet()){
+            if (!checkContain(currentPosition, ballChecked)) {
+                this.ballChecked.put(currentPosition, this.matrix[currentPosition.getX()][currentPosition.getY()]);
+                this.checkFreeBall(currentPosition.getX(), currentPosition.getY());
             }
         }
-        this.ballFree4Remove.put(position, this.matrix[position.getX()][position.getY()]);
         return true;
     }
 

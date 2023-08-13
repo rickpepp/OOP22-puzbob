@@ -36,7 +36,6 @@ public class GameState {
 
     /** Method that istantiates the GameLoop class and updates the level */
     public void startNewLevel(){
-        this.score.incScore(this.model.getScore());
         this.gameStatus = this.gameloop.mainLoop();
 
         if(gameStatus == GameStatus.WIN || this.nLevel > MAX_LEVEL){

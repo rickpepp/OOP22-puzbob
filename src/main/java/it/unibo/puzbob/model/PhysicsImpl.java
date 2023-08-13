@@ -121,7 +121,7 @@ public class PhysicsImpl implements Physics {
 
         // Calc the relative row index
         int rowIndex;
-        if (ballPosition.getY() > this.boardDimension.getY() - wallHeight) {
+        if (ballPosition.getY() > this.boardDimension.getY() - wallHeight || ballPosition.getY() < 0) {
             rowIndex = 0;
         } else {
             rowIndex = (int) Math.floor(((this.boardDimension.getY() - wallHeight - ballPosition.getY() - 
@@ -143,7 +143,7 @@ public class PhysicsImpl implements Physics {
         Pair<Integer, Integer> possibleIndexes = new Pair<Integer,Integer>(columnIndex, rowIndex);
 
         // If it touch the upper wall and is empty add it. It need to touch the wall
-        if (rowIndex == 0 && matrixBall[rowIndex][columnIndex] == null && ballPosition.getY() >= (this.boardDimension.getY() - (this.ballDimension / 2))) {
+        if (rowIndex == 0 && matrixBall[rowIndex][columnIndex] == null && ballPosition.getY() >= (this.boardDimension.getY() - (this.ballDimension / 2) - wallHeight)) {
             return possibleIndexes;
         }
 

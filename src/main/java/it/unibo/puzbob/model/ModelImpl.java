@@ -75,6 +75,7 @@ public class ModelImpl implements Model{
         Pair<Integer, Integer> positionFlyingBall =  null;
         Pair<Double, Double> coordinatesFlyingBall;
         long timeStart;
+        double maxPossibleHeight = this.board.getBoardSize().getY() - this.wall.getPosition() - this.sizeBall / 2;
 
         this.lock.lock();
         try{
@@ -93,8 +94,14 @@ public class ModelImpl implements Model{
             this.lock.lock();
             try{
                 coordinatesFlyingBall = this.physics.getBallPosition(this.flyingBall, this.cannon.getAngle(), (this.time - timeStart));
-                this.flyingBall.setPosition(coordinatesFlyingBall);
-                positionFlyingBall = this.physics.isAttached(this.wall.getPosition(), board.getStatusBoard(), this.flyingBall);
+                if(coordinatesFlyingBall.getY() < maxPossibleHeight){
+                    this.flyingBall.setPosition(coordinatesFlyingBall);
+                    positionFlyingBall = this.physics.isAttached(this.wall.getPosition(), board.getStatusBoard(), this.flyingBall);
+                }else{
+                    coordinatesFlyingBall = new Pair<Double, Double>(this.physics.getBallPosition(this.flyingBall, this.cannon.getAngle(), (this.time - timeStart)).getX(), maxPossibleHeight);
+                    this.flyingBall.setPosition(coordinatesFlyingBall);
+                    positionFlyingBall = this.physics.isAttached(this.wall.getPosition(), board.getStatusBoard(), this.flyingBall);
+                }
             }finally{
                 this.lock.unlock();
             }

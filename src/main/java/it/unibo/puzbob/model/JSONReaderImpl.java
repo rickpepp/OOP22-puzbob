@@ -3,6 +3,7 @@ package it.unibo.puzbob.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -46,13 +47,23 @@ public class JSONReaderImpl implements JSONReader {
     }
 
     @Override
-    public void writeJSONFromObject(String path, JSONObject jsonObject) {
-        try (FileWriter fileWriter = new FileWriter(path)) {
+    public void writeJSONFromObject(String dirPath, String filePath, JSONObject jsonObject) {
+        File dir= new File(dirPath);
+        File jsonFile = new File(filePath);
+
+        if (!dir.exists()) {
+            try {
+                dir.mkdir(); 
+            } catch (Exception ioe) {
+                System.err.println("Impossibile creare la cartella: " + ioe.getMessage());
+            }
+        } 
+
+        try (FileWriter fileWriter = new FileWriter(jsonFile)) {
             // Scrivere l'oggetto JSON nel file
             fileWriter.write(jsonObject.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException e) {}
+
     }
 
     public JSONObject readJSONSaveState(String path) {
@@ -69,6 +80,14 @@ public class JSONReaderImpl implements JSONReader {
             }
         } catch (IOException | JSONException e) {
             return null;
+        }
+    }
+
+    public void deleteSaveState(String path) {
+        File file = new File(path);
+
+        if (file.exists()) {
+            file.delete();
         }
     }
     

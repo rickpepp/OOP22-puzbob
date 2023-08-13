@@ -1,7 +1,5 @@
 package it.unibo.puzbob.controller;
 
-import java.io.File;
-
 import org.json.JSONObject;
 
 import it.unibo.puzbob.model.JSONParser;
@@ -31,26 +29,12 @@ public class SaveStateImpl implements SaveState {
     @Override
     public void saveState(int score, int level) {
         JSONObject jsonObject = parser.saveState(score, level);
-
-        File directory = new File(DIR_PATH);
-
-        if (!directory.exists()) {
-                try {
-                    directory.mkdir(); // Crea la cartella
-                } catch (Exception ioe) {
-                    System.err.println("Impossibile creare la cartella: " + ioe.getMessage());
-                }
-            } 
-        reader.writeJSONFromObject(DIR_SAVE, jsonObject);
+        reader.writeJSONFromObject(DIR_PATH, DIR_SAVE, jsonObject);
         
     }
 
     public void deleteState() {
-        File file = new File(DIR_SAVE);
-
-        if (file.exists()) {
-            file.delete();
-        }
+        this.reader.deleteSaveState(DIR_SAVE);
     }
 
     @Override

@@ -42,6 +42,7 @@ public class View extends Application {
     private final String ICON64 = "view" + FILE_SEPARATOR + "icon64.png";
 
     private static Output output;
+    private SaveState saveState;
 
     /**
      * Start of the JavaFX application
@@ -88,9 +89,9 @@ public class View extends Application {
         // The window is not resizable
         primaryStage.setResizable(false);
 
-        SaveState saveState = new SaveStateImpl();
+        this.saveState = new SaveStateImpl();
 
-        if (saveState.thereIsState()) {
+        if (this.saveState.thereIsState()) {
             fxmlControllerStart.getLoadButton().setDisable(false);
         }
 
@@ -105,7 +106,7 @@ public class View extends Application {
     }
 
     private void game(Stage primaryStage, Scene scene, int level, int score) {
-        GameState gs = new GameState(getController(), score, level);
+        GameState gs = new GameState(getController(), this.saveState, score, level);
             Thread thread = new Thread(() -> {
                 gs.startNewLevel();
             });

@@ -19,23 +19,25 @@ public class GameState {
     private Output output;
     private GameStatus gameStatus;
     private Score score;
+    private SaveState st;
 
     private int nLevel;
 
-    public GameState(Output output, int score, int level){
+    public GameState(Output output, SaveState st, int score, int level){
         this.nLevel = level;
         this.output = output;
         this.score = new ScoreImpl(score);
         this.model = new ModelImpl(this.output.getBoardDimension().getY(), this.output.getBoardDimension().getX(), this.output.getSizeBall(), nLevel, this.score);
         this.gameloop = new GameLoop(PERIOD, this.model, this.output);
+        this.st = st;
     }
 
     /** 
      * This is the constructor that initializes the level number, score, model and gameloop
      * @param output is the object of type Output and is used to configure the size the other objects
      */
-    public GameState(Output output){
-        this(output, 0, 1);
+    public GameState(Output output, SaveState st){
+        this(output, st, 0, 1);
     }
 
     /** Method that istantiates the GameLoop class and updates the level */
@@ -44,6 +46,7 @@ public class GameState {
         this.gameStatus = this.gameloop.mainLoop();
 
         if(gameStatus == GameStatus.WIN || this.nLevel > MAX_LEVEL){
+            st.saveState(this.score.getScore() + this.model.getScore(), this.nLevel);
             this.nLevel++;
             this.model = new ModelImpl(this.output.getBoardDimension().getY(), this.output.getBoardDimension().getX(), this.output.getSizeBall(), this.nLevel, this.score);
             this.gameloop = new GameLoop(PERIOD, this.model, this.output);

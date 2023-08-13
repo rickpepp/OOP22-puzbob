@@ -9,8 +9,7 @@ public class SaveStateImpl implements SaveState {
 
     @Override
     public void saveState(int score, int level) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveState'");
+        System.out.println("Score: " + score + " Level: " + level);
     }
 
     @Override

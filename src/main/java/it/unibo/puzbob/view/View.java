@@ -3,6 +3,8 @@ package it.unibo.puzbob.view;
 import java.awt.Dimension;
 
 import it.unibo.puzbob.controller.GameState;
+import it.unibo.puzbob.controller.SaveState;
+import it.unibo.puzbob.controller.SaveStateImpl;
 import it.unibo.puzbob.controller.commands.MoveLeft;
 import it.unibo.puzbob.controller.commands.MoveRight;
 import it.unibo.puzbob.controller.commands.Shot;
@@ -86,9 +88,24 @@ public class View extends Application {
         // The window is not resizable
         primaryStage.setResizable(false);
 
-        GameState gs = new GameState(getController());
+        SaveState saveState = new SaveStateImpl();
+
+        if (saveState.thereIsState()) {
+            fxmlControllerStart.getLoadButton().setDisable(false);
+        }
 
         fxmlControllerStart.getNewButton().setOnAction(event -> {
+            game(primaryStage, scene, 1 , 0);
+        });
+
+        fxmlControllerStart.getLoadButton().setOnAction(event -> {
+            game(primaryStage, scene, saveState.getLevel() , saveState.getScore());
+        });
+ 
+    }
+
+    private void game(Stage primaryStage, Scene scene, int level, int score) {
+        GameState gs = new GameState(getController(), score, level);
             Thread thread = new Thread(() -> {
                 gs.startNewLevel();
             });
@@ -96,11 +113,8 @@ public class View extends Application {
             thread.start();
             primaryStage.setScene(scene);
             primaryStage.show();
-        });
 
-        
-        
-        scene.setOnKeyPressed(event ->{
+            scene.setOnKeyPressed(event ->{
             KeyCode key = event.getCode();
             switch(key){
                 case LEFT: 
@@ -116,8 +130,6 @@ public class View extends Application {
                     break;
             }
         });
-
-        
     }
 
     /**

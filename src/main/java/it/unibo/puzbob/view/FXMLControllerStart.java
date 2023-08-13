@@ -67,4 +67,9 @@ public class FXMLControllerStart {
         return newGameButton;
     }
 
+    @FXML
+    public Button getLoadButton() {
+        return loadGameButton;
+    }
+
 }

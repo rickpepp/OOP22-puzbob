@@ -36,4 +36,10 @@ public interface JSONParser {
      */
     Map<String, String> parserColorsView(JSONObject jsonObject);
 
+    int parserScore(JSONObject jsonObject);
+
+    int parserLevel(JSONObject jsonObject);
+
+    JSONObject saveState(int score, int level);
+
 }

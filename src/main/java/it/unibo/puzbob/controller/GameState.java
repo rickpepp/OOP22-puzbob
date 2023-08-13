@@ -42,11 +42,10 @@ public class GameState {
 
     /** Method that istantiates the GameLoop class and updates the level */
     public void startNewLevel(){
-        this.score.incScore(this.model.getScore());
         this.gameStatus = this.gameloop.mainLoop();
 
         if(gameStatus == GameStatus.WIN || this.nLevel > MAX_LEVEL){
-            st.saveState(this.score.getScore() + this.model.getScore(), this.nLevel);
+            st.saveState(this.score.getScore(), this.nLevel + 1);
             this.nLevel++;
             this.model = new ModelImpl(this.output.getBoardDimension().getY(), this.output.getBoardDimension().getX(), this.output.getSizeBall(), this.nLevel, this.score);
             this.gameloop = new GameLoop(PERIOD, this.model, this.output);

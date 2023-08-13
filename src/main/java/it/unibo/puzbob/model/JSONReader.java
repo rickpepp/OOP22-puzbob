@@ -16,4 +16,8 @@ public interface JSONReader {
      */
     public JSONObject readJSONFromFile(String path);
 
+    public void writeJSONFromObject(String path, JSONObject jsonObject);
+
+    public JSONObject readJSONSaveState(String path);
+
 }

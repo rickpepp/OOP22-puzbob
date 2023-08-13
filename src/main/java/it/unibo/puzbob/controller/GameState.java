@@ -51,6 +51,9 @@ public class GameState {
             this.gameloop = new GameLoop(PERIOD, this.model, this.output);
             startNewLevel();
         }else{
+            if (gameStatus == GameStatus.LOST) {
+                st.deleteState();
+            }
             System.exit(0);
         }
     }

@@ -68,7 +68,6 @@ public class JSONReaderImpl implements JSONReader {
                 }
             }
         } catch (IOException | JSONException e) {
-            e.printStackTrace();
             return null;
         }
     }

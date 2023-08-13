@@ -10,4 +10,6 @@ public interface SaveState {
 
     public int getLevel();
 
+    public void deleteState();
+
 }

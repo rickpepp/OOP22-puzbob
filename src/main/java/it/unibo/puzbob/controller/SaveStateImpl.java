@@ -1,11 +1,6 @@
 package it.unibo.puzbob.controller;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.json.JSONObject;
 
@@ -42,13 +37,20 @@ public class SaveStateImpl implements SaveState {
         if (!directory.exists()) {
                 try {
                     directory.mkdir(); // Crea la cartella
-                    System.out.println("Cartella creata con successo.");
                 } catch (Exception ioe) {
                     System.err.println("Impossibile creare la cartella: " + ioe.getMessage());
                 }
             } 
         reader.writeJSONFromObject(DIR_SAVE, jsonObject);
         
+    }
+
+    public void deleteState() {
+        File file = new File(DIR_SAVE);
+
+        if (file.exists()) {
+            file.delete();
+        }
     }
 
     @Override

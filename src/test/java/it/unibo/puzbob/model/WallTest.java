@@ -4,9 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * This test analyse if the output is the expected one. This test is done white BallImpl and FlyingBallImpl.
- */
+/* This test analyse if the output is the expected one. This test is done white BallImpl and FlyingBallImpl. */
 
 public class WallTest {
 

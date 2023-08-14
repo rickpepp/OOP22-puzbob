@@ -18,7 +18,6 @@ public class ModelImpl implements Model{
     private final double sizeBall;
 
     private Map<String, Integer> COLOR_MAP;
-    private JSONReader reader;
     private BallFactory ballFactory;
     private Level level;
     private Map<String, List<Pair<Integer, Integer>>> levelMap;
@@ -42,14 +41,13 @@ public class ModelImpl implements Model{
      */
     public ModelImpl(double heightBoard, double widthBoard, double sizeBall, int nLevel, Score score){
         Pair<Double,Double> cannonPosition = new Pair<Double,Double>(widthBoard / 2, 0.0);
-        this.reader = new JSONReaderImpl();
-        JSONObject json = reader.readJSONFromFile(COLOR_FILE);
+        JSONObject json = JSONReaderImpl.getIstance().readJSONFromFile(COLOR_FILE);
         this.COLOR_MAP = JSONParserImpl.getIstance().parserColors(json);
         this.sizeBall = sizeBall;
         this.ballFactory = new BallFactoryImpl(COLOR_MAP, sizeBall);
         this.level = new LevelImpl(ballFactory, DIMENSION);
         this.startBallString = "levels" + FILE_SEPARATOR + "level" + nLevel + ".json";
-        json = reader.readJSONFromFile(this.startBallString);
+        json = JSONReaderImpl.getIstance().readJSONFromFile(this.startBallString);
         this.levelMap = JSONParserImpl.getIstance().parserStarterBalls(json);
         this.board = new BoardImpl(heightBoard, widthBoard, level.getStartBalls(this.levelMap));
         this.score = score;

@@ -35,6 +35,7 @@ public class GameState {
     /** 
      * This is the constructor that initializes the level number, score, model and gameloop
      * @param output is the object of type Output and is used to configure the size the other objects
+     * @param st is the object of type SaveState and is used to configure the saving the level
      */
     public GameState(Output output, SaveState st){
         this(output, st, 0, 1);

@@ -16,10 +16,22 @@ import java.util.Scanner;
 
 public class JSONReaderImpl implements JSONReader {
 
+    private static JSONReaderImpl reader;
+
     /**
      * This is a default constructor
      */
     public JSONReaderImpl() {}
+
+    /** This method creates a single istance of this class
+     * @return is the istance of JSONReaderImpl
+      */
+    public static synchronized JSONReaderImpl getIstance(){
+        if(reader == null){
+            reader = new JSONReaderImpl();
+        }
+        return reader;
+    }
 
     /**
      * This method return a JSONObject from a file on the file system with the URL specified in the args

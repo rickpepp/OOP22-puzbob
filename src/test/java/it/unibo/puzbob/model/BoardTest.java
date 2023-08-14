@@ -23,14 +23,11 @@ public class BoardTest {
     private final int ROW_MATRIX = 10;
     private final int COLUMN_MATRIX = 10;
 
-    /* Variable to read and decode json file */
-    private JSONReader reader = new JSONReaderImpl();
-
     /* Variable for create a ballFactory */
-    private Map<String,Integer> colorMap = JSONParserImpl.getIstance().parserColors(reader.readJSONFromFile(COLOR_FILE));
+    private Map<String,Integer> colorMap = JSONParserImpl.getIstance().parserColors(JSONReaderImpl.getIstance().readJSONFromFile(COLOR_FILE));
     
     /* Variables for create a level */
-    private Map<String, List<Pair<Integer, Integer>>> levelMap = JSONParserImpl.getIstance().parserStarterBalls(reader.readJSONFromFile(LEVEL_FILE));
+    private Map<String, List<Pair<Integer, Integer>>> levelMap = JSONParserImpl.getIstance().parserStarterBalls(JSONReaderImpl.getIstance().readJSONFromFile(LEVEL_FILE));
     private BallFactory ballFactory = new BallFactoryImpl(colorMap, SIZE_BALL);
 
     /* Variable for create a matrixBall */
@@ -123,7 +120,7 @@ public class BoardTest {
     void removeBallTest1(){
         String REMOVE_FILE = "board" + FILE_SEPARATOR + "removeTest.json";
         Level level4TestR1 = new LevelImpl(ballFactory, DIMENSION);
-        JSONObject json = reader.readJSONFromFile(REMOVE_FILE);
+        JSONObject json = JSONReaderImpl.getIstance().readJSONFromFile(REMOVE_FILE);
         Map<String, List<Pair<Integer, Integer>>> removeTestMap = JSONParserImpl.getIstance().parserStarterBalls(json);
         int row = 4;
         int column = 5;
@@ -145,7 +142,7 @@ public class BoardTest {
     void removeBallTest2(){
         String REMOVE2_FILE = "board" + FILE_SEPARATOR + "removeTest2.json";
         Level level4TestR2 = new LevelImpl(ballFactory, DIMENSION);
-        Map<String, List<Pair<Integer, Integer>>> removeTestMap2 = JSONParserImpl.getIstance().parserStarterBalls(reader.readJSONFromFile(REMOVE2_FILE));
+        Map<String, List<Pair<Integer, Integer>>> removeTestMap2 = JSONParserImpl.getIstance().parserStarterBalls(JSONReaderImpl.getIstance().readJSONFromFile(REMOVE2_FILE));
         Ball blueBall = ballFactory.createStaticBall("BLUE");
         matrixBall = level.getStartBalls(levelMap);
         int row = 4;
@@ -167,7 +164,7 @@ public class BoardTest {
     void removeBallTest3(){
         String REMOVE3_FILE = "board" + FILE_SEPARATOR + "removeTest3.json";
         Level level4TestR3 = new LevelImpl(ballFactory, DIMENSION);
-        Map<String, List<Pair<Integer, Integer>>> removeTestMap3 = JSONParserImpl.getIstance().parserStarterBalls(reader.readJSONFromFile(REMOVE3_FILE));
+        Map<String, List<Pair<Integer, Integer>>> removeTestMap3 = JSONParserImpl.getIstance().parserStarterBalls(JSONReaderImpl.getIstance().readJSONFromFile(REMOVE3_FILE));
         Ball bluBall = ballFactory.createStaticBall("BLUE");
         Ball yellowBall = ballFactory.createStaticBall("YELLOW");
         Ball yelBall = ballFactory.createStaticBall("YELLOW");
@@ -190,7 +187,7 @@ public class BoardTest {
     void removeBallTest4(){
         String REMOVE4_FILE = "board" + FILE_SEPARATOR + "removeTest4.json";
         Level level4TestR4 = new LevelImpl(ballFactory, DIMENSION);
-        Map<String, List<Pair<Integer, Integer>>> removeTestMap4 = JSONParserImpl.getIstance().parserStarterBalls(reader.readJSONFromFile(REMOVE4_FILE));
+        Map<String, List<Pair<Integer, Integer>>> removeTestMap4 = JSONParserImpl.getIstance().parserStarterBalls(JSONReaderImpl.getIstance().readJSONFromFile(REMOVE4_FILE));
         Ball blueBall = ballFactory.createStaticBall("BLUE");
 
         matrixBall = level.getStartBalls(levelMap);
@@ -209,7 +206,7 @@ public class BoardTest {
     void removeBallAdTest5(){
         String REMOVE5_FILE = "board" + FILE_SEPARATOR + "removeTest5.json";
         Level level4TestR5 = new LevelImpl(ballFactory, DIMENSION);
-        Map<String, List<Pair<Integer, Integer>>> removeTestMap5 = JSONParserImpl.getIstance().parserStarterBalls(reader.readJSONFromFile(REMOVE5_FILE));
+        Map<String, List<Pair<Integer, Integer>>> removeTestMap5 = JSONParserImpl.getIstance().parserStarterBalls(JSONReaderImpl.getIstance().readJSONFromFile(REMOVE5_FILE));
         Ball blueBall = ballFactory.createStaticBall("BLUE");
         Ball yellowBall = ballFactory.createStaticBall("YELLOW");
 

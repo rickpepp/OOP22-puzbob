@@ -7,10 +7,6 @@ import org.junit.jupiter.api.Test;
 
 public class LevelTest {
 
-    JSONReader reader = new JSONReaderImpl();
-
-    JSONParser parser = new JSONParserImpl();
-
     // File separator and the path with colors.json and level1.json
     public static final String FILE_SEPARATOR = System.getProperty("file.separator");
     public static final String COLORS_PATH = "levels" + FILE_SEPARATOR + "colors.json";
@@ -18,7 +14,7 @@ public class LevelTest {
     public static final String LEVELTEST_PATH = "levels" + FILE_SEPARATOR + "levelTest.json";
 
     BallFactory ballFactory = new BallFactoryImpl(
-        this.parser.parserColors(this.reader.readJSONFromFile(COLORS_PATH)), 15);
+        JSONParserImpl.getIstance().parserColors(JSONReaderImpl.getIstance().readJSONFromFile(COLORS_PATH)), 15);
 
     @Test 
     void levelBasicTest() {
@@ -33,7 +29,7 @@ public class LevelTest {
 
         Level testLevel = new LevelImpl(this.ballFactory, new Pair<Integer,Integer>(10, 10));
 
-        Ball[][] realBalls = testLevel.getStartBalls(this.parser.parserStarterBalls(this.reader.readJSONFromFile(LEVELTEST_PATH)));
+        Ball[][] realBalls = testLevel.getStartBalls(JSONParserImpl.getIstance().parserStarterBalls(JSONReaderImpl.getIstance().readJSONFromFile(LEVELTEST_PATH)));
 
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -87,7 +83,7 @@ public class LevelTest {
 
         Level testLevel = new LevelImpl(this.ballFactory, new Pair<Integer,Integer>(10, 10));
 
-        Ball[][] realBalls = testLevel.getStartBalls(this.parser.parserStarterBalls(this.reader.readJSONFromFile(LEVEL1_PATH)));
+        Ball[][] realBalls = testLevel.getStartBalls(JSONParserImpl.getIstance().parserStarterBalls(JSONReaderImpl.getIstance().readJSONFromFile(LEVEL1_PATH)));
 
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {

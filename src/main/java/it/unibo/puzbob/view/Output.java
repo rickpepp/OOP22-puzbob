@@ -28,5 +28,9 @@ public interface Output {
      */
     double getSizeBall();
 
+    /**
+     * This is a method that show the result in the view
+     * @param gameResult the GameStatus result
+     */
     void showResult(GameStatus gameResult);
 }

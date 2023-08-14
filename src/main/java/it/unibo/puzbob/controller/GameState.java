@@ -24,6 +24,13 @@ public class GameState {
 
     private int nLevel;
 
+    /**
+     * This is the constructor of the GameState
+     * @param output this contain the output that will render the game
+     * @param st this is the class that save the state of the game
+     * @param score The starting score of the level
+     * @param level The starting level
+     */
     public GameState(Output output, SaveState st, int score, int level){
         this.nLevel = level;
         this.output = output;

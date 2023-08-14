@@ -34,7 +34,8 @@ public class JSONReaderImpl implements JSONReader {
     }
 
     /**
-     * This method return a JSONObject from a file on the file system with the URL specified in the args
+     * This method return a JSONObject from a file on the file system with the URL specified 
+     * in the args
      */
     public JSONObject readJSONFromFile(String path) {
 
@@ -58,19 +59,22 @@ public class JSONReaderImpl implements JSONReader {
         
     }
 
-    @Override
+    // Write a JSONObject on the file system
     public void writeJSONFromObject(String dirPath, String filePath, JSONObject jsonObject) {
         File dir= new File(dirPath);
         File jsonFile = new File(filePath);
 
+        // If the directory doesn't exist
         if (!dir.exists()) {
             try {
+                // Create the directory
                 dir.mkdir(); 
             } catch (Exception ioe) {
                 System.err.println("Impossibile creare la cartella: " + ioe.getMessage());
             }
         } 
 
+        // Write the JSONObject
         try (FileWriter fileWriter = new FileWriter(jsonFile)) {
             // Scrivere l'oggetto JSON nel file
             fileWriter.write(jsonObject.toString());
@@ -78,6 +82,7 @@ public class JSONReaderImpl implements JSONReader {
 
     }
 
+    // Read a save and return a JSONObject
     public JSONObject readJSONSaveState(String path) {
         try {
             FileInputStream fileInputStream = new FileInputStream(path);
@@ -85,8 +90,12 @@ public class JSONReaderImpl implements JSONReader {
             try (Scanner scanner = new Scanner(fileInputStream).useDelimiter("\\A")) {
                 if (scanner.hasNext()) {
                     String jsonContent = scanner.next();
+
+                    // If there is a save retun it
                     return new JSONObject(jsonContent);
                 } else {
+
+                    // Else return null
                     return null;
                 }
             }
@@ -95,6 +104,7 @@ public class JSONReaderImpl implements JSONReader {
         }
     }
 
+    // Delete the save file
     public void deleteSaveState(String path) {
         File file = new File(path);
 

@@ -199,6 +199,11 @@ public class FXMLController {
         this.valueScore.setText("" + score);
     }    
 
+    /**
+     * This is a method that shows a message during the game
+     * @param message a String that contain the message
+     * @param dimensionRectangle a Pair for the dimension of the rectangle that contain the message
+     */
     public void showMessage(String message, Pair<Double, Double> dimensionRectangle) {
         Rectangle rectangleBase = new Rectangle((pane.getWidth() - dimensionRectangle.getX()) / 2, 
             (pane.getHeight() - dimensionRectangle.getY()) / 2, 

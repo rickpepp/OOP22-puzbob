@@ -36,10 +36,26 @@ public interface JSONParser {
      */
     Map<String, String> parserColorsView(JSONObject jsonObject);
 
+    /**
+     * This return the score from a JSONObject
+     * @param jsonObject the jsonobject to read
+     * @return the score
+     */
     int parserScore(JSONObject jsonObject);
 
+    /**
+     * This return the number of the level from a JSONObject
+     * @param jsonObject the jsonobject to read
+     * @return the level readed
+     */
     int parserLevel(JSONObject jsonObject);
 
+    /**
+     * This encode a JSONObject from the score and the level
+     * @param score score to encode
+     * @param level level to encode
+     * @return a JSONObject
+     */
     JSONObject saveState(int score, int level);
 
 }

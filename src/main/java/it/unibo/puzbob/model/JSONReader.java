@@ -16,10 +16,25 @@ public interface JSONReader {
      */
     public JSONObject readJSONFromFile(String path);
 
+    /**
+     * This method save a JSONObject on the file system
+     * @param dirPath the ULR of the parent path
+     * @param path the URL of the JSONObject
+     * @param jsonObject the JSONObject
+     */
     public void writeJSONFromObject(String dirPath, String path, JSONObject jsonObject);
 
+    /**
+     * Read from the file system the save
+     * @param path the URL of the save
+     * @return a JSONObject
+     */
     public JSONObject readJSONSaveState(String path);
 
+    /**
+     * Delete the save from the file system 
+     * @param path where is the save in the file system
+     */
     public void deleteSaveState(String path);
 
 }

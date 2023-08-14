@@ -4,6 +4,7 @@ import java.awt.Dimension;
 
 import it.unibo.puzbob.model.Pair;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -21,6 +22,9 @@ public class FXMLController {
 
     private static final double DIFFUSE_VALUE = 1.3;
     private static final double OFFSET_SCORE_FROM_LABEL = 20;
+    private static final double FONT_SIZE_MESSAGE = 25;
+    private static final String WALL_ID = "wall";
+    private static final String ID_SELECTOR = "#";
 
     private double screenWidth;
     private double screenHeight;
@@ -132,7 +136,7 @@ public class FXMLController {
      */
     @FXML
     public void drawBall(Pair<Double,Double> coordinates, String color, double measureBall, String id) {
-        Node ball = pane.lookup("#" + id);
+        Node ball = pane.lookup(ID_SELECTOR + id);
 
         if (ball instanceof Circle) {
             ball.setLayoutX(coordinates.getX());
@@ -156,7 +160,7 @@ public class FXMLController {
      */
     @FXML
     public void removeBall(String id) {
-        Node ball = pane.lookup("#" + id);
+        Node ball = pane.lookup(ID_SELECTOR + id);
         if (ball instanceof Circle) {
             pane.getChildren().removeAll(ball);
         }
@@ -177,14 +181,14 @@ public class FXMLController {
     */
     public void createWall(double heightWall, String color, Pair<Double, Double> startingCoordinates){
         Rectangle wall = new Rectangle(startingCoordinates.getX(), startingCoordinates.getY(),inRect.getWidth(), heightWall);
-        wall.setId("wall");
+        wall.setId(WALL_ID);
         wall.setFill(Color.web(color));
         pane.getChildren().add(wall);
     }
 
     /** Destroy Wall */
     public void removeWall(){
-        Node wall = pane.lookup("#wall");
+        Node wall = pane.lookup(ID_SELECTOR + WALL_ID);
         pane.getChildren().removeAll(wall);
     }
 
@@ -194,5 +198,31 @@ public class FXMLController {
     public void changeScore(int score){
         this.valueScore.setText("" + score);
     }    
+
+    /**
+     * This is a method that shows a message during the game
+     * @param message a String that contain the message
+     * @param dimensionRectangle a Pair for the dimension of the rectangle that contain the message
+     */
+    public void showMessage(String message, Pair<Double, Double> dimensionRectangle) {
+        Rectangle rectangleBase = new Rectangle((pane.getWidth() - dimensionRectangle.getX()) / 2, 
+            (pane.getHeight() - dimensionRectangle.getY()) / 2, 
+            dimensionRectangle.getX(), dimensionRectangle.getY());
+
+        pane.getChildren().add(rectangleBase);
+
+        rectangleBase.toFront();
+        Text messageText = new Text(message);
+
+        pane.getChildren().add(messageText);
+
+        messageText.toFront();
+
+        messageText.setFill(Color.WHITE);
+        messageText.setFont(new Font(FONT_SIZE_MESSAGE));
+
+        messageText.setLayoutX((pane.getWidth() - messageText.getBoundsInLocal().getWidth()) / 2);
+        messageText.setLayoutY((pane.getHeight() - messageText.getBoundsInLocal().getHeight()) / 2);
+    }
 } 
 

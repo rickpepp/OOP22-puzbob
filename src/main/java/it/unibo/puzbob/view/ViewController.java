@@ -7,6 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import it.unibo.puzbob.model.GameStatus;
 import it.unibo.puzbob.model.JSONParserImpl;
 import it.unibo.puzbob.model.JSONReaderImpl;
 import it.unibo.puzbob.model.Pair;
@@ -31,8 +32,16 @@ public class ViewController implements Output {
     private final double DISTANCE_CANNON_PROPORTION = 0.1;
     private final double LENGTH_CANNON_PROPORTION = 0.17;
 
+    private final double WIDTH_MESSAGE_BOX_PROPORTION = 1.0;
+    private final double HEIGHT_MESSAGE_BOX_PROPORTION = 0.5;
+
     private final String ID_SEPARATOR = "-";
     private final String ID_FLYING_BALL = "flyingBall";
+
+    private final String WIN_MESSAGE = "You Win!!!";
+    private final String LOST_MESSAGE = "You Lost :(";
+
+    private final String COLOR_WALL = "#555555";
 
     private final String COLORS_VIEW_PATH = "view" + View.FILE_SEPARATOR + "colorsView.json";
 
@@ -245,7 +254,7 @@ public class ViewController implements Output {
     private void modifyWall(){
         if(this.wallHeight != 0){
             this.fxmlcontroller.removeWall();
-            this.fxmlcontroller.createWall(this.wallHeight, "#555555", positionWall);
+            this.fxmlcontroller.createWall(this.wallHeight, COLOR_WALL, positionWall);
         } else {
             this.fxmlcontroller.removeWall();
         }
@@ -259,5 +268,25 @@ public class ViewController implements Output {
     /** Method that return the size of the Ball */
     public double getSizeBall(){
         return this.ballRadius * 2;
+    }
+
+    @Override
+    public void showResult(GameStatus gameResult) {
+        String message;
+
+        switch(gameResult) {
+            case WIN:
+                message = WIN_MESSAGE;
+                break;
+            case LOST:
+                message = LOST_MESSAGE;
+                break;
+            default:
+                message = "";
+        }
+
+        this.fxmlcontroller.showMessage(message, 
+            new Pair<Double,Double>(this.widthStage * WIDTH_MESSAGE_BOX_PROPORTION, 
+                this.heightStage * HEIGHT_MESSAGE_BOX_PROPORTION));
     }
 }

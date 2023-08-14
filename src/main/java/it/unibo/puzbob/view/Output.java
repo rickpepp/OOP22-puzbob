@@ -2,6 +2,7 @@ package it.unibo.puzbob.view;
 
 import org.json.JSONObject;
 
+import it.unibo.puzbob.model.GameStatus;
 import it.unibo.puzbob.model.Pair;
 
 /**
@@ -26,4 +27,6 @@ public interface Output {
      * @return the diameter of the ball
      */
     double getSizeBall();
+
+    void showResult(GameStatus gameResult);
 }

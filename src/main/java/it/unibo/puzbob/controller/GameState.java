@@ -6,6 +6,7 @@ import it.unibo.puzbob.model.ModelImpl;
 import it.unibo.puzbob.model.Score;
 import it.unibo.puzbob.model.ScoreImpl;
 import it.unibo.puzbob.view.Output;
+import javafx.application.Platform;
 
 /**
  * This class is used as an intermediary between the model and the view and determines which level of the game to start
@@ -42,18 +43,36 @@ public class GameState {
 
     /** Method that istantiates the GameLoop class and updates the level */
     public void startNewLevel(){
+        // Start the main loop and wait for the result
         this.gameStatus = this.gameloop.mainLoop();
 
-        if(gameStatus == GameStatus.WIN || this.nLevel > MAX_LEVEL){
+        // If the user win and the level aren't finished continue
+        if(gameStatus == GameStatus.WIN && this.nLevel < MAX_LEVEL){
+            // Save the actual state
             st.saveState(this.score.getScore(), this.nLevel + 1);
+
+            // Inc the level and istantiate the new and gameloop
             this.nLevel++;
             this.model = new ModelImpl(this.output.getBoardDimension().getY(), this.output.getBoardDimension().getX(), this.output.getSizeBall(), this.nLevel, this.score);
             this.gameloop = new GameLoop(PERIOD, this.model, this.output);
             startNewLevel();
         }else{
-            if (gameStatus == GameStatus.LOST) {
-                st.deleteState();
+            // Delete the file save
+            st.deleteState();
+
+            // Show the result
+            Platform.runLater(() ->
+                this.output.showResult(gameStatus)
+            );
+                
+            // Wait to leave time for the user to read the message 
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+
+            // Exit from the game
             System.exit(0);
         }
     }

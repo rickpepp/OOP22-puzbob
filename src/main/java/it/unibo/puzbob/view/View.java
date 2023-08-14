@@ -34,12 +34,14 @@ public class View extends Application {
      * File separator to improve multi-system programming
      */
     public static final String FILE_SEPARATOR = System.getProperty("file.separator");
-    private final String FXML_FOLDER = "view" + FILE_SEPARATOR + "board.fxml";
+    private final String VIEW_PATH = "view";
+    private final String FXML_FOLDER = VIEW_PATH + FILE_SEPARATOR + "board.fxml";
+    private final String FXML_FILE_START = VIEW_PATH + FILE_SEPARATOR + "StartingMenu.fxml";
     private static final String APP_NAME = "Puzbob";
 
-    private final String ICON16 = "view" + FILE_SEPARATOR + "icon16.png";
-    private final String ICON32 = "view" + FILE_SEPARATOR + "icon32.png";
-    private final String ICON64 = "view" + FILE_SEPARATOR + "icon64.png";
+    private final String ICON16 = VIEW_PATH + FILE_SEPARATOR + "icon16.png";
+    private final String ICON32 = VIEW_PATH + FILE_SEPARATOR + "icon32.png";
+    private final String ICON64 = VIEW_PATH + FILE_SEPARATOR + "icon64.png";
 
     private static Output output;
     private SaveState saveState;
@@ -59,17 +61,17 @@ public class View extends Application {
         // Get screen Dimension
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 
-        FXMLLoader loaderStart = new FXMLLoader(ClassLoader.getSystemResource("view" + FILE_SEPARATOR + "StartingMenu.fxml"));
+        // The Starting Menu
+        FXMLLoader loaderStart = new FXMLLoader(ClassLoader.getSystemResource(FXML_FILE_START));
         AnchorPane rootPaneStart = loaderStart.load();
         final Scene sceneStart = new Scene(rootPaneStart, screenSize.getWidth() / WINDOW_PROPORTION, 
             screenSize.getHeight() / WINDOW_PROPORTION);
 
+        // The Starting Menu controller
         FXMLControllerStart fxmlControllerStart = loaderStart.getController();
 
         fxmlControllerStart.scale();
         fxmlControllerStart.startPosition();
-
-        
 
         // Property of stage
         primaryStage.setTitle(APP_NAME);
@@ -89,12 +91,15 @@ public class View extends Application {
         // The window is not resizable
         primaryStage.setResizable(false);
 
+        // New SaveState
         this.saveState = new SaveStateImpl();
 
+        // Check if there is a saved state
         if (this.saveState.thereIsState()) {
             fxmlControllerStart.getLoadButton().setDisable(false);
         }
 
+        // Set the buttons events
         fxmlControllerStart.getNewButton().setOnAction(event -> {
             game(primaryStage, scene, 1 , 0);
         });
@@ -106,16 +111,26 @@ public class View extends Application {
     }
 
     private void game(Stage primaryStage, Scene scene, int level, int score) {
+        // New GameState
         GameState gs = new GameState(getController(), this.saveState, score, level);
-            Thread thread = new Thread(() -> {
-                gs.startNewLevel();
-            });
-            thread.setDaemon(true);
-            thread.start();
-            primaryStage.setScene(scene);
-            primaryStage.show();
 
-            scene.setOnKeyPressed(event ->{
+        // Put it in a new Thread
+        Thread thread = new Thread(() -> {
+            gs.startNewLevel();
+        });
+
+        // Close it when close the view
+        thread.setDaemon(true);
+
+        // Start the thread
+        thread.start();
+
+        // Set the scene in the stage
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+        // Set the input
+        scene.setOnKeyPressed(event ->{
             KeyCode key = event.getCode();
             switch(key){
                 case LEFT: 

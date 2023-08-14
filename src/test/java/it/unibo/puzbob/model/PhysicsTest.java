@@ -7,7 +7,6 @@ public class PhysicsTest {
 
     // JSON parser and reader to load levels
     JSONReader reader = new JSONReaderImpl();
-    JSONParser parser = new JSONParserImpl();
 
     // File separator and the path with colors.json and level1.json
     public static final String FILE_SEPARATOR = System.getProperty("file.separator");
@@ -22,7 +21,7 @@ public class PhysicsTest {
 
     // Ball factory to create balls
     BallFactory ballFactory = new BallFactoryImpl(
-        this.parser.parserColors(this.reader.readJSONFromFile(COLORS_PATH)), BALL_SIZE);
+        JSONParserImpl.getIstance().parserColors(this.reader.readJSONFromFile(COLORS_PATH)), BALL_SIZE);
 
     // Level will load del selected level
     Level testLevel = new LevelImpl(this.ballFactory, new Pair<Integer,Integer>(MATRIX_DIMENSION, MATRIX_DIMENSION));
@@ -32,7 +31,7 @@ public class PhysicsTest {
         new Pair<Double,Double>(X_STARTING_POSITION,Y_STARTING_POSITION), ballFactory.getBallDimension());
 
     // Load Level 1
-    Ball[][] matrixBalls = testLevel.getStartBalls(this.parser.parserStarterBalls(this.reader.readJSONFromFile(LEVEL1_PATH)));
+    Ball[][] matrixBalls = testLevel.getStartBalls(JSONParserImpl.getIstance().parserStarterBalls(this.reader.readJSONFromFile(LEVEL1_PATH)));
 
     FlyingBallImpl ball = (FlyingBallImpl) ballFactory.createFlyingBall("RED", 
         new Pair<Double,Double>(X_STARTING_POSITION,Y_STARTING_POSITION));

@@ -57,7 +57,6 @@ public class ViewController implements Output {
 
     private Pair<Double, Double> flyingBallOffset;
 
-    private JSONParserImpl parser;
     private JSONReaderImpl reader;
 
     private Map<String, String> colorsCodes;
@@ -87,9 +86,8 @@ public class ViewController implements Output {
         this.newCycleList = new CopyOnWriteArrayList<String>();
 
         this.reader = new JSONReaderImpl();
-        this.parser = new JSONParserImpl();
         JSONObject jsonObject = this.reader.readJSONFromFile(COLORS_VIEW_PATH);
-        this.colorsCodes = this.parser.parserColorsView(jsonObject);
+        this.colorsCodes = JSONParserImpl.getIstance().parserColorsView(jsonObject);
     }
 
     /**

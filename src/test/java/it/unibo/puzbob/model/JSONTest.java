@@ -13,8 +13,6 @@ public class JSONTest {
 
     JSONReader reader = new JSONReaderImpl();
 
-    JSONParser parser = new JSONParserImpl();
-
     // File separator and the path with colors.json and level1.json
     public static final String FILE_SEPARATOR = System.getProperty("file.separator");
     public static final String COLORS_PATH = "levels" + FILE_SEPARATOR + "colors.json";
@@ -47,7 +45,7 @@ public class JSONTest {
         mapExpected.put("ORANGE",10);
         mapExpected.put("GREY",10);
 
-        assertEquals(mapExpected, parser.parserColors(reader.readJSONFromFile(COLORS_PATH)), "Not the map Expected");
+        assertEquals(mapExpected, JSONParserImpl.getIstance().parserColors(reader.readJSONFromFile(COLORS_PATH)), "Not the map Expected");
         
     }
 
@@ -74,9 +72,7 @@ public class JSONTest {
         mapExpected.put("BLUE", listBLUE);
         mapExpected.put("GREEN", listGREEN);
 
-        assertEquals(mapExpected.toString(), 
-            parser.parserStarterBalls(reader.readJSONFromFile(LEVELTEST_PATH)).toString(), 
-            "Map of starting ball non as expected");
+        assertEquals(mapExpected.toString(), JSONParserImpl.getIstance().parserStarterBalls(reader.readJSONFromFile(LEVELTEST_PATH)).toString(), "Map of starting ball non as expected");
     }
     
 }

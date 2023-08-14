@@ -14,7 +14,7 @@ import org.json.JSONObject;
  */
 
 public interface JSONParser {
-    
+
     /**
      * This is a parser of a JSONObject. This is for Key: Name of the color, Value: score of the color
      * @param jsonObject the JSONObject read from the file system

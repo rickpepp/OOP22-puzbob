@@ -14,10 +14,22 @@ import org.json.JSONObject;
 
 public class JSONParserImpl implements JSONParser {
 
+    private static JSONParserImpl parser;
+
     /**
      * This is a default constructor
      */
     public JSONParserImpl() {}
+
+    /** This is a method for create a istance of this class 
+     * @return is the istance of JSONParserImpl
+    */
+    public static JSONParserImpl getIstance(){
+        if(parser == null){
+            parser = new JSONParserImpl();
+        }
+        return parser;
+    }
 
     /**
      * This is a parser of a JSONObject. This is for Key: Name of the color, Value: score of the color

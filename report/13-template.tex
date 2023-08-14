@@ -94,7 +94,30 @@ In \Cref{img:Diagramma_UML_Architettura} è esemplificato il diagramma UML archi
 \label{img:Diagramma_UML_Ball}
 \end{figure}
 
-\subsection{Template}
+\subsection{Barba Beatrice}
+
+\subsubsection{Creazione del Model}
+
+\paragraph{Problema} Durante la fase di sviluppo del dominio di gioco si è notato come esso fosse di elevata complessità, ma che solo poche funzionalità fossero necessarie per l'interazione tra tutta la logica del gioco e l'utente. È sorta la necessità di trovare un modo per separare la complessità del dominio dalle poche funzionalità strettamente necessarie per controllare l'avanzamento del gioco. 
+
+\paragraph{Soluzione} Questo problema è risolvibile tramite il pattern Facade che si occupa proprio di creare una classe  intermedia in cui vengono racchiusi solo i metodi necessari e più semplici, racchiudendo la complessità e la logica nelle classi che istanzia. In questo caso la classe Model racchiude tutti gli oggetti degli elementi del gioco e richiama solo i metodi necessari all'utente lasciando tutta la complessità implementativa alle classi specifiche che implementano gli elementi.
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{img/Diagramma_UML_Architettura_Model}
+\caption{Rappresentazione UML del pattern Facade usato per il Model}
+\label{img:Diagramma_UML_Architettura_Model}
+\end{figure}
+
+\subsubsection{Gestione Input/Output}
+
+\paragraph{Problema} Per la gestione del gioco è necessario leggere e scrivere dal file system. Dato che svariati elementi dell'architettura utilizzeranno questa funzionalità sarà necessario passare a tutti il riferimento di esso. 
+
+\paragraph{Soluzione} Questo problema è risolvibile tramite il pattern Singleton che si occupa di rendere una classe globale in modo da essere raggiungibile da tutte le classi che avranno bisogno di accedere al file senza dover creare tante istanze per lo stesso oggetto. 
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{img/Diagramma_UML_Architettura_Singleton}
+\caption{Rappresentazione UML del pattern Singleton usato per leggere e scrivere su file system}
+\label{img:Diagramma_UML_Architettura_Singleton}
+\end{figure}
 
 In questa sezione si possono approfondire alcuni elementi del design con maggior dettaglio.
 %

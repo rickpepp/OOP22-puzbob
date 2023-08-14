@@ -90,8 +90,34 @@ In \Cref{img:Diagramma_UML_Architettura} è esemplificato il diagramma UML archi
 \begin{figure}[H]
 \centering{}
 \includegraphics[width=\textwidth]{img/Diagramma_UML_Ball}
-\caption{Rappresentazione UML del pattern Strategy per la personalità di GLaDOS}
+\caption{Rappresentazione UML del pattern Factory}
 \label{img:Diagramma_UML_Ball}
+\end{figure}
+
+\subsubsection{Creazione del GameLoop}
+
+\paragraph{Problema} Un videogioco richiede una gestione del flusso di gioco il più possibile fluida e costante. Quindi si rende necessario uno strumento che controlli il flusso e quindi gestisca le vari componenti dell'architettura in modo coordinato, senza esagerare nella richiesta di risorse alla macchina.
+
+\paragraph{Soluzione} Il pattern gameloop è la soluzione che meglio si adatta a questa necessità. Inoltre permette di avere una frequenza di aggiornamento costante ed una gestione degli input efficiente.
+
+\begin{figure}[H]
+\centering{}
+\includegraphics[width=\textwidth]{img/Diagramma_UML_GameLoop}
+\caption{Rappresentazione UML del pattern GameLoop}
+\label{img:Diagramma_UML_GameLoop}
+\end{figure}
+
+\subsubsection{Gestione degli input}
+
+\paragraph{Problema} La gestione degli input deve essere il più possibile modulare e incapsulare al loro interno la logica dietro ogni singolo comando.
+
+\paragraph{Soluzione} Il pattern Command si rivela adatto a questa situazione. Infatti incapsulando dentro una interfaccia Command la logica dietro un input permette di avere una maggiore manutenibilità e facilità di implementazione del codice. L'interfaccia Controller si occuperà di mettere in lista il comando e richiederne l'esecuzione. Questa soluzione si adatta particolarmente bene con il pattern GameLoop.
+
+\begin{figure}[H]
+\centering{}
+\includegraphics[width=\textwidth]{img/Diagramma_UML_Command}
+\caption{Rappresentazione UML del pattern Command}
+\label{img:Diagramma_UML_Command}
 \end{figure}
 
 \subsection{Barba Beatrice}
@@ -277,30 +303,12 @@ Questo schema è fatto male perché:
 \chapter{Sviluppo}
 \section{Testing automatizzato}
 
-Il testing automatizzato è un requisito di qualunque progetto software che si rispetti, e consente di verificare che non vi siano regressioni nelle funzionalità a fronte di aggiornamenti.
-%
-Per quanto riguarda questo progetto è considerato sufficiente un test minimale, a patto che sia completamente automatico.
-%
-Test che richiedono l'intervento da parte dell'utente sono considerati \textit{negativamente} nel computo del punteggio finale.
-
-\subsection*{Elementi positivi}
-
-\begin{itemize}
- \item Si descrivono molto brevemente i componenti che si è deciso di sottoporre a test automatizzato.
- \item Si utilizzano suite specifiche (e.g. JUnit) per il testing automatico.
-\end{itemize}
-
-\subsection*{Elementi negativi}
-\begin{itemize}
- \item Non si realizza alcun test automatico.
- \item La non presenza di testing viene aggravata dall'adduzione di motivazioni non valide. Ad esempio, si scrive che l'interfaccia grafica non è testata automaticamente perché è \emph{impossibile} farlo\footnote{Testare in modo automatico le interfacce grafiche è possibile (si veda, come esempio, \url{https://github.com/TestFX/TestFX}), semplicemente nel corso non c'è modo e tempo di introdurvi questo livello di complessità. Il fatto che non vi sia stato insegnato come farlo non implica che sia impossibile!}.
- \item Si descrive un testing di tipo manuale in maniera prolissa.
- \item Si descrivono test effettuati manualmente che sarebbero potuti essere automatizzati, ad esempio scrivendo che si è usata l'applicazione manualmente.
- \item Si descrivono test non presenti nei sorgenti del progetto.
- \item I test, quando eseguiti, falliscono.
-\end{itemize}
+Per effettuare i test automatizzati si è scelto di utilizzare JUnit e di testare solo le classi del Model.
+Si è testata l'interfaccia Ball in base alla creazione delle palline diverse,FlyingBall e StaticBall, e nei getter che possiede; la classe Wall, Cannon e Score in base ai metodi delle loro interfacce, la classe Physics per verificare il funzionamento dei metodi per calcolare la traiettoria della pallina e dove dovesse essere posizionata nella Board; la classe Board per verificare il funzionamento dei metodi di aggiunta e rimozione delle palline dal tabellone, con molteplici test sulle varie dinamiche per la rimozione, le classi di scrittura e lettura dei file JSON, JSONParser e JSONReader e infine la classe Level in modo da verificare il corretto caricamento e la corretta trasformazione dei file JSON in matrici di palline.
 
 \section{Metodologia di lavoro}
+\subsection{Pepe Riccardo}
+
 
 Ci aspettiamo, leggendo questa sezione, di trovare conferma alla divisione operata nella sezione del design di dettaglio, e di capire come è stato svolto il lavoro di integrazione.
 %
@@ -460,79 +468,11 @@ Al fine di evitare pregiudizi involontari, l'intero capitolo verrà letto dai do
 
 \section{Autovalutazione e lavori futuri}
 
-\textbf{È richiesta una sezione per ciascun membro del gruppo, obbligatoriamente}.
-%
-Ciascuno dovrà autovalutare il proprio lavoro, elencando i punti di forza e di debolezza in quanto prodotto.
-Si dovrà anche cercare di descrivere \emph{in modo quanto più obiettivo possibile} il proprio ruolo all'interno del gruppo.
-Si ricorda, a tal proposito, che ciascuno studente è responsabile solo della propria sezione: non è un problema se ci sono opinioni contrastanti, a patto che rispecchino effettivamente l'opinione di chi le scrive.
-Nel caso in cui si pensasse di portare avanti il progetto, ad esempio perché effettivamente impiegato, o perché sufficientemente ben riuscito da poter esser usato come dimostrazione di esser capaci progettisti, si descriva brevemente verso che direzione portarlo.
+\subsection{Pepe Riccardo}
+
+Questo progetto ha richiesto una quantità di lavoro importante per il suo completamento. Sicuramente la qualità del tempo utilizzato nella realizzazione di questo lavoro non è sempre stata ottimale, l'utilizzo di qualche funzionalità avanzata di Java avrebbe sicuramente ridotto le quantità di ore di lavoro impiegate a favore di una maggiore qualità del prodotto finale. Questo progetto porta con se molti insegnamenti ed esperienza, in quanto le difficoltà apparse lungo il percorso non sono mancate. Tuttavia ritengo soddisfacente il risultato finale guardando il percorso effettuato.
 
 \section{Difficoltà incontrate e commenti per i docenti}
-
-Questa sezione, \textbf{opzionale}, può essere utilizzata per segnalare ai docenti eventuali problemi o difficoltà incontrate nel corso o nello svolgimento del progetto, può essere vista come una seconda possibilità di valutare il corso (dopo quella offerta dalle rilevazioni della didattica) avendo anche conoscenza delle modalità e delle difficoltà collegate all'esame, cosa impossibile da fare usando le valutazioni in aula per ovvie ragioni.
-%
-È possibile che alcuni dei commenti forniti vengano utilizzati per migliorare il corso in futuro: sebbene non andrà a vostro beneficio, potreste fare un favore ai vostri futuri colleghi.
-%
-Ovviamente \textit{il contenuto della sezione non impatterà il voto finale}.
-
-\appendix
-\chapter{Guida utente}
-
-Capitolo in cui si spiega come utilizzare il software. Nel caso in cui il suo uso sia del tutto
-banale, tale capitolo può essere omesso.
-%
-A tal riguardo, si fa presente agli studenti che i docenti non hanno mai utilizzato il software
-prima, per cui aspetti che sembrano del tutto banali a chi ha sviluppato l'applicazione possono non
-esserlo per chi la usa per la prima volta.
-%
-Se, ad esempio, per cominciare una partita con un videogioco è necessario premere la barra
-spaziatrice, o il tasto ``P'', è necessario che gli studenti lo segnalino.
-
-\subsection*{Elementi positivi}
-
-\begin{itemize}
- \item Si istruisce in modo semplice l'utente sull'uso dell'applicazione, eventualmente facendo uso di schermate e descrizioni.
-\end{itemize}
-
-\subsection*{Elementi negativi}
-\begin{itemize}
- \item Si descrivono in modo eccessivamente minuzioso tutte le caratteristiche, anche minori, del software in oggetto.
- \item Manca una descrizione che consenta ad un utente qualunque di utilizzare almeno le funzionalità primarie dell'applicativo.
-\end{itemize}
-
-\chapter{Esercitazioni di laboratorio}
-
-In questo capitolo ciascuno studente elenca gli esercizi di laboratorio che ha svolto
-(se ne ha svolti),
-elencando i permalink dei post sul forum dove è avvenuta la consegna.
-%
-Questa sezione potrebbe essere processata da strumenti automatici,
-per cui link a oggetti diversi dal permalink della consegna,
-errori nell'email o nel nome del laboratorio possono portare ad ignorare alcune consegne,
-si raccomanda la massima precisione.
-
-\section*{Esempio}
-
-\subsection{paolino.paperino@studio.unibo.it}
-
-\begin{itemize}
- \item Laboratorio 04: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=12345#p123456}
- \item Laboratorio 06: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=22222#p222222}
- \item Laboratorio 09: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=99999#p999999}
-\end{itemize}
-
-\subsection{paperon.depaperoni@studio.unibo.it}
-
-\begin{itemize}
- \item Laboratorio 04: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=12345#p123456}
- \item Laboratorio 05: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=22222#p222222}
- \item Laboratorio 06: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=99999#p999999}
- \item Laboratorio 07: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=22222#p222222}
- \item Laboratorio 08: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=99999#p999999}
- \item Laboratorio 09: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=22222#p222222}
- \item Laboratorio 10: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=99999#p999999}
- \item Laboratorio 11: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=22222#p222222}
-\end{itemize}
 
 
 \bibliographystyle{alpha}

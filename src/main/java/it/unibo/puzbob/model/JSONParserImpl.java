@@ -95,5 +95,23 @@ public class JSONParserImpl implements JSONParser {
 
         return mapToReturn;
     }
+
+    @Override
+    public int parserScore(JSONObject jsonObject) {
+        return jsonObject.getInt("score");
+    }
+
+    @Override
+    public int parserLevel(JSONObject jsonObject) {
+        return jsonObject.getInt("level");
+    }
+
+    @Override
+    public JSONObject saveState(int score, int level) {
+        JSONObject jsonObjectToReturn = new JSONObject();
+        jsonObjectToReturn.put("score", score);
+        jsonObjectToReturn.put("level", level);
+        return jsonObjectToReturn;
+    }
     
 }

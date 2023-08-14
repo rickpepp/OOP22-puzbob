@@ -3,6 +3,8 @@ package it.unibo.puzbob.view;
 import java.awt.Dimension;
 
 import it.unibo.puzbob.controller.GameState;
+import it.unibo.puzbob.controller.SaveState;
+import it.unibo.puzbob.controller.SaveStateImpl;
 import it.unibo.puzbob.controller.commands.MoveLeft;
 import it.unibo.puzbob.controller.commands.MoveRight;
 import it.unibo.puzbob.controller.commands.Shot;
@@ -40,6 +42,7 @@ public class View extends Application {
     private final String ICON64 = "view" + FILE_SEPARATOR + "icon64.png";
 
     private static Output output;
+    private SaveState saveState;
 
     /**
      * Start of the JavaFX application
@@ -56,6 +59,23 @@ public class View extends Application {
         // Get screen Dimension
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 
+        FXMLLoader loaderStart = new FXMLLoader(ClassLoader.getSystemResource("view" + FILE_SEPARATOR + "StartingMenu.fxml"));
+        AnchorPane rootPaneStart = loaderStart.load();
+        final Scene sceneStart = new Scene(rootPaneStart, screenSize.getWidth() / WINDOW_PROPORTION, 
+            screenSize.getHeight() / WINDOW_PROPORTION);
+
+        FXMLControllerStart fxmlControllerStart = loaderStart.getController();
+
+        fxmlControllerStart.scale();
+        fxmlControllerStart.startPosition();
+
+        
+
+        // Property of stage
+        primaryStage.setTitle(APP_NAME);
+        primaryStage.setScene(sceneStart);
+        primaryStage.show();
+
         // Load the fxml file
         FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemResource(FXML_FOLDER));
         AnchorPane rootPane = loader.load();
@@ -69,15 +89,33 @@ public class View extends Application {
         // The window is not resizable
         primaryStage.setResizable(false);
 
-        GameState gs = new GameState(getController());
+        this.saveState = new SaveStateImpl();
 
-        Thread thread = new Thread(() -> {
-            gs.startNewLevel();
+        if (this.saveState.thereIsState()) {
+            fxmlControllerStart.getLoadButton().setDisable(false);
+        }
+
+        fxmlControllerStart.getNewButton().setOnAction(event -> {
+            game(primaryStage, scene, 1 , 0);
         });
-        thread.setDaemon(true);
-        thread.start();
-        
-        scene.setOnKeyPressed(event ->{
+
+        fxmlControllerStart.getLoadButton().setOnAction(event -> {
+            game(primaryStage, scene, saveState.getLevel() , saveState.getScore());
+        });
+ 
+    }
+
+    private void game(Stage primaryStage, Scene scene, int level, int score) {
+        GameState gs = new GameState(getController(), this.saveState, score, level);
+            Thread thread = new Thread(() -> {
+                gs.startNewLevel();
+            });
+            thread.setDaemon(true);
+            thread.start();
+            primaryStage.setScene(scene);
+            primaryStage.show();
+
+            scene.setOnKeyPressed(event ->{
             KeyCode key = event.getCode();
             switch(key){
                 case LEFT: 
@@ -93,11 +131,6 @@ public class View extends Application {
                     break;
             }
         });
-
-        // Property of stage
-        primaryStage.setTitle(APP_NAME);
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 
     /**

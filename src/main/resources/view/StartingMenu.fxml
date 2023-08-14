@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="488.0" prefWidth="724.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="pane" fx:controller="it.unibo.puzbob.view.FXMLControllerStart" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="488.0" prefWidth="724.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Button fx:id="newGameButton" layoutX="112.0" layoutY="381.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="107.0" text="New Game">
          <cursor>
@@ -27,11 +27,6 @@
       <Text fx:id="description" fill="WHITE" layoutX="112.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The following application is inspired by the famous level arcade game &quot;Puzzle Bobble.&quot;The game consists of clearing a board that has a pattern of the said balls. To pass the level, it will be necessary to clear this board of colored balls before the balls pass a limit point and the game over is declared" textAlignment="CENTER" wrappingWidth="500.0">
          <font>
             <Font size="14.0" />
-         </font>
-      </Text>
-      <Text fx:id="record" fill="WHITE" layoutX="322.0" layoutY="336.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Local Record: 0">
-         <font>
-            <Font size="13.0" />
          </font>
       </Text>
       <Text fx:id="keysDescription" fill="WHITE" layoutX="112.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Press SPACE to shot. Press LEFT or RIGHT buttons to move the cannon." textAlignment="CENTER" wrappingWidth="500.0">

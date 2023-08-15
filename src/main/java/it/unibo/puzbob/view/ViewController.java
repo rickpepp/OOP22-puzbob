@@ -43,7 +43,7 @@ public class ViewController implements Output {
 
     private final String COLOR_WALL = "#555555";
 
-    private final String COLORS_VIEW_PATH = "view" + View.FILE_SEPARATOR + "colorsView.json";
+    private final String COLORS_VIEW_PATH = "colorsView.json";
 
     private static final double BALL_ANGLE = 30;
     private final int MAX_ROW_BALLS = 7;

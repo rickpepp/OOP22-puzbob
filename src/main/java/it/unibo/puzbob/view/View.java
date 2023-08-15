@@ -34,14 +34,13 @@ public class View extends Application {
      * File separator to improve multi-system programming
      */
     public static final String FILE_SEPARATOR = System.getProperty("file.separator");
-    private final String VIEW_PATH = "view";
-    private final String FXML_FOLDER = VIEW_PATH + FILE_SEPARATOR + "board.fxml";
-    private final String FXML_FILE_START = VIEW_PATH + FILE_SEPARATOR + "StartingMenu.fxml";
+    private final String FXML_FOLDER = "board.fxml";
+    private final String FXML_FILE_START = "StartingMenu.fxml";
     private static final String APP_NAME = "Puzbob";
 
-    private final String ICON16 = VIEW_PATH + FILE_SEPARATOR + "icon16.png";
-    private final String ICON32 = VIEW_PATH + FILE_SEPARATOR + "icon32.png";
-    private final String ICON64 = VIEW_PATH + FILE_SEPARATOR + "icon64.png";
+    private final String ICON16 = "icon16.png";
+    private final String ICON32 = "icon32.png";
+    private final String ICON64 = "icon64.png";
 
     private static Output output;
     private SaveState saveState;

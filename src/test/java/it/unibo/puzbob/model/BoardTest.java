@@ -12,9 +12,8 @@ import org.junit.jupiter.api.Test;
 public class BoardTest {
 
     /* Constants for json path needed */
-    private static final String FILE_SEPARATOR = System.getProperty("file.separator");
-    private static final String COLOR_FILE = "levels" + FILE_SEPARATOR + "colors.json";
-    private static final String LEVEL_FILE = "levels" + FILE_SEPARATOR + "level1.json";
+    private static final String COLOR_FILE = "colors.json";
+    private static final String LEVEL_FILE = "level1.json";
 
     /* Constant for test */
     private static final int SIZE_BALL = 15;
@@ -58,7 +57,10 @@ public class BoardTest {
     void getStatusBoardTest(){
         matrixBall = level.getStartBalls(levelMap);
         board = new BoardImpl(DIMENSION_BOARD.getX(), DIMENSION_BOARD.getY(), matrixBall);
-        matrixTest = level.getStartBalls(levelMap);
+
+        Level levelTest = new LevelImpl(ballFactory, DIMENSION);
+
+        matrixTest = levelTest.getStartBalls(levelMap);
 
         assertEquals(convertMatrixToString(matrixTest), convertMatrixToString(board.getStatusBoard()), "Matrices are not equal ");
     }
@@ -92,7 +94,10 @@ public class BoardTest {
     @Test
     void addBallTest(){
         matrixBall = level.getStartBalls(levelMap);
-        matrixTest = level.getStartBalls(levelMap);
+
+        Level levelTest = new LevelImpl(ballFactory, DIMENSION);
+
+        matrixTest = levelTest.getStartBalls(levelMap);
 
         board = new BoardImpl(DIMENSION_BOARD.getX(), DIMENSION_BOARD.getY(), matrixBall);
 
@@ -106,7 +111,10 @@ public class BoardTest {
     @Test
     void addBallTest2(){
         matrixBall = level.getStartBalls(levelMap);
-        matrixTest = level.getStartBalls(levelMap);
+
+        Level levelTest = new LevelImpl(ballFactory, DIMENSION);
+
+        matrixTest = levelTest.getStartBalls(levelMap);
 
         board = new BoardImpl(DIMENSION_BOARD.getX(), DIMENSION_BOARD.getY(), matrixBall);
 
@@ -118,7 +126,7 @@ public class BoardTest {
     /* Basic test */
     @Test
     void removeBallTest1(){
-        String REMOVE_FILE = "board" + FILE_SEPARATOR + "removeTest.json";
+        String REMOVE_FILE = "removeTest.json";
         Level level4TestR1 = new LevelImpl(ballFactory, DIMENSION);
         JSONObject json = JSONReaderImpl.getIstance().readJSONFromFile(REMOVE_FILE);
         Map<String, List<Pair<Integer, Integer>>> removeTestMap = JSONParserImpl.getIstance().parserStarterBalls(json);
@@ -140,7 +148,7 @@ public class BoardTest {
     /* Test with additional balls */
     @Test
     void removeBallTest2(){
-        String REMOVE2_FILE = "board" + FILE_SEPARATOR + "removeTest2.json";
+        String REMOVE2_FILE = "removeTest2.json";
         Level level4TestR2 = new LevelImpl(ballFactory, DIMENSION);
         Map<String, List<Pair<Integer, Integer>>> removeTestMap2 = JSONParserImpl.getIstance().parserStarterBalls(JSONReaderImpl.getIstance().readJSONFromFile(REMOVE2_FILE));
         Ball blueBall = ballFactory.createStaticBall("BLUE");
@@ -162,7 +170,7 @@ public class BoardTest {
     /* Test with center balls */
     @Test
     void removeBallTest3(){
-        String REMOVE3_FILE = "board" + FILE_SEPARATOR + "removeTest3.json";
+        String REMOVE3_FILE = "removeTest3.json";
         Level level4TestR3 = new LevelImpl(ballFactory, DIMENSION);
         Map<String, List<Pair<Integer, Integer>>> removeTestMap3 = JSONParserImpl.getIstance().parserStarterBalls(JSONReaderImpl.getIstance().readJSONFromFile(REMOVE3_FILE));
         Ball bluBall = ballFactory.createStaticBall("BLUE");
@@ -185,7 +193,7 @@ public class BoardTest {
     /* Test with balls at the edges */
     @Test
     void removeBallTest4(){
-        String REMOVE4_FILE = "board" + FILE_SEPARATOR + "removeTest4.json";
+        String REMOVE4_FILE = "removeTest4.json";
         Level level4TestR4 = new LevelImpl(ballFactory, DIMENSION);
         Map<String, List<Pair<Integer, Integer>>> removeTestMap4 = JSONParserImpl.getIstance().parserStarterBalls(JSONReaderImpl.getIstance().readJSONFromFile(REMOVE4_FILE));
         Ball blueBall = ballFactory.createStaticBall("BLUE");
@@ -204,7 +212,7 @@ public class BoardTest {
     /* Test with outer balls */
     @Test
     void removeBallAdTest5(){
-        String REMOVE5_FILE = "board" + FILE_SEPARATOR + "removeTest5.json";
+        String REMOVE5_FILE = "removeTest5.json";
         Level level4TestR5 = new LevelImpl(ballFactory, DIMENSION);
         Map<String, List<Pair<Integer, Integer>>> removeTestMap5 = JSONParserImpl.getIstance().parserStarterBalls(JSONReaderImpl.getIstance().readJSONFromFile(REMOVE5_FILE));
         Ball blueBall = ballFactory.createStaticBall("BLUE");

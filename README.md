@@ -2,11 +2,11 @@
 
 The following application is inspired by the famous level arcade game "Puzzle Bobble."
 
-## Descrizione
+## Description
 
 The game consists of clearing, by means of a cannon inside which a randomly colored ball is placed, a board that has a pattern of the said balls. After a given number of shots, the player's difficulty in clearing the entire board will be increased through a wall that will begin to descend and approach the cannon. To pass the level, it will be necessary to clear this board of colored balls before the balls pass a limit point and thus game over is declared.
 
-## Licenza
+## Licence
 
 MIT License
 

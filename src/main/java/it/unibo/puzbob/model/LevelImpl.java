@@ -10,7 +10,6 @@ import java.util.Map;
 
 public class LevelImpl implements Level {
 
-    // FILE_SEPARATOR make more portable this application
     private BallFactory ballFactory;
     private Ball[][] starterBalls;
 

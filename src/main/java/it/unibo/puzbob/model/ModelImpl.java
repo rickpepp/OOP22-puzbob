@@ -10,8 +10,7 @@ import org.json.JSONObject;
 /** This is the implementation of the Model interface */
 public class ModelImpl implements Model{
 
-    private static final String FILE_SEPARATOR = System.getProperty("file.separator");
-    private static final String COLOR_FILE = "levels" + FILE_SEPARATOR + "colors.json";
+    private static final String COLOR_FILE = "colors.json";
     private final Pair<Integer, Integer> DIMENSION = new Pair<Integer,Integer>(8, 8);
     private final double VELOCITY = 1.5;
     private final int MAX_SHOT = 5;
@@ -46,7 +45,7 @@ public class ModelImpl implements Model{
         this.sizeBall = sizeBall;
         this.ballFactory = new BallFactoryImpl(COLOR_MAP, sizeBall);
         this.level = new LevelImpl(ballFactory, DIMENSION);
-        this.startBallString = "levels" + FILE_SEPARATOR + "level" + nLevel + ".json";
+        this.startBallString = "level" + nLevel + ".json";
         json = JSONReaderImpl.getIstance().readJSONFromFile(this.startBallString);
         this.levelMap = JSONParserImpl.getIstance().parserStarterBalls(json);
         this.board = new BoardImpl(heightBoard, widthBoard, level.getStartBalls(this.levelMap));

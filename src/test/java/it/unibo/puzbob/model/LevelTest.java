@@ -8,10 +8,9 @@ import org.junit.jupiter.api.Test;
 public class LevelTest {
 
     // File separator and the path with colors.json and level1.json
-    public static final String FILE_SEPARATOR = System.getProperty("file.separator");
-    public static final String COLORS_PATH = "levels" + FILE_SEPARATOR + "colors.json";
-    public static final String LEVEL1_PATH = "levels" + FILE_SEPARATOR + "level1.json";
-    public static final String LEVELTEST_PATH = "levels" + FILE_SEPARATOR + "levelTest.json";
+    public static final String COLORS_PATH = "colors.json";
+    public static final String LEVEL1_PATH = "level1.json";
+    public static final String LEVELTEST_PATH = "levelTest.json";
 
     BallFactory ballFactory = new BallFactoryImpl(
         JSONParserImpl.getIstance().parserColors(JSONReaderImpl.getIstance().readJSONFromFile(COLORS_PATH)), 15);

@@ -59,7 +59,8 @@ public class CannonTest {
         colorMap.put("YELLOW", 30);
         colorMap.put("BLUE", 25);
         colorMap.put("WHITE", 35);
-        colors.add("RED");
+
+        colors.add("WHITE");
         colors.add("GREEN");
 
         ballFactory = new BallFactoryImpl(colorMap, SIZE_BALL);

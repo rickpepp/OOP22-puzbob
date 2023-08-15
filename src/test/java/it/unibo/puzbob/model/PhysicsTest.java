@@ -6,9 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class PhysicsTest {
 
     // File separator and the path with colors.json and level1.json
-    public static final String FILE_SEPARATOR = System.getProperty("file.separator");
-    public static final String COLORS_PATH = "levels" + FILE_SEPARATOR + "colors.json";
-    public static final String LEVEL1_PATH = "levels" + FILE_SEPARATOR + "level1.json";
+    public static final String COLORS_PATH = "colors.json";
+    public static final String LEVEL1_PATH = "level1.json";
 
     public static final Double BALL_SIZE = 1.875;
     public static final int MATRIX_DIMENSION = 10;
@@ -147,7 +146,6 @@ public class PhysicsTest {
         while (result == null) {
             Pair<Double, Double> position = fisica.getBallPosition(flyinfBall, 173, time);
             flyinfBall.setPosition(position);
-            System.out.println(position);
             result = fisica.isAttached(0, matrixBalls, flyinfBall);
             time += DELTA_TIME;
         }
@@ -169,7 +167,6 @@ public class PhysicsTest {
         while (result == null) {
             Pair<Double, Double> position = fisica.getBallPosition(flyinfBall, 15, time);
             flyinfBall.setPosition(position);
-            System.out.println(position);
             result = fisica.isAttached(0, matrixBalls, flyinfBall);
             time += DELTA_TIME;
         }
@@ -194,7 +191,6 @@ public class PhysicsTest {
         while (result == null) {
             Pair<Double, Double> position = fisica.getBallPosition(flyinfBall, 25, time);
             flyinfBall.setPosition(position);
-            System.out.println(position);
             result = fisica.isAttached(0, matrixBalls, flyinfBall);
             time += DELTA_TIME;
         }

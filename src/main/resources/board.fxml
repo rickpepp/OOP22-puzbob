@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane fx:id="pane" fx:controller="it.unibo.puzbob.view.FXMLController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Rectangle fx:id="outRect" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="354.0" layoutX="165.0" layoutY="21.0" stroke="#807575" strokeType="INSIDE" width="274.0">
+         <effect>
+            <Lighting>
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant />
+               </light>
+            </Lighting>
+         </effect>
+      </Rectangle>
+      <Rectangle fx:id="inRect" arcHeight="5.0" arcWidth="5.0" height="333.0" layoutX="178.0" layoutY="33.0" stroke="BLACK" strokeType="INSIDE" width="249.0" />
+      <Text fx:id="labelScore" fill="WHITE" layoutX="35.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Score" />
+      <Text fx:id="valueScore" fill="WHITE" layoutX="35.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00000000" wrappingWidth="66.75" />
+      <Line fx:id="cannon" endX="0" endY="-30.0" layoutX="317.0" layoutY="318.0" startX="0" startY="0" stroke="WHITE" />
+      <Line fx:id="gameOver" layoutX="0.0" layoutY="316.0" endX="0" endY="0" startX="0" startY="0.0" stroke="WHITE"/>
+   </children>
+</AnchorPane>
